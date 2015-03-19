@@ -83,9 +83,7 @@ public class MobiComDatabaseHelper extends SQLiteOpenHelper {
 
     public MobiComDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        sharedPreferences.edit().putString(DB_NAME_KEY,name).commit();
-        sharedPreferences.edit().putInt(DB_VERSION,version).commit();
+        init(context, name, version);
     }
 
     @Override
@@ -122,4 +120,9 @@ public class MobiComDatabaseHelper extends SQLiteOpenHelper {
         //super.close();
     }
 
+    public static void init(Context context, String databaseName, int databaseVersion) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences.edit().putString(MobiComDatabaseHelper.DB_NAME_KEY, databaseName).commit();
+        sharedPreferences.edit().putInt(MobiComDatabaseHelper.DB_VERSION, databaseVersion).commit();
+    }
 }
