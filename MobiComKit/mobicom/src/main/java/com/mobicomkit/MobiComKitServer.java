@@ -14,7 +14,7 @@ public class MobiComKitServer {
     //public static final String BASE_URL = "https://onlinesmsutility-test.appspot.com";
     //public static final String BASE_URL = "https://onlinesmsutility.appspot.com";
 
-    public static final Short MOBICOMKIT_VERSION_CODE = 63;
+    public static final Short MOBICOMKIT_VERSION_CODE = 64;
 
     public static final String CREATE_ACCOUNT_URL = BASE_URL + "/rest/ws/registration/v1/register";
     public static final String CHECK_FOR_MT_USER = BASE_URL + "/rest/ws/contact/v2/ismtexter";
