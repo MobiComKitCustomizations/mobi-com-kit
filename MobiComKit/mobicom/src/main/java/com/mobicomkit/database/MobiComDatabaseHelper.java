@@ -27,8 +27,8 @@ public class MobiComDatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
 
-    private static final String DB_NAME_KEY = "DB_NAME";
-    private static final String DB_VERSION =  "DB_VERSION";
+    public static final String DB_NAME_KEY = "DB_NAME";
+    public static final String DB_VERSION =  "DB_VERSION";
 
     public static final String CREATE_SMS_TABLE = "create table sms ( "
             + "id integer primary key autoincrement, "

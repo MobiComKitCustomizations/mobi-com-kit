@@ -83,16 +83,18 @@ public class MessageClientService extends MobiComKitClientService {
                 String response = syncMessages(smsSyncRequest);
                 Log.i(TAG, "response from sync sms url::" + response);
                 String[] keyStrings = null;
-                if (response != null && !response.equals("error")) {
+                if (!TextUtils.isEmpty(response) && !response.equals("error")) {
                     keyStrings = response.trim().split(",");
                 }
-                int i = 0;
-                for (Message message : smsSyncRequest.getSmsList()) {
-                    if (!TextUtils.isEmpty(keyStrings[i])) {
-                        message.setKeyString(keyStrings[i]);
-                        messageDatabaseService.createMessage(message);
+                if (keyStrings != null) {
+                    int i = 0;
+                    for (Message message : smsSyncRequest.getSmsList()) {
+                        if (!TextUtils.isEmpty(keyStrings[i])) {
+                            message.setKeyString(keyStrings[i]);
+                            messageDatabaseService.createMessage(message);
+                        }
+                        i++;
                     }
-                    i++;
                 }
             } catch (Exception e) {
                 e.printStackTrace();

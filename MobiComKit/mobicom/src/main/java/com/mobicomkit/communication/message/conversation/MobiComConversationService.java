@@ -18,7 +18,6 @@ import net.mobitexter.mobiframework.json.ArrayAdapterFactory;
 import net.mobitexter.mobiframework.people.contact.Contact;
 import net.mobitexter.mobiframework.people.group.Group;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

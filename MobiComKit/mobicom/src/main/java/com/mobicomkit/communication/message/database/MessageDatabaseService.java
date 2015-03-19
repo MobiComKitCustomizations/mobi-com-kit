@@ -354,7 +354,7 @@ public class MessageDatabaseService {
             }
         }
 
-        if (message.getCreatedAtTime() >= userPreferences.getLastMessageStatSyncTime()) {
+       /* if (message.getCreatedAtTime() >= userPreferences.getLastMessageStatSyncTime()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -362,7 +362,7 @@ public class MessageDatabaseService {
                     //MessageStatUtil.updateSmsStats(context, sms);
                 }
             }).start();
-        }
+        }*/
 
         recentlyAddedMessage.add(message);
         if (recentlyAddedMessage.size() > 20) {
@@ -445,9 +445,9 @@ public class MessageDatabaseService {
         } catch (SQLiteConstraintException ex) {
             Log.e(TAG, "Duplicate entry in sms table, sms: " + sms);
         } finally {
+            dbHelper.close();
         }
 
-        dbHelper.close();
         return id;
     }
 

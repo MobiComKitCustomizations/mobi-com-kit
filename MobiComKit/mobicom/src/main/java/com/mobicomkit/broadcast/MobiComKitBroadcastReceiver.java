@@ -66,8 +66,7 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
         if (BroadcastService.INTENT_ACTIONS.INSTRUCTION.toString().equals(action)) {
             InstructionUtil.showInstruction(context, intent.getIntExtra("resId", -1), intent.getBooleanExtra("actionable", false));
         } else if (BroadcastService.INTENT_ACTIONS.FIRST_TIME_SYNC_COMPLETE.toString().equals(action)) {
-            quickConversationFragment.downloadConversations();
-            InstructionUtil.showInstruction(context, R.string.instruction_open_conversation_thread, MobiComActivity.INSTRUCTION_DELAY, BroadcastService.INTENT_ACTIONS.INSTRUCTION.toString());
+            quickConversationFragment.downloadConversations(true);
         } else if (BroadcastService.INTENT_ACTIONS.LOAD_MORE.toString().equals(action)) {
             quickConversationFragment.setLoadMore(intent.getBooleanExtra("loadMore", true));
         } else if (BroadcastService.INTENT_ACTIONS.MESSAGE_SYNC_ACK_FROM_SERVER.toString().equals(action)) {

@@ -16,14 +16,16 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.mobicomkit.communication.message.Message;
-import com.shamanland.fab.FloatingActionButton;
-
 import com.mobicomkit.R;
+import com.mobicomkit.broadcast.BroadcastService;
+import com.mobicomkit.communication.message.Message;
 import com.mobicomkit.communication.message.conversation.ConversationListView;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
+import com.mobicomkit.instruction.InstructionUtil;
 import com.mobicomkit.user.MobiComUserPreference;
+import com.shamanland.fab.FloatingActionButton;
+
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
 import net.mobitexter.mobiframework.commons.core.utils.Utils;
 import net.mobitexter.mobiframework.people.contact.Contact;
@@ -237,14 +239,22 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
         private int amountVisible;
         private int totalItems;
         private boolean initial;
+        private boolean showInstruction;
         private List<Message> nextMessageList = new ArrayList<Message>();
+        private Context context;
 
-        public DownloadConversation(AbsListView view, boolean initial, int firstVisibleItem, int amountVisible, int totalItems) {
+        public DownloadConversation(AbsListView view, boolean initial, int firstVisibleItem, int amountVisible, int totalItems, boolean showInstruction) {
+            this.context = getActivity();
             this.view = view;
             this.initial = initial;
             this.firstVisibleItem = firstVisibleItem;
             this.amountVisible = amountVisible;
             this.totalItems = totalItems;
+            this.showInstruction = showInstruction;
+        }
+
+        public DownloadConversation(AbsListView view, boolean initial, int firstVisibleItem, int amountVisible, int totalItems) {
+            this(view, initial, firstVisibleItem, amountVisible, totalItems, false);
         }
 
         @Override
@@ -309,6 +319,10 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
             spinner.setVisibility(View.INVISIBLE);
             Utils.isNetworkAvailable(getActivity());
             loadMore = !nextMessageList.isEmpty();
+
+            if (context != null && showInstruction) {
+                InstructionUtil.showInstruction(context, R.string.instruction_open_conversation_thread, MobiComActivity.INSTRUCTION_DELAY, BroadcastService.INTENT_ACTIONS.INSTRUCTION.toString());
+            }
         }
     }
 
@@ -342,8 +356,12 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
     }
 
     public void downloadConversations() {
+        downloadConversations(false);
+    }
+
+    public void downloadConversations(boolean showInstruction) {
         minCreatedAtTime = 0;
-        new DownloadConversation(listView, true, 1, 0, 0).execute();
+        new DownloadConversation(listView, true, 1, 0, 0, showInstruction).execute();
     }
 
 }
