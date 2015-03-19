@@ -15,6 +15,8 @@ Step 1: Register at http://mobicomkit.com/ to get the application key.
 Step 2: In HttpRequestUtils.java set the value of APPLICATION_KEY_HEADER_VALUE = application key generated in Step 1
 
 Step 3: Replace SQLiteOpenHelper with MobiComDatabaseHelper.
+       and call from your starting activity, MobiComDatabaseHelper.init(this, DATABASE_NAME, DATABASE_VERSION);
+
 
 Step 4: Add the following permissions in androidmanifest.xml:
 
