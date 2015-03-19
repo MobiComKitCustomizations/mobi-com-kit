@@ -79,7 +79,7 @@ Step 6: Add the following activities in androidmanifest.xml
 
 
 Step 7: Login or create user account: 
-new RegisterUserClientService(activity).createAccount("", "<USER_PHONE_NUMBER"); 
+new RegisterUserClientService(activity).createAccount("<USER_EMAIL>", "<USER_PHONE_NUMBER>"); 
 If it is a new user, new user account will get created else existing user will be logged in to the application.
 
 Step 8: Start SlidingPaneActivity from your app activity to open messaging interface.
