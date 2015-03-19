@@ -5,9 +5,14 @@ Integrate messaging into your android app.
 Note: Under progress, please visit http://mobicomkit.com/ to get notified for latest updates.
 
 Project contains the following 3 modules:
+
 i) mobicom - Code related to backend server interaction
+
 ii) mobicomkitui - Sample client UI code
+
 iii) mobicommons - Common utility framework
+
+
 Clone the repository and add all the 3 modules inside your project.
 
 Step 1: Register at http://mobicomkit.com/ to get the application key.
