@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobitexter="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="net.mobitexter.mobiframework.people.activity.PeopleActivity">
+
+    <item android:id="@+id/menu_search"
+        android:title="@string/menu_search"
+        android:icon="@drawable/ic_action_search"
+        android:showAsAction="always"
+        mobitexter:showAsAction="always"
+        android:actionViewClass="android.support.v7.widget.SearchView"
+        mobitexter:actionViewClass="android.support.v7.widget.SearchView"/>
+
+</menu>

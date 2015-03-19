@@ -1,0 +1,329 @@
+package com.mobicomkit.communication.message;
+
+import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import com.mobicomkit.MobiComKitClientService;
+import com.mobicomkit.MobiComKitServer;
+import com.mobicomkit.attachment.FileClientService;
+import com.mobicomkit.broadcast.BroadcastService;
+import com.mobicomkit.communication.message.database.MessageDatabaseService;
+import com.mobicomkit.communication.message.schedule.ScheduledMessageUtil;
+import com.mobicomkit.sync.SyncMessageFeed;
+import com.mobicomkit.sync.SmsSyncRequest;
+import com.mobicomkit.user.MobiComUserPreference;
+import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
+import com.mobicomkit.HttpRequestUtils;
+
+import net.mobitexter.mobiframework.json.AnnotationExclusionStrategy;
+import net.mobitexter.mobiframework.json.ArrayAdapterFactory;
+import net.mobitexter.mobiframework.json.GsonUtils;
+import net.mobitexter.mobiframework.people.contact.Contact;
+import net.mobitexter.mobiframework.people.group.Group;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+/**
+ * Created by devashish on 26/12/14.
+ */
+public class MessageClientService extends MobiComKitClientService {
+
+    private static final String TAG = "MessageClientService";
+
+    public static final int SMS_SYNC_BATCH_SIZE = 5;
+
+    public static final String DEVICE_KEY = "deviceKeyString";
+    public static final String LAST_SYNC_KEY = "lastSyncTime";
+    public static List<Message> recentProcessedMessage = new ArrayList<Message>();
+    public static List<Message> recentMessageSentToServer = new ArrayList<Message>();
+    public static final String FILE_META = "fileMeta";
+    private Context context;
+    private MessageDatabaseService messageDatabaseService;
+
+    public MessageClientService(Context context) {
+        super(context);
+        this.context = context;
+        this.messageDatabaseService = new MessageDatabaseService(context);
+    }
+
+    public void syncPendingSms() {
+        List<Message> pendingMessages = messageDatabaseService.getPendingMessages();
+        Log.i(TAG, "Found " + pendingMessages.size() + " pending messages to sync.");
+        for (Message message : pendingMessages) {
+            Log.i(TAG, "Syncing pending sms: " + message);
+            sendPendingMessageToServer(message);
+        }
+    }
+
+    public boolean syncMessagesWithServer(List<Message> messageList) {
+        Log.i(TAG, "Total messages to sync: " + messageList.size());
+        List<Message> smsList = new ArrayList<Message>(messageList);
+        do {
+            try {
+                SmsSyncRequest smsSyncRequest = new SmsSyncRequest();
+                if (smsList.size() > SMS_SYNC_BATCH_SIZE) {
+                    List<Message> subList = new ArrayList(smsList.subList(0, SMS_SYNC_BATCH_SIZE));
+                    smsSyncRequest.setSmsList(subList);
+                    smsList.removeAll(subList);
+                } else {
+                    smsSyncRequest.setSmsList(new ArrayList<Message>(smsList));
+                    smsList.clear();
+                }
+
+                String response = syncMessages(smsSyncRequest);
+                Log.i(TAG, "response from sync sms url::" + response);
+                String[] keyStrings = null;
+                if (response != null && !response.equals("error")) {
+                    keyStrings = response.trim().split(",");
+                }
+                int i = 0;
+                for (Message message : smsSyncRequest.getSmsList()) {
+                    if (!TextUtils.isEmpty(keyStrings[i])) {
+                        message.setKeyString(keyStrings[i]);
+                        messageDatabaseService.createMessage(message);
+                    }
+                    i++;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(TAG, "exception" + e);
+                return false;
+            }
+        } while (smsList.size() > 0);
+        return true;
+    }
+
+    public void sendPendingMessageToServer(Message message) {
+        String keyString = sendMessage(message);
+        if (TextUtils.isEmpty(keyString)) {
+            return;
+        }
+        recentMessageSentToServer.add(message);
+        BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.MESSAGE_SYNC_ACK_FROM_SERVER.toString(), message);
+
+        messageDatabaseService.updateMessageSyncStatus(message, keyString);
+    }
+
+    public void sendMessageToServer(Message message, Class intentClass) throws Exception {
+        processMessage(message);
+        if (message.getScheduledAt() != null && message.getScheduledAt() != 0 && intentClass != null) {
+            new ScheduledMessageUtil(context, intentClass).createScheduleMessage(message, context);
+        }
+    }
+
+    public void processMessage(Message message) throws Exception {
+        if (recentMessageSentToServer.contains(message)) {
+            return;
+        }
+
+        recentMessageSentToServer.add(message);
+
+        MobiComUserPreference userPreferences = MobiComUserPreference.getInstance(context);
+        message.setSent(Boolean.TRUE);
+        message.setSendToDevice(Boolean.FALSE);
+        message.setSuUserKeyString(userPreferences.getSuUserKeyString());
+        message.setContactIds(ContactNumberUtils.getPhoneNumbers(message.getTo(), userPreferences.getCountryCode()));
+        BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString(), message);
+
+        long smsId = -1;
+
+        List<String> fileKeys = new ArrayList<String>();
+        if (message.isUploadRequired()) {
+
+            smsId = messageDatabaseService.createMessage(message);
+
+            for (String filePath : message.getFilePaths()) {
+                try {
+                    String fileMetaResponse = new FileClientService(context).uploadBlobImage(filePath);
+                    if (fileMetaResponse == null) {
+                        messageDatabaseService.updateCanceledFlag(smsId, 1);
+                        BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.UPLOAD_ATTACHMENT_FAILED.toString(), message);
+                        return;
+                    }
+                    JsonParser jsonParser = new JsonParser();
+                    List<FileMeta> metaFileList = new ArrayList<FileMeta>();
+                    JsonObject jsonObject = jsonParser.parse(fileMetaResponse).getAsJsonObject();
+                    if (jsonObject.has(FILE_META)) {
+                        Gson gson = new Gson();
+                        metaFileList.add(gson.fromJson(jsonObject.get(FILE_META), FileMeta.class));
+                    }
+                    for (FileMeta fileMeta : metaFileList) {
+                        fileKeys.add(fileMeta.getKeyString());
+                    }
+                    message.setFileMetas(metaFileList);
+                } catch (Exception ex) {
+                    Log.e(TAG, "Error uploading file to server: " + filePath);
+                    recentMessageSentToServer.remove(message);
+                    messageDatabaseService.updateCanceledFlag(smsId, 1);
+                    BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.UPLOAD_ATTACHMENT_FAILED.toString(), message);
+                    return;
+                }
+            }
+
+            message.setFileMetaKeyStrings(fileKeys);
+        }
+
+        //Todo: set filePaths
+        String keyString = new MessageClientService(context).sendMessage(message);
+        if (TextUtils.isEmpty(keyString)) {
+            keyString = UUID.randomUUID().toString();
+            message.setSentToServer(false);
+        }
+
+        message.setKeyString(keyString);
+
+        if (!TextUtils.isEmpty(keyString)) {
+            //Todo: Handle server sms add failure due to internet disconnect.
+        } else {
+            //Todo: If sms type mtext, tell user that internet is not working, else send update with db id.
+        }
+        BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.MESSAGE_SYNC_ACK_FROM_SERVER.toString(), message);
+
+        if (smsId != -1) {
+            messageDatabaseService.updateSmsFileMetas(smsId, message);
+        } else {
+            messageDatabaseService.createMessage(message);
+        }
+
+        if (recentMessageSentToServer.size() > 20) {
+            recentMessageSentToServer.subList(0, 10).clear();
+        }
+    }
+
+    public String syncMessages(SmsSyncRequest smsSyncRequest) throws Exception {
+        String data = GsonUtils.getJsonFromObject(smsSyncRequest, SmsSyncRequest.class);
+        return HttpRequestUtils.postData(credentials, MobiComKitServer.SYNC_SMS_URL, "application/json", null, data);
+    }
+
+    public static String updateDeliveryStatus(Message message, String contactNumber, String countryCode) {
+        try {
+            String argString = "?smsKeyString=" + message.getKeyString() + "&contactNumber=" + URLEncoder.encode(contactNumber, "UTF-8") + "&deviceKeyString=" + message.getDeviceKeyString()
+                    + "&countryCode=" + countryCode;
+            String URL = MobiComKitServer.UPDATE_DELIVERY_FLAG_URL + argString;
+            return HttpRequestUtils.getStringFromUrl(URL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void updateDeliveryStatus(String messageKeyString, String receiverNumber) {
+        try {
+            //Note: messageKeyString comes as null for the welcome message as it is inserted directly.
+            if (TextUtils.isEmpty(messageKeyString)) {
+                return;
+            }
+            HttpRequestUtils.getStringFromUrl(MobiComKitServer.MTEXT_DELIVERY_URL + "smsKeyString=" + messageKeyString
+                    + "&contactNumber=" + URLEncoder.encode(receiverNumber, "UTF-8"));
+        } catch (Exception ex) {
+            Log.e(TAG, "Exception while updating delivery report for MT message", ex);
+        }
+    }
+
+    public String sendMessage(Message message) {
+        String jsonFromObject = GsonUtils.getJsonFromObject(message, message.getClass());
+        Log.i(TAG, "Sending message to server: " + jsonFromObject);
+        return HttpRequestUtils.postData(credentials, MobiComKitServer.SEND_MESSAGE_URL, "application/json", null, jsonFromObject);
+    }
+
+    public SyncMessageFeed getMessageFeed(String deviceKeyString, String lastSyncKeyString) {
+        String url = MobiComKitServer.SERVER_SYNC_URL + "?"
+                + DEVICE_KEY + "=" + deviceKeyString
+                + MobiComKitServer.ARGUMRNT_SAPERATOR + LAST_SYNC_KEY
+                + "=" + lastSyncKeyString;
+        try {
+            Log.i(TAG, "Calling message feed url: " + url);
+            String response = HttpRequestUtils.getResponse(credentials, url, "application/json", "application/json");
+            Log.i(TAG, "Response: " + response);
+            Gson gson = new GsonBuilder().registerTypeAdapterFactory(new ArrayAdapterFactory())
+                    .setExclusionStrategies(new AnnotationExclusionStrategy()).create();
+            return gson.fromJson(response, SyncMessageFeed.class);
+        } catch (Exception e) {
+            // showAlert("Unable to Process request .Please Contact Support");
+            return null;
+        }
+    }
+
+    public void deleteConversationThreadFromServer(Contact contact) {
+        if (TextUtils.isEmpty(contact.getFormattedContactNumber())) {
+            return;
+        }
+        try {
+            String url = MobiComKitServer.MESSAGE_THREAD_DELETE_URL + "?contactNumber=" + URLEncoder.encode(contact.getFormattedContactNumber(), "UTF-8");
+            HttpRequestUtils.getResponse(credentials, url, "text/plain", "text/plain");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteMessage(Message message, Contact contact) {
+        String contactNumberParameter = "";
+        if (contact != null && !TextUtils.isEmpty(contact.getFormattedContactNumber())) {
+            try {
+                contactNumberParameter = "&to=" + URLEncoder.encode(contact.getContactNumber(), "UTF-8") + "&contactNumber=" + URLEncoder.encode(contact.getFormattedContactNumber(), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+        if (message.isSentToServer()) {
+            HttpRequestUtils.getResponse(credentials, MobiComKitServer.MESSAGE_DELETE_URL + "?key=" + message.getKeyString() + contactNumberParameter, "text/plain", "text/plain");
+        }
+    }
+    public String getMessages(Contact contact, Group group, Long startTime, Long endTime) throws UnsupportedEncodingException {
+        String contactNumber = (contact != null ? contact.getFormattedContactNumber() : "");
+        String params = (TextUtils.isEmpty(contactNumber) ? "" : ("contactNumber=" + URLEncoder.encode(contactNumber, "utf-8")) + "&");
+        params += (endTime != null && endTime.intValue() != 0) ? "endTime=" + endTime + "&" : "";
+        params += (startTime != null && startTime.intValue() != 0) ? "startTime=" + startTime + "&" : "";
+        params += (group != null && group.getGroupId() != null) ? "broadcastGroupId=" + group.getGroupId() + "&" : "";
+        params += "startIndex=0&pageSize=50";
+
+        return HttpRequestUtils.getResponse(credentials, MobiComKitServer.MESSAGE_LIST_URL + "?" + params
+                , "application/json", "application/json");
+    }
+
+    public String deleteMessage(Message message) {
+        return HttpRequestUtils.getResponse(credentials, MobiComKitServer.MESSAGE_DELETE_URL + "?key=" + message.getKeyString(), "text/plain", "text/plain");
+    }
+
+    public void updateSmsDeliveryReport(final Message sms, final String contactNumber) throws Exception {
+        sms.setDelivered(Boolean.TRUE);
+        messageDatabaseService.updateMessageDeliveryReport(sms.getKeyString(), contactNumber);
+
+        BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.MESSAGE_DELIVERY.toString(), sms);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                updateDeliveryStatus(sms, contactNumber, MobiComUserPreference.getInstance(context).getCountryCode());
+            }
+        }).start();
+
+        if (MobiComUserPreference.getInstance(context).isWebHookEnable()) {
+            processWebHook(sms);
+        }
+    }
+
+    public void processWebHook(final Message message) {
+       /* new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String url = "http://dldweb.info/sms-received.php?phone_number=" + message.getTo() + "&timestamp=" + sms.getCreatedAtTime() + "&message=" + message.getMessage();
+                    String response = HttpRequestUtils.getStringFromUrl(url);
+                    AppUtil.myLogger(TAG, "Got response from webhook url: " + response);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();*/
+    }
+}
