@@ -5,9 +5,14 @@ Integrate messaging into your android app.
 Note: Under progress, please visit http://mobicomkit.com/ to get notified for latest updates.
 
 Project contains the following 3 modules:
+
 i) mobicom - Code related to backend server interaction
+
 ii) mobicomkitui - Sample client UI code
+
 iii) mobicommons - Common utility framework
+
+
 Clone the repository and add all the 3 modules inside your project.
 
 Step 1: Register at http://mobicomkit.com/ to get the application key.
@@ -15,6 +20,8 @@ Step 1: Register at http://mobicomkit.com/ to get the application key.
 Step 2: In HttpRequestUtils.java set the value of APPLICATION_KEY_HEADER_VALUE = application key generated in Step 1
 
 Step 3: Replace SQLiteOpenHelper with MobiComDatabaseHelper.
+       and call from your starting activity, MobiComDatabaseHelper.init(this, DATABASE_NAME, DATABASE_VERSION);
+
 
 Step 4: Add the following permissions in androidmanifest.xml:
 
