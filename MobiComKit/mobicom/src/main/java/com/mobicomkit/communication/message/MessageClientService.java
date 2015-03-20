@@ -56,12 +56,16 @@ public class MessageClientService extends MobiComKitClientService {
         this.messageDatabaseService = new MessageDatabaseService(context);
     }
 
-    public void syncPendingSms() {
+    public void syncPendingMessages() {
+        syncPendingMessages(true);
+    }
+
+    public synchronized void syncPendingMessages(boolean broadcast) {
         List<Message> pendingMessages = messageDatabaseService.getPendingMessages();
         Log.i(TAG, "Found " + pendingMessages.size() + " pending messages to sync.");
         for (Message message : pendingMessages) {
             Log.i(TAG, "Syncing pending sms: " + message);
-            sendPendingMessageToServer(message);
+            sendPendingMessageToServer(message, broadcast);
         }
     }
 
@@ -105,13 +109,16 @@ public class MessageClientService extends MobiComKitClientService {
         return true;
     }
 
-    public void sendPendingMessageToServer(Message message) {
+    public void sendPendingMessageToServer(Message message, boolean broadcast) {
         String keyString = sendMessage(message);
-        if (TextUtils.isEmpty(keyString)) {
+        if (TextUtils.isEmpty(keyString) || keyString.contains("<html>")) {
             return;
         }
         recentMessageSentToServer.add(message);
-        BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.MESSAGE_SYNC_ACK_FROM_SERVER.toString(), message);
+
+        if (broadcast) {
+            BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.MESSAGE_SYNC_ACK_FROM_SERVER.toString(), message);
+        }
 
         messageDatabaseService.updateMessageSyncStatus(message, keyString);
     }

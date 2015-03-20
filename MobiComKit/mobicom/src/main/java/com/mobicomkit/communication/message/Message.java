@@ -133,6 +133,10 @@ public class Message {
         return getCreatedAtTime() != null && getCreatedAtTime() == 0 && TextUtils.isEmpty(getMessage());
     }
 
+    public boolean isLocalMessage() {
+        return TextUtils.isEmpty(getKeyString()) && isSentToServer();
+    }
+
     public static enum Source {
 
         DEVICE_NATIVE_APP(Short.valueOf("0")), WEB(Short.valueOf("1")), MT_MOBILE_APP(Short.valueOf("2")), API(Short.valueOf("3"));

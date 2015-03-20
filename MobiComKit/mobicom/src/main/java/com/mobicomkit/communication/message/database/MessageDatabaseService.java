@@ -14,6 +14,7 @@ import com.mobicomkit.communication.message.FileMeta;
 import com.mobicomkit.communication.message.Message;
 import com.mobicomkit.database.MobiComDatabaseHelper;
 import com.mobicomkit.user.MobiComUserPreference;
+
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
 import net.mobitexter.mobiframework.commons.core.utils.DBUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;
@@ -371,7 +372,7 @@ public class MessageDatabaseService {
         return id;
     }
 
-    public synchronized long createSingleMessage(final Message sms) {
+    public synchronized long createSingleMessage(final Message message) {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         long id = -1;
         boolean duplicateCheck = true;
@@ -379,59 +380,64 @@ public class MessageDatabaseService {
         long minCreatedAt = prefs.getLong(MIN_CREATED_AT_KEY, 0);
         long maxCreatedAt = prefs.getLong(MAX_CREATED_AT_KEY, Long.MAX_VALUE);
 
-        if (sms.getCreatedAtTime() < minCreatedAt) {
+        if (message.getCreatedAtTime() < minCreatedAt) {
             duplicateCheck = false;
-            prefs.edit().putLong(MIN_CREATED_AT_KEY, sms.getCreatedAtTime()).commit();
+            prefs.edit().putLong(MIN_CREATED_AT_KEY, message.getCreatedAtTime()).commit();
         }
-        if (sms.getCreatedAtTime() > maxCreatedAt) {
+        if (message.getCreatedAtTime() > maxCreatedAt) {
             duplicateCheck = false;
-            prefs.edit().putLong(MAX_CREATED_AT_KEY, sms.getCreatedAtTime()).commit();
+            prefs.edit().putLong(MAX_CREATED_AT_KEY, message.getCreatedAtTime()).commit();
         }
 
         if (duplicateCheck) {
-            String sql;
+            Cursor cursor;
             //Todo: add broadcastGroupId in the query if group is not null
-            if (sms.isSentToServer()) {
-                sql = "SELECT COUNT(*) FROM sms where keyString = '" + sms.getKeyString() + "' and contactNumbers = '" + sms.getContactIds() + "'";
+            if (message.isSentToServer() && !TextUtils.isEmpty(message.getKeyString())) {
+                cursor = database.rawQuery(
+                        "SELECT COUNT(*) FROM sms WHERE keyString = ? and contactNumbers = ?",
+                        new String[]{message.getKeyString(), message.getContactIds()});
             } else {
-                sql = "SELECT COUNT(*) FROM sms where sentToServer = 0 and contactNumbers = '" + sms.getContactIds() + "' and message='" + sms.getMessage() + "' and createdAt between " + (sms.getCreatedAtTime() - 120000) + " and " + (sms.getCreatedAtTime() + 120000);
+                cursor = database.rawQuery(
+                        "SELECT COUNT(*) FROM sms WHERE sentToServer=0 and contactNumbers = ? and message = ? and createdAt between " + (message.getCreatedAtTime() - 120000) + " and " + (message.getCreatedAtTime() + 120000),
+                        new String[]{message.getContactIds(), message.getMessage()});
             }
-            SQLiteStatement statement = database.compileStatement(sql);
-            long records = statement.simpleQueryForLong();
-            statement.close();
 
-            if (records > 0) {
+            cursor.moveToFirst();
+
+            if (cursor.getInt(0) > 0) {
+                cursor.close();
+                dbHelper.close();
                 return -1;
             }
         }
 
         try {
             ContentValues values = new ContentValues();
-            values.put("toNumbers", sms.getTo());
-            values.put("message", sms.getMessage());
-            values.put("createdAt", sms.getCreatedAtTime());
-            values.put("storeOnDevice", sms.isStoreOnDevice());
-            values.put("delivered", sms.getDelivered());
-            values.put("scheduledAt", sms.getScheduledAt());
-            values.put("type", sms.getType());
-            values.put("contactNumbers", sms.getContactIds());
-            values.put("sentToServer", sms.isSentToServer());
-            values.put("keyString", sms.getKeyString());
-            values.put("source", sms.getSource());
-            values.put("timeToLive", sms.getTimeToLive());
-            values.put("broadcastGroupId", sms.getBroadcastGroupId());
-            values.put("canceled", sms.isCanceled());
-            values.put("read", sms.isRead() ? 1 : 0);
+            values.put("toNumbers", message.getTo());
+            values.put("message", message.getMessage());
+            values.put("createdAt", message.getCreatedAtTime());
+            values.put("storeOnDevice", message.isStoreOnDevice());
+            values.put("delivered", message.getDelivered());
+            values.put("scheduledAt", message.getScheduledAt());
+            values.put("type", message.getType());
+            values.put("contactNumbers", message.getContactIds());
+            values.put("sentToServer", message.isSentToServer());
+            values.put("keyString", message.getKeyString());
+            values.put("source", message.getSource());
+            values.put("timeToLive", message.getTimeToLive());
+            values.put("broadcastGroupId", message.getBroadcastGroupId());
+            values.put("canceled", message.isCanceled());
+            values.put("read", message.isRead() ? 1 : 0);
 
-            if (sms.getFileMetaKeyStrings() != null && !sms.getFileMetaKeyStrings().isEmpty()) {
-                values.put("fileMetaKeyStrings", TextUtils.join(",", sms.getFileMetaKeyStrings()));
+            if (message.getFileMetaKeyStrings() != null && !message.getFileMetaKeyStrings().isEmpty()) {
+                values.put("fileMetaKeyStrings", TextUtils.join(",", message.getFileMetaKeyStrings()));
             }
-            if (sms.getFilePaths() != null && !sms.getFilePaths().isEmpty()) {
-                values.put("filePaths", TextUtils.join(",", sms.getFilePaths()));
+            if (message.getFilePaths() != null && !message.getFilePaths().isEmpty()) {
+                values.put("filePaths", TextUtils.join(",", message.getFilePaths()));
             }
             //TODO:Right now we are supporting single image attachment...making entry in same table
-            if (sms.getFileMetas() != null && !sms.getFileMetas().isEmpty()) {
-                FileMeta fileMeta = sms.getFileMetas().get(0);
+            if (message.getFileMetas() != null && !message.getFileMetas().isEmpty()) {
+                FileMeta fileMeta = message.getFileMetas().get(0);
                 if (fileMeta != null) {
                     values.put("thumbnailUrl", fileMeta.getThumbnailUrl());
                     values.put("size", fileMeta.getSize());
@@ -443,7 +449,7 @@ public class MessageDatabaseService {
             }
             id = database.insert("sms", null, values);
         } catch (SQLiteConstraintException ex) {
-            Log.e(TAG, "Duplicate entry in sms table, sms: " + sms);
+            Log.e(TAG, "Duplicate entry in sms table, sms: " + message);
         } finally {
             dbHelper.close();
         }
@@ -451,7 +457,7 @@ public class MessageDatabaseService {
         return id;
     }
 
-    public void updateSmsType( String smsKeyString, Message.MessageType messageType) {
+    public void updateSmsType(String smsKeyString, Message.MessageType messageType) {
         ContentValues values = new ContentValues();
         values.put("type", messageType.getValue());
         dbHelper.getWritableDatabase().update("sms", values, "keyString='" + smsKeyString + "'", null);
@@ -470,12 +476,17 @@ public class MessageDatabaseService {
         dbHelper.close();
     }
 
-    public void updateMessageSyncStatus(Message sms, String keyString) {
-        ContentValues values = new ContentValues();
-        values.put("keyString", keyString);
-        values.put("sentToServer", "1");
-        dbHelper.getWritableDatabase().update("sms", values, "keyString='" + sms.getKeyString() + "'", null);
-        dbHelper.close();
+    public void updateMessageSyncStatus(Message message, String keyString) {
+        try {
+            ContentValues values = new ContentValues();
+            values.put("keyString", keyString);
+            values.put("sentToServer", "1");
+            dbHelper.getWritableDatabase().update("sms", values, "id=" + message.getMessageId(), null);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            dbHelper.close();
+        }
     }
 
     public void updateInternalFilePath(String keyString, String filePath) {

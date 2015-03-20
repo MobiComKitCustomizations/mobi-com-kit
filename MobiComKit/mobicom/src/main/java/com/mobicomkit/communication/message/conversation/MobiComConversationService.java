@@ -62,7 +62,9 @@ abstract public class MobiComConversationService {
     public synchronized List<Message> getMessageList(Long startTime, Long endTime, Contact contact, Group group) {
         List<Message> messageList = new ArrayList<Message>();
         List<Message> cachedMessageList = messageDatabaseService.getMessages(startTime, endTime, contact, group);
-        if (!cachedMessageList.isEmpty()) {
+
+        if (!cachedMessageList.isEmpty() &&
+                (cachedMessageList.size() > 1 || !cachedMessageList.get(0).isLocalMessage())) {
             return cachedMessageList;
         }
 
@@ -92,6 +94,14 @@ abstract public class MobiComConversationService {
             String element = parser.parse(data).getAsJsonObject().get("message").toString();
             Message[] messages = gson.fromJson(element, Message[].class);
             MobiComUserPreference userPreferences = MobiComUserPreference.getInstance(context);
+
+            if (messages != null && messages.length > 0 && cachedMessageList.size() > 0 && cachedMessageList.get(0).isLocalMessage()) {
+                if (cachedMessageList.get(0).equals(messages[0])) {
+                    Log.i(TAG, "Both messages are same.");
+                    deleteMessage(cachedMessageList.get(0));
+                }
+            }
+
             for (Message message : messages) {
                 if (!message.isCall() || userPreferences.isDisplayCallRecordEnable()) {
                     //TODO: remove this check..right now in some cases it is coming as null.

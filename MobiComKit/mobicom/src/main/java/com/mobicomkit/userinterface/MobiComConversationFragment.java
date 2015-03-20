@@ -707,7 +707,6 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
         filePath = null;
     }
 
-
     private Integer getTimeToLive() {
         if (selfDestructMessageSpinner == null || selfDestructMessageSpinner.getSelectedItemPosition() <= 1) {
             return null;
