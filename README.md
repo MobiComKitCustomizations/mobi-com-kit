@@ -22,6 +22,7 @@ Step 2: Replace SQLiteOpenHelper with MobiComDatabaseHelper.
        and call from your starting activity, MobiComDatabaseHelper.init(this, DATABASE_NAME, DATABASE_VERSION);
 
 Step 3: Addition to androidmanifest.xml:
+
        Permissions:
        
            <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -30,6 +31,7 @@ Step 3: Addition to androidmanifest.xml:
            <uses-permission android:name="android.permission.CALL_PHONE" />
            <uses-permission android:name="android.permission.READ_PROFILE" />
 
+       
        Services:
        
         <service
@@ -40,6 +42,8 @@ Step 3: Addition to androidmanifest.xml:
             android:exported="false" />
             
                    
+       
+       
        Activities:
        
         <activity
