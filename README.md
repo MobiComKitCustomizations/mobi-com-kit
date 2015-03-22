@@ -13,27 +13,25 @@ ii) mobicomkitui - Sample client UI code
 iii) mobicommons - Common utility framework
 
 
-Clone the repository and add all the 3 modules inside your project.
+Clone the repository and import all the 3 modules in your project.
 
 Step 1: Register at http://mobicomkit.com/ to get the application key.
+       Goto HttpRequestUtils.java set the value of APPLICATION_KEY_HEADER_VALUE = application key
 
-Step 2: In HttpRequestUtils.java set the value of APPLICATION_KEY_HEADER_VALUE = application key generated in Step 1
-
-Step 3: Replace SQLiteOpenHelper with MobiComDatabaseHelper.
+Step 2: Replace SQLiteOpenHelper with MobiComDatabaseHelper.
        and call from your starting activity, MobiComDatabaseHelper.init(this, DATABASE_NAME, DATABASE_VERSION);
 
+Step 3: Addition to androidmanifest.xml:
+       Permissions:
+       
+           <uses-permission android:name="android.permission.READ_CONTACTS" />
+           <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+           <uses-permission android:name="android.permission.VIBRATE" />
+           <uses-permission android:name="android.permission.CALL_PHONE" />
+           <uses-permission android:name="android.permission.READ_PROFILE" />
 
-Step 4: Add the following permissions in androidmanifest.xml:
-
-
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-
-Step 5: Add the following services in androidmanifest.xml
-
+       Services:
+       
         <service
             android:name="com.mobicomkit.client.ui.message.MessageIntentService"
             android:exported="false" />
@@ -41,8 +39,9 @@ Step 5: Add the following services in androidmanifest.xml
             android:name="com.mobicomkit.client.ui.message.conversation.ConversationLoadingIntentService"
             android:exported="false" />
             
-            
-Step 6: Add the following activities in androidmanifest.xml
+                   
+       Activities:
+       
         <activity
             android:name="com.mobicomkit.client.ui.activity.SlidingPaneActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -85,13 +84,15 @@ Step 6: Add the following activities in androidmanifest.xml
         </activity>
 
 
-Step 7: Login or create user account: 
-new RegisterUserClientService(activity).createAccount(<USER_EMAIL>, <USER_PHONE_NUMBER>); 
+Step 4: Register user account: 
+
+new RegisterUserClientService(activity).createAccount(USER_EMAIL, USER_PHONE_NUMBER); 
+
 If it is a new user, new user account will get created else existing user will be logged in to the application.
+
 
 Step 8: Start SlidingPaneActivity from your app activity to open messaging interface.
 
 Intent intent = new Intent(this, SlidingPaneActivity.class);
-
 startActivity(intent);
 
