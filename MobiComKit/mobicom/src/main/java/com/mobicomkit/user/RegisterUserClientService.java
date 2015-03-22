@@ -25,6 +25,7 @@ public class RegisterUserClientService extends MobiComKitClientService {
 
     public RegistrationResponse createAccount(User user) throws Exception {
         Gson gson = new Gson();
+        user.setApplicationId(HttpRequestUtils.APPLICATION_KEY_HEADER_VALUE);
         String response = HttpRequestUtils.postJsonToServer(MobiComKitServer.CREATE_ACCOUNT_URL, gson.toJson(user));
 
         Log.i(TAG, "Registration response is: " + response);
@@ -44,13 +45,13 @@ public class RegisterUserClientService extends MobiComKitClientService {
         return registrationResponse;
     }
 
-    public RegistrationResponse createAccount(String email, String phoneNumber) throws Exception {
+    public RegistrationResponse createAccount(String email, String phoneNumber, String pushNotificationId) throws Exception {
         User user = new User();
         user.setEmailId(email);
         user.setDeviceType(Short.valueOf("1"));
         user.setPrefContactAPI(Short.valueOf("1"));
         user.setTimezone(TimeZone.getDefault().getID());
-
+        user.setRegistrationId(pushNotificationId);
         MobiComUserPreference mobiComUserPreference = MobiComUserPreference.getInstance(context);
 
         user.setCountryCode(mobiComUserPreference.getCountryCode());

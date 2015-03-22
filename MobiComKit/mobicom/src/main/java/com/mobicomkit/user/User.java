@@ -10,6 +10,7 @@ public class User implements Serializable {
     private String emailId;
     private String password;
     private String registrationId;
+    private String applicationId;
     private String contactNumber;
     private String countryCode;
     private Short prefContactAPI = Short.valueOf("1");
@@ -49,6 +50,14 @@ public class User implements Serializable {
 
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
+    }
+
+    public String getApplicationId() {
+        return applicationId;
+    }
+
+    public void setApplicationId(String applicationId) {
+        this.applicationId = applicationId;
     }
 
     public String getCountryCode() {
