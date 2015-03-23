@@ -248,7 +248,11 @@ public class MobiComUserPreference {
 
     @Override
     public String toString() {
-        return "";
+        return "MobiComUserPreference{" +
+                "context=" + context +
+                ", countryCode='" + getCountryCode() + '\'' +
+                ", deviceKeyString=" + getDeviceKeyString() +
+                ", contactNumber=" + getContactNumber() +
+                '}';
     }
-
 }

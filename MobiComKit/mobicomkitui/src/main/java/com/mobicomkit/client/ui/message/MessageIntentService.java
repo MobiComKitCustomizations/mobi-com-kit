@@ -27,17 +27,17 @@ public class MessageIntentService extends IntentService {
     private Map<String, Thread> runningTaskMap = new HashMap<String, Thread>();
 
     public MessageIntentService() {
-        super("SmsIntentService");
+        super("MessageIntentService");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        if (intent.getStringExtra(UPLOAD_CANCEL) != null) {
+        if(intent.getStringExtra(UPLOAD_CANCEL)!=null) {
             //TODO: not completed yet ....
             Thread thread = runningTaskMap.get(intent.getStringExtra(UPLOAD_CANCEL));
-            if (thread != null) {
+            if(thread!=null){
                 thread.interrupt();
-            } else {
+            }else {
                 Log.w(TAG, "Thread not found..." + runningTaskMap);
             }
             return;
@@ -47,23 +47,23 @@ public class MessageIntentService extends IntentService {
         Thread thread = new Thread(new MessegeSender(message));
         thread.start();
 
-        if (message.hasAttachment()) {
-            runningTaskMap.put(getMapKey(message), thread);
+        if(message.hasAttachment()){
+            runningTaskMap.put(getMapKey(message),thread);
         }
     }
 
     private class MessegeSender implements Runnable {
         private Message message;
 
-        public MessegeSender(Message sms) {
-            this.message = sms;
+        public MessegeSender(Message message) {
+            this.message = message;
         }
 
         @Override
         public void run() {
             try {
                 new MessageClientService(MessageIntentService.this).sendMessageToServer(message, null);
-                if (message.hasAttachment() && !message.isAttachmentUploadInProgress()) {
+                if ( message.hasAttachment() && !message.isAttachmentUploadInProgress() ){
                     runningTaskMap.remove(getMapKey(message));
                 }
                 int groupSmsDelayInSec = MobiComUserPreference.getInstance(MessageIntentService.this).getGroupSmsDelayInSec();
@@ -78,7 +78,6 @@ public class MessageIntentService extends IntentService {
                             new MessageService(MessageIntentService.this).processSms(message, tofield);
                         }
                     }
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -86,7 +85,8 @@ public class MessageIntentService extends IntentService {
         }
     }
 
-    private String getMapKey(Message sms) {
-        return sms.getFilePaths().get(0) + sms.getContactIds();
+    private String getMapKey(Message message) {
+        return message.getFilePaths().get(0)+message.getContactIds();
     }
+
 }
