@@ -10,7 +10,8 @@ public class MobiComKitServer {
 
     //public static final String BASE_URL = "https://mobitexter.appspot.com";
     //Urls For Different Services
-    public static final String BASE_URL = "https://osu-alpha.appspot.com";
+    //public static final String BASE_URL = "https://osu-alpha.appspot.com";
+    public static final String BASE_URL = "http://mobi-com-alpha.appspot.com";
     //public static final String BASE_URL = "https://onlinesmsutility-test.appspot.com";
     //public static final String BASE_URL = "https://onlinesmsutility.appspot.com";
 

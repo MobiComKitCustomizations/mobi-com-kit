@@ -96,9 +96,9 @@ public class MobiComPushReceiver  {
 //
             String payloadForDelivered = intent.getStringExtra("DELIVERED");
 
-            //MessageService messageService = new MessageService(context);
+            BaseMessageService messageService = new BaseMessageService(context);
             if (!TextUtils.isEmpty(payloadForDelivered)) {
-               // messageService.updateDeliveryStatus(payloadForDelivered);
+                messageService.updateDeliveryStatus(payloadForDelivered);
             }
 
             if (!TextUtils.isEmpty(deleteConversationForContact)) {
@@ -123,7 +123,7 @@ public class MobiComPushReceiver  {
             if ("MARK_ALL_SMS_AS_READ".equalsIgnoreCase(message)) {
                 //new NativeSmsService(context).markAllAsRead();
             } else if ("SYNC".equalsIgnoreCase(message)) {
-                //messageService.syncSms();
+                messageService.syncSms();
             } else if ("SYNC_PENDING".equalsIgnoreCase(message)) {
 //                new NativeSmsService(context).sync();
 //                MessageStatUtil.sendMessageStatsToServer(context);
