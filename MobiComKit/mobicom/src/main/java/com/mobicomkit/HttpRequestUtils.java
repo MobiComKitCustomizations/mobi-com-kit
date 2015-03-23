@@ -37,7 +37,9 @@ public class HttpRequestUtils {
 
     private static String APPLICATION_KEY_HEADER = "Application-Key";
 
-    private static String APPLICATION_KEY_HEADER_VALUE = "mobitexter-texting-from-pc";
+    //public static String APPLICATION_KEY_HEADER_VALUE = "mobitexter-texting-from-pc";
+    public static String APPLICATION_KEY_HEADER_VALUE = "992a65190e8da391740e47537";
+
 
     private static String SOURCE_HEADER = "Source";
 
