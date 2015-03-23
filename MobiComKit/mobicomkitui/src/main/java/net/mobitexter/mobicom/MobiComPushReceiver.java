@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.mobicomkit.client.ui.message.MessageService;
 import com.mobicomkit.people.ContactContent;
 
 
@@ -96,7 +97,7 @@ public class MobiComPushReceiver  {
 //
             String payloadForDelivered = intent.getStringExtra("DELIVERED");
 
-            BaseMessageService messageService = new BaseMessageService(context);
+            MessageService messageService = new MessageService(context);
             if (!TextUtils.isEmpty(payloadForDelivered)) {
                 messageService.updateDeliveryStatus(payloadForDelivered);
             }
