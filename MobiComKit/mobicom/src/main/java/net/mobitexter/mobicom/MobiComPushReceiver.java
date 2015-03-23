@@ -136,4 +136,13 @@ public class MobiComPushReceiver  {
 //        contactNumber = conversationService.deleteMessageFromDevice(new MessageDatabaseService(context).getMessage(deletedSmsKeyString), contactNumber);
 //        BroadcastService.sendMessageDeleteBroadcast(context, BroadcastService.INTENT_ACTIONS.DELETE_SMS.toString(), deletedSmsKeyString, contactNumber);
     }
+
+    public static void processMessageAsync(final Context context, final Intent intent) {
+        new Thread( new Runnable() {
+            @Override
+            public void run() {
+               processMessage(context,intent);
+            }
+        }).start();
+    }
 }
