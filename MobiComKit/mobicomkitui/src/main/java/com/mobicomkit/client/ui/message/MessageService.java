@@ -6,21 +6,22 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.mobicomkit.MobiComKitConstants;
-import com.mobicomkit.client.ui.GeneralConstants;
-import com.mobicomkit.client.ui.R;
 import com.google.android.c2dm.C2DMessaging;
-
+import com.mobicomkit.MobiComKitConstants;
+import com.mobicomkit.broadcast.BroadcastService;
+import com.mobicomkit.client.ui.GeneralConstants;
 import com.mobicomkit.client.ui.NotificationService;
+import com.mobicomkit.client.ui.R;
 import com.mobicomkit.client.ui.message.conversation.ConversationService;
 import com.mobicomkit.client.ui.message.timer.MessageSenderTimerTask;
-import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.communication.message.Message;
 import com.mobicomkit.communication.message.MessageClientService;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
+import com.mobicomkit.communication.message.schedule.ScheduledMessageUtil;
 import com.mobicomkit.communication.message.selfdestruct.DisappearingMessageTask;
 import com.mobicomkit.sync.SyncMessageFeed;
 import com.mobicomkit.user.MobiComUserPreference;
+
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
 import net.mobitexter.mobiframework.commons.core.utils.Support;
 import net.mobitexter.mobiframework.json.GsonUtils;
@@ -65,7 +66,7 @@ public class MessageService {
         final MobiComUserPreference userpref = MobiComUserPreference.getInstance(context);
         SyncMessageFeed syncMessageFeed = messageClientService.getMessageFeed(userpref.getDeviceKeyString(), userpref.getLastSyncTime());
         Log.i(TAG, "Got sync response " + syncMessageFeed);
-        // if regIdInvalid in syncrequest, tht means device reg with com.google.android.c2dm is no
+        // if regIdInvalid in syncrequest, tht means device reg with c2dm is no
         // more valid, do it again and make the sync request again
         if (syncMessageFeed != null && syncMessageFeed.isRegIdInvalid()
                 && GeneralConstants.ANDROID_VERSION >= 8) {
@@ -81,19 +82,23 @@ public class MessageService {
             for (final Message message : messageList) {
                 Log.i(TAG, "calling  syncSms : " + message.getTo() + " " + message.getMessage());
 
-                String[] toList = message.getTo().trim().replace("undefined,", "").split(",");
-                final int groupSmsDelayInSec = MobiComUserPreference.getInstance(context).getGroupSmsDelayInSec();
-                boolean isDelayRequire = groupSmsDelayInSec > 0 && message.isSentViaCarrier() && message.isSentToMany();
-
-                for (String tofield : toList) {
-                    if (isDelayRequire && !message.getTo().startsWith(tofield)) {
-                        new Timer().schedule(new MessageSenderTimerTask(context, message, tofield), groupSmsDelayInSec * 1000);
-                    } else {
-                        processSms(message, tofield);
-                    }
+                if (message.getScheduledAt() != null) {
+                    new ScheduledMessageUtil(context, null).createScheduleMessage(message, context);
                     MobiComUserPreference.getInstance(context).setLastInboxSyncTime(message.getCreatedAtTime());
-                }
+                } else {
+                    String[] toList = message.getTo().trim().replace("undefined,", "").split(",");
+                    final int groupSmsDelayInSec = MobiComUserPreference.getInstance(context).getGroupSmsDelayInSec();
+                    boolean isDelayRequire = groupSmsDelayInSec > 0 && message.isSentViaCarrier() && message.isSentToMany();
 
+                    for (String tofield : toList) {
+                        if (isDelayRequire && !message.getTo().startsWith(tofield)) {
+                            new Timer().schedule(new MessageSenderTimerTask(context, message, tofield), groupSmsDelayInSec * 1000);
+                        } else {
+                            processSms(message, tofield);
+                        }
+                        MobiComUserPreference.getInstance(context).setLastInboxSyncTime(message.getCreatedAtTime());
+                    }
+                }
 
                 MessageClientService.recentProcessedMessage.add(message);
                 BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString(), message);
