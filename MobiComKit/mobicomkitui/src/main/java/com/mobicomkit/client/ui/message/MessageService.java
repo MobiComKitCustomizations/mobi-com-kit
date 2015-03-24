@@ -12,10 +12,10 @@ import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.client.ui.GeneralConstants;
 import com.mobicomkit.client.ui.NotificationService;
 import com.mobicomkit.client.ui.R;
-import com.mobicomkit.client.ui.message.conversation.ConversationService;
 import com.mobicomkit.client.ui.message.timer.MessageSenderTimerTask;
 import com.mobicomkit.communication.message.Message;
 import com.mobicomkit.communication.message.MessageClientService;
+import com.mobicomkit.communication.message.conversation.MobiComConversationService;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
 import com.mobicomkit.communication.message.schedule.ScheduledMessageUtil;
 import com.mobicomkit.communication.message.selfdestruct.DisappearingMessageTask;
@@ -301,7 +301,7 @@ public class MessageService {
             BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.MESSAGE_DELIVERY.toString(), message);
             if (message.getTimeToLive() != null && message.getTimeToLive() != 0) {
                 Timer timer = new Timer();
-                timer.schedule(new DisappearingMessageTask(context, new ConversationService(context), message), message.getTimeToLive() * 60 * 1000);
+                timer.schedule(new DisappearingMessageTask(context, new MobiComConversationService(context), message), message.getTimeToLive() * 60 * 1000);
             }
         } else {
             Log.i(TAG, "Sms is not present in table, keyString: " + keyParts[0]);

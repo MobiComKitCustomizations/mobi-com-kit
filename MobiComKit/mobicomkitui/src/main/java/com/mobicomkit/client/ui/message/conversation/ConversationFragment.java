@@ -14,6 +14,7 @@ import com.mobicomkit.client.ui.MobiComKitApplication;
 import com.mobicomkit.client.ui.R;
 
 import com.mobicomkit.client.ui.message.MessageIntentService;
+import com.mobicomkit.communication.message.conversation.MobiComConversationService;
 import com.mobicomkit.userinterface.MobiComConversationFragment;
 import net.mobitexter.mobiframework.commons.core.utils.LocationUtils;
 
@@ -38,7 +39,7 @@ public class ConversationFragment extends MobiComConversationFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.title = MobiComKitApplication.TITLE;
-        this.conversationService = new ConversationService(getActivity());
+        this.conversationService = new MobiComConversationService(getActivity());
         hideExtendedSendingOptionLayout = true;
 
         View view = super.onCreateView(inflater, container, savedInstanceState);

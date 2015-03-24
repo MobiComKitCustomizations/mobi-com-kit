@@ -24,20 +24,18 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-abstract public class MobiComConversationService {
+public class MobiComConversationService {
 
     private static final String TAG = "MobiComConversationService";
 
     protected Context context = null;
     protected MessageClientService messageClientService;
     protected MessageDatabaseService messageDatabaseService;
-    private Class conversationLoadingIntentClass;
 
-    public MobiComConversationService(Context context, Class conversationLoadingIntentClass) {
+    public MobiComConversationService(Context context) {
         this.context = context;
         this.messageClientService = new MessageClientService(context);
         this.messageDatabaseService = new MessageDatabaseService(context);
-        this.conversationLoadingIntentClass = conversationLoadingIntentClass;
     }
 
     public synchronized List<Message> getQuickMessages(boolean loadMore, long createdAt) {
@@ -84,7 +82,7 @@ abstract public class MobiComConversationService {
             if (group != null && group.getGroupId() != null) {
                 return cachedMessageList;
             }
-            return syncNativeSms(startTime, endTime, messageList, contactNumber);
+            return messageList;
         }
 
         try {
@@ -129,8 +127,6 @@ abstract public class MobiComConversationService {
         });
         return messageList;
     }
-
-    abstract public List<Message> syncNativeSms(Long startTime, Long endTime, List<Message> messageList, String contactNumber);
 
     public boolean deleteMessage(Message message, Contact contact) {
         messageClientService.deleteMessage(message, contact);

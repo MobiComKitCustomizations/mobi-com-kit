@@ -13,9 +13,9 @@ import com.google.gson.GsonBuilder;
 
 import com.mobicomkit.client.ui.GeneralConstants;
 import com.mobicomkit.client.ui.message.MessageService;
-import com.mobicomkit.client.ui.message.conversation.ConversationService;
 import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.communication.message.MessageDeleteContent;
+import com.mobicomkit.communication.message.conversation.MobiComConversationService;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
 import com.mobicomkit.user.MobiComUserPreference;
 import com.mobicomkit.user.UserClientService;
@@ -166,7 +166,7 @@ public class C2DMReceiver extends C2DMBaseReceiver {
                 messageService.putMtextToDatabase(payloadForMtextReceived);
             }
             if (!TextUtils.isEmpty(deleteConversationForContact)) {
-                ConversationService conversationService = new ConversationService(context);
+                MobiComConversationService conversationService = new MobiComConversationService(context);
                 conversationService.deleteConversationFromDevice(deleteConversationForContact);
                 sendConversationDeleteBroadcast(context, BroadcastService.INTENT_ACTIONS.DELETE_CONVERSATION.toString(), deleteConversationForContact);
             }
@@ -200,7 +200,7 @@ public class C2DMReceiver extends C2DMBaseReceiver {
     }
 
     private static void processDeleteSingleMessageRequest(Context context, String deletedSmsKeyString, String contactNumber) {
-        ConversationService conversationService = new ConversationService(context);
+        MobiComConversationService conversationService = new MobiComConversationService(context);
         contactNumber = conversationService.deleteMessageFromDevice(new MessageDatabaseService(context).getSms(deletedSmsKeyString), contactNumber);
         BroadcastService.sendMessageDeleteBroadcast(context, BroadcastService.INTENT_ACTIONS.DELETE_MESSAGE.toString(), deletedSmsKeyString, contactNumber);
     }
