@@ -8,7 +8,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.mobicomkit.client.ui.message.MessageService;
+import com.mobicomkit.client.ui.message.MessageIntentService;
+import com.mobicomkit.communication.message.MobiComMessageService;
 import com.mobicomkit.people.ContactContent;
 
 
@@ -97,7 +98,7 @@ public class MobiComPushReceiver  {
 //
             String payloadForDelivered = intent.getStringExtra("DELIVERED");
 
-            MessageService messageService = new MessageService(context);
+            MobiComMessageService messageService = new MobiComMessageService(context, MessageIntentService.class);
             if (!TextUtils.isEmpty(payloadForDelivered)) {
                 messageService.updateDeliveryStatus(payloadForDelivered);
             }
@@ -124,7 +125,7 @@ public class MobiComPushReceiver  {
             if ("MARK_ALL_SMS_AS_READ".equalsIgnoreCase(message)) {
                 //new NativeSmsService(context).markAllAsRead();
             } else if ("SYNC".equalsIgnoreCase(message)) {
-                messageService.syncSms();
+                messageService.syncMessages();
             } else if ("SYNC_PENDING".equalsIgnoreCase(message)) {
 //                new NativeSmsService(context).sync();
 //                MessageStatUtil.sendMessageStatsToServer(context);

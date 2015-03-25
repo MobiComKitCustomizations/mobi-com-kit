@@ -11,10 +11,11 @@ import com.google.android.c2dm.C2DMBaseReceiver;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import com.mobicomkit.client.ui.GeneralConstants;
-import com.mobicomkit.client.ui.message.MessageService;
+import com.mobicomkit.GeneralConstants;
 import com.mobicomkit.broadcast.BroadcastService;
+import com.mobicomkit.client.ui.message.MessageIntentService;
 import com.mobicomkit.communication.message.MessageDeleteContent;
+import com.mobicomkit.communication.message.MobiComMessageService;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
 import com.mobicomkit.user.MobiComUserPreference;
@@ -158,7 +159,7 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 
             String payloadForDelivered = intent.getStringExtra("DELIVERED");
 
-            MessageService messageService = new MessageService(context);
+            MobiComMessageService messageService = new MobiComMessageService(context, MessageIntentService.class);
             if (!TextUtils.isEmpty(payloadForDelivered)) {
                 messageService.updateDeliveryStatus(payloadForDelivered);
             }
@@ -180,7 +181,7 @@ public class C2DMReceiver extends C2DMBaseReceiver {
             }
 
             if (GeneralConstants.SYNC.equalsIgnoreCase(message)) {
-                messageService.syncSms();
+                messageService.syncMessages();
             } else if (GeneralConstants.UPDATE_AVAILABLE.equalsIgnoreCase(message)) {
                 new UserClientService(context).updateCodeVersion(GeneralConstants.APP_CODE_VERSION, usrpref.getDeviceKeyString());
             } else {

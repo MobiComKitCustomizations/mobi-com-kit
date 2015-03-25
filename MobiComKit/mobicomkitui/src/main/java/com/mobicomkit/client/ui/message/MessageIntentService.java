@@ -5,9 +5,10 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.mobicomkit.MobiComKitConstants;
-import com.mobicomkit.client.ui.message.timer.MessageSenderTimerTask;
 import com.mobicomkit.communication.message.Message;
 import com.mobicomkit.communication.message.MessageClientService;
+import com.mobicomkit.communication.message.MobiComMessageService;
+import com.mobicomkit.timer.MessageSenderTimerTask;
 import com.mobicomkit.user.MobiComUserPreference;
 
 import net.mobitexter.mobiframework.json.GsonUtils;
@@ -73,9 +74,9 @@ public class MessageIntentService extends IntentService {
 
                     for (String tofield : toList) {
                         if (isDelayRequire && !message.getTo().startsWith(tofield)) {
-                            new Timer().schedule(new MessageSenderTimerTask(MessageIntentService.this, message, tofield), groupSmsDelayInSec * 1000);
+                            new Timer().schedule(new MessageSenderTimerTask(new MobiComMessageService(MessageIntentService.this, MessageIntentService.class), message, tofield), groupSmsDelayInSec * 1000);
                         } else {
-                            new MessageService(MessageIntentService.this).processSms(message, tofield);
+                            new MobiComMessageService(MessageIntentService.this, MessageIntentService.class).processSms(message, tofield);
                         }
                     }
                 }

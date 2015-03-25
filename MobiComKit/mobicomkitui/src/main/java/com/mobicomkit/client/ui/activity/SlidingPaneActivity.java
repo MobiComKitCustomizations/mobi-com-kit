@@ -14,18 +14,19 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.mobicomkit.broadcast.MobiComKitBroadcastReceiver;
-import com.mobicomkit.client.ui.GeneralConstants;
+import com.mobicomkit.GeneralConstants;
 import com.mobicomkit.client.ui.MobiComKitApplication;
 import com.mobicomkit.client.ui.R;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 
-import com.mobicomkit.client.ui.message.MessageService;
+import com.mobicomkit.client.ui.message.MessageIntentService;
 import com.mobicomkit.client.ui.message.conversation.ConversationFragment;
 import com.mobicomkit.client.ui.message.conversation.QuickConversationFragment;
 import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.communication.message.MobiComMessageService;
 import com.mobicomkit.instruction.InstructionUtil;
 import com.mobicomkit.user.MobiComUserPreference;
 import com.mobicomkit.user.UserClientService;
@@ -132,7 +133,7 @@ public class SlidingPaneActivity extends MobiComActivity {
                     .setType("text/plain").putExtra(Intent.EXTRA_TEXT, textToShare);
             startActivity(Intent.createChooser(intent, "Share Via"));
         } else if (i == R.id.refresh) {
-            new MessageService(this).syncMessagesWithServer();
+            new MobiComMessageService(this, MessageIntentService.class).syncMessagesWithServer();
         } else if (i == R.id.support) {
             openConversationFragment(Support.getSupportContact());
         } else if (i == R.id.deleteConversation) {
