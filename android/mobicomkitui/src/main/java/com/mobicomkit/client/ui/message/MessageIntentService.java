@@ -42,7 +42,6 @@ public class MessageIntentService extends IntentService {
                 Log.w(TAG, "Thread not found..." + runningTaskMap);
             }
             return;
-            //System.out.println("@@@ interupting threads....");
         }
         final Message message = (Message) GsonUtils.getObjectFromJson(intent.getStringExtra(MobiComKitConstants.MESSAGE_JSON_INTENT), Message.class);
         Thread thread = new Thread(new MessegeSender(message));
