@@ -195,6 +195,8 @@ class AttachmentDownloader implements Runnable {
                 inputStream = connection.getInputStream();
             } else {
                 //TODO: Error Handling...
+                Log.i(TAG, "Got Error response while uploading file : " + connection.getResponseCode());
+                return;
             }
             File file = FileClientService.getFilePath(fileMeta.getName(), context, contentType);
             OutputStream output = new FileOutputStream(file);

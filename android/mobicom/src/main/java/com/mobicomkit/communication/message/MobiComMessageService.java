@@ -10,13 +10,11 @@ import com.mobicomkit.GeneralConstants;
 import com.mobicomkit.MobiComKitConstants;
 import com.mobicomkit.R;
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.client.ui.NotificationService;
+import com.mobicomkit.notification.NotificationService;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
-import com.mobicomkit.communication.message.schedule.ScheduledMessageUtil;
 import com.mobicomkit.communication.message.selfdestruct.DisappearingMessageTask;
 import com.mobicomkit.sync.SyncMessageFeed;
-import com.mobicomkit.timer.MessageSenderTimerTask;
 import com.mobicomkit.user.MobiComUserPreference;
 
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
@@ -52,11 +50,17 @@ public class MobiComMessageService {
     protected Class messageIntentServiceClass;
     public static Map<String, Message> mtMessages = new LinkedHashMap<String, Message>();
 
-    public MobiComMessageService(Context context, Class messageIntentServiceClass) {
+    public MobiComMessageService(Context context ,Class messageIntentServiceClass) {
         this.context = context;
         this.messageDatabaseService = new MessageDatabaseService(context);
         this.messageClientService = new MessageClientService(context);
         this.messageIntentServiceClass = messageIntentServiceClass;
+    }
+    public MobiComMessageService(Context context ) {
+        this.context = context;
+        this.messageDatabaseService = new MessageDatabaseService(context);
+        this.messageClientService = new MessageClientService(context);
+
     }
 
     public void processSms(final Message messageToProcess, String tofield) {
@@ -94,21 +98,18 @@ public class MobiComMessageService {
         } else {
             message.setContactIds(ContactUtils.getContactId(message.getTo(), context.getContentResolver()));
         }
-
         message.setTo(message.getTo());
         Contact receiverContact = ContactUtils.getContact(context, message.getTo());
-
         if (message.getMessage() != null && PersonalizedMessage.isPersonalized(message.getMessage())) {
             message.setMessage(PersonalizedMessage.prepareMessageFromTemplate(message.getMessage(), receiverContact));
         }
-
         messageDatabaseService.createMessage(message);
-
         Contact contact = ContactUtils.getContact(context, message.getTo());
         BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString(), message);
         //Todo: use email if contact number is empty
         Log.i(TAG, "Updating delivery status: " + message.getPairedMessageKeyString() + ", " + userPreferences.getContactNumber());
         messageClientService.updateDeliveryStatus(message.getPairedMessageKeyString(), userPreferences.getContactNumber());
+        NotificationService.notifyUser(context,contact,message);
         return contact;
     }
 
@@ -138,15 +139,13 @@ public class MobiComMessageService {
 
                     for (String tofield : toList) {
 
-                            processSms(message, tofield);
-
+                        processSms(message, tofield);
                         MobiComUserPreference.getInstance(context).setLastInboxSyncTime(message.getCreatedAtTime());
                     }
 
 
                 MessageClientService.recentProcessedMessage.add(message);
                 BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString(), message);
-
                 messageDatabaseService.createMessage(message);
             }
 
@@ -223,6 +222,9 @@ public class MobiComMessageService {
             return;
         }
     }
+        //This we should move to Mobi com UI or even Consider about specific to Mobitexter Client...
+        // Many app dosen't want this after registration OR Can be handled by BroadCast....
+
 
     public void addWelcomeMessage() {
         Message message = new Message();
