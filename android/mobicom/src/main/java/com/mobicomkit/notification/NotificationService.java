@@ -1,10 +1,26 @@
-package com.mobicomkit.client.ui;
+package com.mobicomkit.notification;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
+import android.support.v4.app.NotificationCompat;
+import android.telephony.PhoneNumberUtils;
 
+import com.mobicomkit.MobiComKitClientService;
+import com.mobicomkit.MobiComKitConstants;
+import com.mobicomkit.R;
+import com.mobicomkit.broadcast.NotificationBroadcastReceiver;
 import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.userinterface.MobiComActivity;
 
+import net.mobitexter.mobiframework.json.GsonUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,14 +33,14 @@ public class NotificationService {
     private static final int NOTIFICATION_ID = 1000;
 
     public static void notifyUser(Context context, Contact contact, Message sms) {
-      /*  if (MobiComActivity.mobiTexterBroadcastReceiverActivated &&
+       if (MobiComActivity.mobiTexterBroadcastReceiverActivated &&
                 (MobiComActivity.currentOpenedContactNumber == null ||
                         PhoneNumberUtils.compare(sms.getContactIds(), MobiComActivity.currentOpenedContactNumber))) {
             return;
         }
         Intent intent = new Intent();
-        intent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, GsonUtils.getJsonFromObject(sms, Sms.class));
-        intent.setAction("net.mobitexter.LAUNCH_APP");
+        intent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, GsonUtils.getJsonFromObject(sms, Message.class));
+        intent.setAction(NotificationBroadcastReceiver.LAUNCH_MOBITEXTER);
         intent.setClass(context,NotificationBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) (System.currentTimeMillis() & 0xfffffff), intent, 0);
         NotificationCompat.Builder mBuilder =
@@ -38,11 +54,11 @@ public class NotificationService {
                         .setContentText(sms.getMessage())
                         .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         mBuilder.setContentIntent(pendingIntent);
-
+        mBuilder.setAutoCancel(true);
         if (sms.hasAttachment()) {
             try {
                 InputStream in;
-                HttpURLConnection httpConn = new MobiTexterClientService(context).openHttpConnection(sms.getFileMetas().get(0).getThumbnailUrl());
+                HttpURLConnection httpConn = new MobiComKitClientService(context).openHttpConnection(sms.getFileMetas().get(0).getThumbnailUrl());
                 int response = httpConn.getResponseCode();
                 if (response == HttpURLConnection.HTTP_OK) {
                     in = httpConn.getInputStream();
@@ -58,11 +74,12 @@ public class NotificationService {
                         R.string.wearable_action_label,R.drawable.ic_action_send,sms.getContactIds().hashCode());
         notificationWithVoice.setCurrentContext(context);
         notificationWithVoice.setPendingIntent(pendingIntent);
+
         try {
             notificationWithVoice.sendNotification();
         }catch (RuntimeException e){
             e.printStackTrace();
-        }*/
+        }
     }
 
     public static void notifyUserForMT(Context context, String contactNumber) {
