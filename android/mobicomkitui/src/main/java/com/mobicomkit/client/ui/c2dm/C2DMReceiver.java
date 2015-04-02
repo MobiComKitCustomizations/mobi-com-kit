@@ -183,7 +183,7 @@ public class C2DMReceiver extends C2DMBaseReceiver {
             if (GeneralConstants.SYNC.equalsIgnoreCase(message)) {
                 messageService.syncMessages();
             } else if (GeneralConstants.UPDATE_AVAILABLE.equalsIgnoreCase(message)) {
-                new UserClientService(context).updateCodeVersion(GeneralConstants.APP_CODE_VERSION, usrpref.getDeviceKeyString());
+                new UserClientService(context).updateCodeVersion(usrpref.getDeviceKeyString());
             } else {
                 try {
                     if (GeneralConstants.STOP_SERVICE_FLAG.equalsIgnoreCase(message) || GeneralConstants.START_SERVICE_FLAG.equalsIgnoreCase(message)) {

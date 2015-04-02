@@ -89,7 +89,7 @@ public class SlidingPaneActivity extends MobiComActivity {
 
         SharedPreferences prefs = getSharedPreferences("net.mobitexter", Context.MODE_PRIVATE);
         if (prefs.getBoolean(GeneralConstants.SHARED_PREFERENCE_VERSION_UPDATE_KEY, false)) {
-            new UserClientService(this).updateCodeVersion(GeneralConstants.APP_CODE_VERSION, userPreferences.getDeviceKeyString());
+            new UserClientService(this).updateCodeVersion(userPreferences.getDeviceKeyString());
             prefs.edit().remove(GeneralConstants.SHARED_PREFERENCE_VERSION_UPDATE_KEY).commit();
         }
 

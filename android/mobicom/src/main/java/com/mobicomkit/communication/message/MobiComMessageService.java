@@ -13,10 +13,8 @@ import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.client.ui.NotificationService;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
-import com.mobicomkit.communication.message.schedule.ScheduledMessageUtil;
 import com.mobicomkit.communication.message.selfdestruct.DisappearingMessageTask;
 import com.mobicomkit.sync.SyncMessageFeed;
-import com.mobicomkit.timer.MessageSenderTimerTask;
 import com.mobicomkit.user.MobiComUserPreference;
 
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
@@ -59,7 +57,23 @@ public class MobiComMessageService {
         this.messageIntentServiceClass = messageIntentServiceClass;
     }
 
-    public void processSms(final Message messageToProcess, String tofield) {
+    public void processMessage(final Message messageToProcess, String tofield) {
+        Message message = prepareMessage(messageToProcess, tofield);
+
+        if (message.getType().equals(Message.MessageType.MT_INBOX.getValue())) {
+            addMTMessage(message);
+            //TODO: in case of isStoreOn device is false ..have to handle fall back
+        } else if (message.getType().equals(Message.MessageType.MT_OUTBOX.getValue())) {
+            Uri uri = null;
+            Log.i(TAG, "Sending mt message");
+            String mapKey = message.getKeyString() + "," + message.getContactIds();
+            map.put(mapKey, uri);
+            mtMessages.put(mapKey, message);
+        }
+        Log.i(TAG, "Sending message: " + message);
+    }
+
+    public Message prepareMessage(Message messageToProcess, String tofield) {
         Message message = new Message(messageToProcess);
         message.setMessageId(messageToProcess.getMessageId());
         message.setKeyString(messageToProcess.getKeyString());
@@ -71,20 +85,7 @@ public class MobiComMessageService {
                 message.setMessage(PersonalizedMessage.prepareMessageFromTemplate(message.getMessage(), contact));
             }
         }
-
-        if (message.getType().equals(Message.MessageType.OUTBOX.getValue())) {
-            //Note: native sms not supported
-        } else if (message.getType().equals(Message.MessageType.MT_INBOX.getValue())) {
-            addMTMessage(message);
-            //TODO: in case of isStoreOn device is false ..have to handle fall back
-        } else if (message.getType().equals(Message.MessageType.MT_OUTBOX.getValue())) {
-            Uri uri = null;
-            Log.i(TAG, "Sending mt message");
-            String mapKey = message.getKeyString() + "," + message.getContactIds();
-            map.put(mapKey, uri);
-            mtMessages.put(mapKey, message);
-        }
-        Log.i(TAG, "Sending message: " + message);
+        return message;
     }
 
     public Contact addMTMessage(Message message) {
@@ -138,7 +139,7 @@ public class MobiComMessageService {
 
                     for (String tofield : toList) {
 
-                            processSms(message, tofield);
+                            processMessage(message, tofield);
 
                         MobiComUserPreference.getInstance(context).setLastInboxSyncTime(message.getCreatedAtTime());
                     }

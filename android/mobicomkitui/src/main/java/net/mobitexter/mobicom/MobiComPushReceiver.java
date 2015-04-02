@@ -31,7 +31,6 @@ public class MobiComPushReceiver  {
         notificationKeyList.add("DELETE_SMS_CONTACT");
         notificationKeyList.add("MTEXTER_USER");
         notificationKeyList.add("MESSAGE");
-
     }
 
     public static final String MTCOM_PREFIX = "MTCOM";
