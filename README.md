@@ -15,6 +15,12 @@ iii) mobicommons - Common utility framework
 
 Clone the repository and import all the 3 modules in your project.
 
+Add the following in build.gradle file:
+
+    compile project(':mobicommons')
+    compile project(':mobicom')
+    compile project(':mobicomkitui')
+
 Step 1: Register at http://mobicomkit.com/ to get the application key.
        Goto HttpRequestUtils.java set the value of APPLICATION_KEY_HEADER_VALUE = application key
 
@@ -83,10 +89,11 @@ Step 3: Addition to androidmanifest.xml:
                        android:resource="@xml/searchable_contacts" />
               </activity>
 
+Replace <APP_PARENT_ACTIVITY> with your app's parent activity.
 
 Step 4: Register user account: 
 
-new RegisterUserClientService(activity).createAccount(USER_EMAIL, USER_PHONE_NUMBER); 
+new RegisterUserClientService(activity).createAccount(USER_EMAIL, USER_PHONE_NUMBER, GCM_REGISTRATION_ID); 
 
 If it is a new user, new user account will get created else existing user will be logged in to the application.
 
