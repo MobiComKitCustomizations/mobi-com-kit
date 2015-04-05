@@ -88,6 +88,7 @@ Step 3: Addition to androidmanifest.xml:
                        android:resource="@xml/searchable_contacts" />
               </activity>
 
+Replace <APP_PARENT_ACTIVITY> with your app's parent activity.
 
 Step 4: Register user account: 
 
