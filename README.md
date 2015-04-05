@@ -15,6 +15,11 @@ iii) mobicommons - Common utility framework
 
 Clone the repository and import all the 3 modules in your project.
 
+Add the following in build.gradle file:
+    compile project(':mobicommons')
+    compile project(':mobicom')
+    compile project('mobicomkitui')
+
 Step 1: Register at http://mobicomkit.com/ to get the application key.
        Goto HttpRequestUtils.java set the value of APPLICATION_KEY_HEADER_VALUE = application key
 
