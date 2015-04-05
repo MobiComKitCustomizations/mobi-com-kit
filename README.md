@@ -91,7 +91,7 @@ Step 3: Addition to androidmanifest.xml:
 
 Replace <APP_PARENT_ACTIVITY> with your app's parent activity.
 
-Step 4: Register user account: 
+Step 4: Register user account (using an AsyncTask or thread): 
 
 new RegisterUserClientService(activity).createAccount(USER_EMAIL, USER_PHONE_NUMBER, GCM_REGISTRATION_ID); 
 
