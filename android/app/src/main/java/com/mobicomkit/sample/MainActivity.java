@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.mobicomkit.R;
+import com.mobicomkit.user.RegisterUserClientService;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -46,6 +47,12 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        try {
+            new RegisterUserClientService(this).createAccount("misha.hubner@gmail.com", "+919535008745", "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
