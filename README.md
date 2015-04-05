@@ -30,12 +30,13 @@ Step 2: Replace SQLiteOpenHelper with MobiComDatabaseHelper.
 Step 3: Addition to androidmanifest.xml:
 
        Permissions:
-                  <uses-permission android:name="android.permission.READ_CONTACTS" />
-                  <uses-permission android:name="android.permission.WRITE_CONTACTS" />
-                  <uses-permission android:name="android.permission.VIBRATE" />
-                  <uses-permission android:name="android.permission.CALL_PHONE" />
-                  <uses-permission android:name="android.permission.READ_PROFILE" />
-                  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+                    <uses-permission android:name="android.permission.READ_CONTACTS" />
+                    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+                    <uses-permission android:name="android.permission.VIBRATE" />
+                    <uses-permission android:name="android.permission.CALL_PHONE" />
+                    <uses-permission android:name="android.permission.READ_PROFILE" />
+                    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+                    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 
        Services:
@@ -99,7 +100,7 @@ new RegisterUserClientService(activity).createAccount(USER_EMAIL, USER_PHONE_NUM
 If it is a new user, new user account will get created else existing user will be logged in to the application.
 
 
-Step 8: Start SlidingPaneActivity from your app activity to open messaging interface.
+Step 5: Start SlidingPaneActivity from your app activity to open messaging interface.
 
 Intent intent = new Intent(this, SlidingPaneActivity.class);
 startActivity(intent);
