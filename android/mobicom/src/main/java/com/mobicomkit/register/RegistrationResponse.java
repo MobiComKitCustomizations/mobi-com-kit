@@ -44,7 +44,7 @@ public class RegistrationResponse {
     }
 
     public Long getLastSyncTime() {
-        return lastSyncTime;
+        return lastSyncTime == null ? 0L : lastSyncTime;
     }
 
     public void setLastSyncTime(Long lastSyncTime) {
