@@ -93,7 +93,7 @@ Replace <APP_PARENT_ACTIVITY> with your app's parent activity.
 
 Step 4: Register user account: 
 
-new RegisterUserClientService(activity).createAccount(USER_EMAIL, USER_PHONE_NUMBER); 
+new RegisterUserClientService(activity).createAccount(USER_EMAIL, USER_PHONE_NUMBER, GCM_REGISTRATION_ID); 
 
 If it is a new user, new user account will get created else existing user will be logged in to the application.
 
