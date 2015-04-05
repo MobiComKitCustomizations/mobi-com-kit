@@ -37,14 +37,12 @@ Step 3: Addition to androidmanifest.xml:
                     <uses-permission android:name="android.permission.READ_PROFILE" />
                     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
                     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+                    <uses-permission android:name="android.permission.INTERNET" />
 
 
        Services:
                <service
-                   android:name="com.mobicomkit.client.ui.message.MessageIntentService"
-                   android:exported="false" />
-               <service
-                   android:name="com.mobicomkit.client.ui.message.conversation.ConversationLoadingIntentService"
+                   android:name="com.mobicomkit.client.ui.MessageIntentService"
                    android:exported="false" />
 
        
