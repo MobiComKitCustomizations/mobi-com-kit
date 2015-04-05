@@ -35,6 +35,7 @@ Step 3: Addition to androidmanifest.xml:
                   <uses-permission android:name="android.permission.VIBRATE" />
                   <uses-permission android:name="android.permission.CALL_PHONE" />
                   <uses-permission android:name="android.permission.READ_PROFILE" />
+                  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
 
        Services:
