@@ -10,10 +10,10 @@ import com.mobicomkit.GeneralConstants;
 import com.mobicomkit.MobiComKitConstants;
 import com.mobicomkit.R;
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.client.ui.NotificationService;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
 import com.mobicomkit.communication.message.selfdestruct.DisappearingMessageTask;
+import com.mobicomkit.notification.NotificationService;
 import com.mobicomkit.sync.SyncMessageFeed;
 import com.mobicomkit.user.MobiComUserPreference;
 

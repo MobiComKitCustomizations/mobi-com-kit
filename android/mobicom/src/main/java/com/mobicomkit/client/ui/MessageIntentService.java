@@ -75,7 +75,7 @@ public class MessageIntentService extends IntentService {
                         if (isDelayRequire && !message.getTo().startsWith(tofield)) {
                             new Timer().schedule(new MessageSenderTimerTask(new MobiComMessageService(MessageIntentService.this, MessageIntentService.class), message, tofield), groupSmsDelayInSec * 1000);
                         } else {
-                            new MobiComMessageService(MessageIntentService.this, MessageIntentService.class).processSms(message, tofield);
+                            new MobiComMessageService(MessageIntentService.this, MessageIntentService.class).processMessage(message, tofield);
                         }
                     }
                 }

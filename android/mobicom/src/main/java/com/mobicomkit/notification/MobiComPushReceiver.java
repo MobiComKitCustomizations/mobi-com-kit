@@ -9,6 +9,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mobicomkit.broadcast.BroadcastService;
+import com.mobicomkit.client.ui.MessageIntentService;
 import com.mobicomkit.communication.message.MessageDeleteContent;
 import com.mobicomkit.communication.message.MobiComMessageService;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;
@@ -76,7 +77,7 @@ public class MobiComPushReceiver  {
               String mtexterUser = intent.getStringExtra("MTEXTER_USER");
               String payloadForDelivered = intent.getStringExtra("DELIVERED");
 
-              MobiComMessageService messageService = new MobiComMessageService(context);
+              MobiComMessageService messageService = new MobiComMessageService(context, MessageIntentService.class);
 
               if (!TextUtils.isEmpty(payloadForDelivered)) {
                 messageService.updateDeliveryStatus(payloadForDelivered);
