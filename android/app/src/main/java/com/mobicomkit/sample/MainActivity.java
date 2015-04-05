@@ -1,6 +1,7 @@
 package com.mobicomkit.sample;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -17,8 +18,10 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.mobicomkit.sample.R;
 
-import com.mobicomkit.R;
+import com.mobicomkit.client.ui.activity.SlidingPaneActivity;
+import com.mobicomkit.database.MobiComDatabaseHelper;
 import com.mobicomkit.user.RegisterUserClientService;
 
 public class MainActivity extends ActionBarActivity
@@ -48,18 +51,25 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        try {
-            new RegisterUserClientService(this).createAccount("misha.hubner@gmail.com", "+919535008745", "");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MobiComDatabaseHelper.init(this, "yourappdb", 1);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    new RegisterUserClientService(MainActivity.this).createAccount("misha.hubner@gmail.com", "+919535008745", "");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
 
-        if (position == 1) {
+        if (position == 0) {
             Intent intent = new Intent(this, SlidingPaneActivity.class);
             startActivity(intent);
             return;

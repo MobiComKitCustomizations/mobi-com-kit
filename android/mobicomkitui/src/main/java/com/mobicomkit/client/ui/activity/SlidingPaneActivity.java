@@ -21,7 +21,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 
-import com.mobicomkit.client.ui.message.MessageIntentService;
+import com.mobicomkit.client.ui.MessageIntentService;
 import com.mobicomkit.client.ui.message.conversation.ConversationFragment;
 import com.mobicomkit.client.ui.message.conversation.QuickConversationFragment;
 import com.mobicomkit.broadcast.BroadcastService;

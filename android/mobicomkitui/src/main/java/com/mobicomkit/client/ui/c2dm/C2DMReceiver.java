@@ -13,7 +13,7 @@ import com.google.gson.GsonBuilder;
 
 import com.mobicomkit.GeneralConstants;
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.client.ui.message.MessageIntentService;
+import com.mobicomkit.client.ui.MessageIntentService;
 import com.mobicomkit.communication.message.MessageDeleteContent;
 import com.mobicomkit.communication.message.MobiComMessageService;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;

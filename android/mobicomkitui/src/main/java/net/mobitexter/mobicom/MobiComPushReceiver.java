@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.mobicomkit.client.ui.message.MessageIntentService;
+import com.mobicomkit.client.ui.MessageIntentService;
 import com.mobicomkit.communication.message.MobiComMessageService;
 import com.mobicomkit.people.ContactContent;
 
