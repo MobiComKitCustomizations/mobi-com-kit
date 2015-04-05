@@ -35,11 +35,6 @@ public class HttpRequestUtils {
 
     private static final String TAG = "HttpRequestUtils";
 
-    public static String APPLICATION_KEY_HEADER = "Application-Key";
-
-    //public static String APPLICATION_KEY_HEADER_VALUE = "mobitexter-texting-from-pc";
-    public static String APPLICATION_KEY_HEADER_VALUE = "992a65190e8da391740e47537";
-
     private static String SOURCE_HEADER = "Source";
 
     private static String SOURCE_HEADER_VALUE = "1";
@@ -195,7 +190,7 @@ public class HttpRequestUtils {
     }
 
     public static void addGlobalHeaders(HttpRequest request) {
-        request.addHeader(APPLICATION_KEY_HEADER, APPLICATION_KEY_HEADER_VALUE);
+        request.addHeader(MobiComKitServer.APPLICATION_KEY_HEADER, MobiComKitServer.APPLICATION_KEY_HEADER_VALUE);
         request.addHeader(SOURCE_HEADER, SOURCE_HEADER_VALUE);
     }
 
