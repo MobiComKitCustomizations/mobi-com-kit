@@ -2,30 +2,27 @@ package com.mobicomkit.sample;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-import com.mobicomkit.sample.R;
 
 import com.mobicomkit.client.ui.activity.SlidingPaneActivity;
 import com.mobicomkit.database.MobiComDatabaseHelper;
-import com.mobicomkit.user.RegisterUserClientService;
+import com.mobicomkit.user.MobiComUserPreference;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+
+    public static final String DATABASE_NAME = "yourappdb";
+    public static final int DATABASE_VERSION = 1;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -51,18 +48,15 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        MobiComDatabaseHelper.init(this, "yourappdb", 1);
+        MobiComDatabaseHelper.init(this, DATABASE_NAME, DATABASE_VERSION);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    new RegisterUserClientService(MainActivity.this).createAccount("misha.hubner@gmail.com", "+919535008745", "");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        MobiComUserPreference userPreference = MobiComUserPreference.getInstance(this);
+        if (!userPreference.isRegistered()) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            return;
+        }
+
     }
 
     @Override
