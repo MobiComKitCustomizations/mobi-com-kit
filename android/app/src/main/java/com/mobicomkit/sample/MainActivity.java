@@ -69,7 +69,7 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
 
-        if (position == 0) {
+        if (position == 2) {
             Intent intent = new Intent(this, SlidingPaneActivity.class);
             startActivity(intent);
             return;
