@@ -88,6 +88,21 @@ Step 3: Addition to androidmanifest.xml:
                        android:name="android.app.searchable"
                        android:resource="@xml/searchable_contacts" />
               </activity>
+              
+               <activity
+                    android:name="com.mobicomkit.image.FullScreenImageActivity"
+                    android:configChanges="keyboardHidden|orientation|screenSize"
+                    android:label="Image"
+                    android:parentActivityName="com.mobicomkit.client.ui.activity.SlidingPaneActivity"
+                    android:theme="@style/MobiComAppBaseTheme" >
+        
+                    <!-- Parent activity meta-data to support API level 7+ -->
+                    <meta-data
+                        android:name="android.support.PARENT_ACTIVITY"
+                        android:value="com.mobicomkit.client.ui.activity.SlidingPaneActivity" />
+                </activity>
+        
+        
 
 Replace <APP_PARENT_ACTIVITY> with your app's parent activity.
 
