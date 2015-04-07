@@ -5,6 +5,10 @@ package com.mobicomkit;
  */
 public class MobiComKitServer {
 
+    public static String APPLICATION_KEY_HEADER = "Application-Key";
+    //public static String APPLICATION_KEY_HEADER_VALUE = "mobitexter-texting-from-pc";
+    public static String APPLICATION_KEY_HEADER_VALUE = "992a65190e8da391740e47537";
+
     public static final boolean PROD = true;
     public static final String PROD_DISPLAY_URL = "http://www.mobitexter.net";
 
@@ -56,4 +60,5 @@ public class MobiComKitServer {
 
     public static final String FREE_MESSAGE_FAILED_URL = BASE_URL + "/rest/ws/sms/mtext/failed?";
     public static final String CONTACT_SYNC_COMPLETE_URL = BASE_URL + "/rest/ws/contact/syncCompleted?suUserKeyString";
+
 }

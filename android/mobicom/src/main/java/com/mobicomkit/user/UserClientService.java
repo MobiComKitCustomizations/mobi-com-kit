@@ -39,11 +39,11 @@ public class UserClientService extends MobiComKitClientService {
         return false;
     }
 
-    public void updateCodeVersion(final Short appVersion, final String deviceKeyString) {
+    public void updateCodeVersion(final String deviceKeyString) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String url = MobiComKitServer.APP_VERSION_UPDATE_URL + "?appVersionCode=" + appVersion + "&deviceKeyString=" + deviceKeyString;
+                String url = MobiComKitServer.APP_VERSION_UPDATE_URL + "?appVersionCode=" + MobiComKitServer.MOBICOMKIT_VERSION_CODE + "&deviceKeyString=" + deviceKeyString;
                 String response = HttpRequestUtils.getResponse(credentials, url, "text/plain", "text/plain");
                 Log.i(TAG, "Version update response: " + response);
             }

@@ -3,6 +3,8 @@ package net.mobitexter.mobiframework.commons.core.utils;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -12,6 +14,7 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -21,6 +24,8 @@ import android.widget.Toast;
  * This class contains static utility methods.
  */
 public class Utils {
+
+    private static final String TAG = "Utils";
 
     // Prevents instantiation.
     private Utils() {
@@ -97,6 +102,17 @@ public class Utils {
 
     public static boolean hasKitkat() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+    }
+
+    public static int getAppVersion(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, "Could not get package name: " + e);
+        }
+        return -1;
     }
 
     public static void toggleSoftKeyBoard(Activity activity, boolean hide) {

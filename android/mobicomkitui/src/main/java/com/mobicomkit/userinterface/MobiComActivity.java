@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -14,6 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
@@ -416,6 +418,17 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
         contact.setFormattedContactNumber(ContactNumberUtils.getPhoneNumber(spinnerNavItem.getContactNumber(), MobiComUserPreference.getInstance(this).getCountryCode()));
         conversationFragment.loadConversation(contact);
         return false;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     //TODO: need to figure it out if this Can be improve by listeners in individual fragments

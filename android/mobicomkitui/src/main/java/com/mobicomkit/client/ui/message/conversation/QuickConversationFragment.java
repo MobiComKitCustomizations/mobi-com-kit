@@ -5,7 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.mobicomkit.client.ui.MobiComKitApplication;
 import com.mobicomkit.client.ui.R;
-import com.mobicomkit.client.ui.message.MessageIntentService;
+import com.mobicomkit.client.ui.MessageIntentService;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;
 import com.mobicomkit.userinterface.ConversationAdapter;
 import com.mobicomkit.userinterface.MobiComQuickConversationFragment;

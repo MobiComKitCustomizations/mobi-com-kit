@@ -21,7 +21,7 @@ import com.mobicomkit.GeneralConstants;
 import com.mobicomkit.client.ui.MobiComKitApplication;
 import com.mobicomkit.client.ui.R;
 
-import com.mobicomkit.client.ui.message.MessageIntentService;
+import com.mobicomkit.client.ui.MessageIntentService;
 import com.mobicomkit.client.ui.message.conversation.ConversationFragment;
 import com.mobicomkit.client.ui.message.conversation.QuickConversationFragment;
 import com.mobicomkit.broadcast.BroadcastService;
@@ -89,7 +89,7 @@ public class SlidingPaneActivity extends MobiComActivity {
 
         SharedPreferences prefs = getSharedPreferences("net.mobitexter", Context.MODE_PRIVATE);
         if (prefs.getBoolean(GeneralConstants.SHARED_PREFERENCE_VERSION_UPDATE_KEY, false)) {
-            new UserClientService(this).updateCodeVersion(GeneralConstants.APP_CODE_VERSION, userPreferences.getDeviceKeyString());
+            new UserClientService(this).updateCodeVersion(userPreferences.getDeviceKeyString());
             prefs.edit().remove(GeneralConstants.SHARED_PREFERENCE_VERSION_UPDATE_KEY).commit();
         }
 

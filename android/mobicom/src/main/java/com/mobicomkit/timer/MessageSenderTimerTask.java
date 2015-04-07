@@ -27,6 +27,6 @@ public class MessageSenderTimerTask extends TimerTask {
     @Override
     public void run() {
         Log.i(TAG, "Sending message to: " + to + " from MessageSenderTimerTask");
-        mobiComMessageService.processSms(message, to);
+        mobiComMessageService.processMessage(message, to);
     }
 }

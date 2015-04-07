@@ -13,6 +13,7 @@ import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
 import com.mobicomkit.communication.message.selfdestruct.DisappearingMessageTask;
+import com.mobicomkit.notification.NotificationService;
 import com.mobicomkit.sync.SyncMessageFeed;
 import com.mobicomkit.user.MobiComUserPreference;
 
@@ -49,35 +50,17 @@ public class MobiComMessageService {
     protected Class messageIntentServiceClass;
     public static Map<String, Message> mtMessages = new LinkedHashMap<String, Message>();
 
-    public MobiComMessageService(Context context ,Class messageIntentServiceClass) {
+    public MobiComMessageService(Context context, Class messageIntentServiceClass) {
         this.context = context;
         this.messageDatabaseService = new MessageDatabaseService(context);
         this.messageClientService = new MessageClientService(context);
         this.messageIntentServiceClass = messageIntentServiceClass;
     }
-    public MobiComMessageService(Context context ) {
-        this.context = context;
-        this.messageDatabaseService = new MessageDatabaseService(context);
-        this.messageClientService = new MessageClientService(context);
 
-    }
+    public void processMessage(final Message messageToProcess, String tofield) {
+        Message message = prepareMessage(messageToProcess, tofield);
 
-    public void processSms(final Message messageToProcess, String tofield) {
-        Message message = new Message(messageToProcess);
-        message.setMessageId(messageToProcess.getMessageId());
-        message.setKeyString(messageToProcess.getKeyString());
-        message.setPairedMessageKeyString(messageToProcess.getPairedMessageKeyString());
-
-        if (message.getMessage() != null && PersonalizedMessage.isPersonalized(message.getMessage())) {
-            Contact contact = ContactUtils.getContact(context, tofield);
-            if (contact != null) {
-                message.setMessage(PersonalizedMessage.prepareMessageFromTemplate(message.getMessage(), contact));
-            }
-        }
-
-        if (message.getType().equals(Message.MessageType.OUTBOX.getValue())) {
-            //Note: native sms not supported
-        } else if (message.getType().equals(Message.MessageType.MT_INBOX.getValue())) {
+        if (message.getType().equals(Message.MessageType.MT_INBOX.getValue())) {
             addMTMessage(message);
             //TODO: in case of isStoreOn device is false ..have to handle fall back
         } else if (message.getType().equals(Message.MessageType.MT_OUTBOX.getValue())) {
@@ -90,6 +73,21 @@ public class MobiComMessageService {
         Log.i(TAG, "Sending message: " + message);
     }
 
+    public Message prepareMessage(Message messageToProcess, String tofield) {
+        Message message = new Message(messageToProcess);
+        message.setMessageId(messageToProcess.getMessageId());
+        message.setKeyString(messageToProcess.getKeyString());
+        message.setPairedMessageKeyString(messageToProcess.getPairedMessageKeyString());
+
+        if (message.getMessage() != null && PersonalizedMessage.isPersonalized(message.getMessage())) {
+            Contact contact = ContactUtils.getContact(context, tofield);
+            if (contact != null) {
+                message.setMessage(PersonalizedMessage.prepareMessageFromTemplate(message.getMessage(), contact));
+            }
+        }
+        return message;
+    }
+
     public Contact addMTMessage(Message message) {
         MobiComUserPreference userPreferences = MobiComUserPreference.getInstance(context);
         if (userPreferences.getCountryCode() != null) {
@@ -97,12 +95,16 @@ public class MobiComMessageService {
         } else {
             message.setContactIds(ContactUtils.getContactId(message.getTo(), context.getContentResolver()));
         }
+
         message.setTo(message.getTo());
         Contact receiverContact = ContactUtils.getContact(context, message.getTo());
+
         if (message.getMessage() != null && PersonalizedMessage.isPersonalized(message.getMessage())) {
             message.setMessage(PersonalizedMessage.prepareMessageFromTemplate(message.getMessage(), receiverContact));
         }
+
         messageDatabaseService.createMessage(message);
+
         Contact contact = ContactUtils.getContact(context, message.getTo());
         BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString(), message);
         //Todo: use email if contact number is empty
@@ -137,13 +139,15 @@ public class MobiComMessageService {
 
                     for (String tofield : toList) {
 
-                        processSms(message, tofield);
+                            processMessage(message, tofield);
+
                         MobiComUserPreference.getInstance(context).setLastInboxSyncTime(message.getCreatedAtTime());
                     }
 
 
                 MessageClientService.recentProcessedMessage.add(message);
                 BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString(), message);
+
                 messageDatabaseService.createMessage(message);
             }
 
@@ -218,9 +222,6 @@ public class MobiComMessageService {
             return;
         }
     }
-        //This we should move to Mobi com UI or even Consider about specific to Mobitexter Client...
-        // Many app dosen't want this after registration OR Can be handled by BroadCast....
-
 
     public void addWelcomeMessage(String welcome_message) {
         Message message = new Message();
