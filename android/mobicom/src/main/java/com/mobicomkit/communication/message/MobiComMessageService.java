@@ -8,9 +8,8 @@ import android.widget.Toast;
 
 import com.mobicomkit.GeneralConstants;
 import com.mobicomkit.MobiComKitConstants;
-import com.mobicomkit.R;
+
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.notification.NotificationService;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
 import com.mobicomkit.communication.message.selfdestruct.DisappearingMessageTask;
@@ -109,7 +108,6 @@ public class MobiComMessageService {
         //Todo: use email if contact number is empty
         Log.i(TAG, "Updating delivery status: " + message.getPairedMessageKeyString() + ", " + userPreferences.getContactNumber());
         messageClientService.updateDeliveryStatus(message.getPairedMessageKeyString(), userPreferences.getContactNumber());
-        NotificationService.notifyUser(context,contact,message);
         return contact;
     }
 
@@ -154,8 +152,8 @@ public class MobiComMessageService {
     }
 
 
-    public synchronized void syncMessagesWithServer() {
-        Toast.makeText(context, R.string.sync_messages_from_server, Toast.LENGTH_LONG).show();
+    public synchronized void syncMessagesWithServer(String syncMessage) {
+        Toast.makeText(context, syncMessage, Toast.LENGTH_LONG).show();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -209,8 +207,6 @@ public class MobiComMessageService {
             }
 
             Contact contact = ContactUtils.getContact(context, mTextMessageReceived.getTo());
-            NotificationService.notifyUser(context, contact, mTextMessageReceived);
-
             try {
                 messageClientService.sendMessageToServer(mTextMessageReceived, null);
             } catch (Exception ex) {
@@ -226,12 +222,12 @@ public class MobiComMessageService {
         // Many app dosen't want this after registration OR Can be handled by BroadCast....
 
 
-    public void addWelcomeMessage() {
+    public void addWelcomeMessage(String welcome_message) {
         Message message = new Message();
         MobiComUserPreference userPreferences = MobiComUserPreference.getInstance(context);
         message.setContactIds(Support.getSupportNumber());
         message.setTo(Support.getSupportNumber());
-        message.setMessage(context.getString(R.string.welcome_message));
+        message.setMessage(welcome_message);
         message.setStoreOnDevice(Boolean.TRUE);
         message.setSendToDevice(Boolean.FALSE);
         message.setType(Message.MessageType.MT_INBOX.getValue());

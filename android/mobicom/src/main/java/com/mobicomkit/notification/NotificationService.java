@@ -11,10 +11,11 @@ import android.telephony.PhoneNumberUtils;
 
 import com.mobicomkit.MobiComKitClientService;
 import com.mobicomkit.MobiComKitConstants;
-import com.mobicomkit.R;
+
 import com.mobicomkit.broadcast.NotificationBroadcastReceiver;
 import com.mobicomkit.communication.message.Message;
-import com.mobicomkit.userinterface.MobiComActivity;
+import com.mobicomkit.userinterface.BaseMobiComActivity;
+
 
 import net.mobitexter.mobiframework.json.GsonUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;
@@ -31,11 +32,27 @@ import java.net.HttpURLConnection;
 public class NotificationService {
 
     private static final int NOTIFICATION_ID = 1000;
+    private Context context;
+    private int iconResourceId;
+    private int wearable_action_title;
+    private int wearable_action_label;
+    private int wearable_send_icon;
 
-    public static void notifyUser(Context context, Contact contact, Message sms) {
-       if (MobiComActivity.mobiTexterBroadcastReceiverActivated &&
-                (MobiComActivity.currentOpenedContactNumber == null ||
-                        PhoneNumberUtils.compare(sms.getContactIds(), MobiComActivity.currentOpenedContactNumber))) {
+
+    NotificationService( int iconResourceID, Context context,int wearable_action_label,int wearable_action_title,int wearable_send_icon){
+        this.context =  context;
+        this.iconResourceId = iconResourceID;
+        this.wearable_action_label= wearable_action_label;
+        this.wearable_action_title= wearable_action_title;
+        this.wearable_send_icon = wearable_send_icon;
+
+
+    }
+
+    public void notifyUser(Contact contact, Message sms) {
+       if (BaseMobiComActivity.mobiTexterBroadcastReceiverActivated &&
+                (BaseMobiComActivity.currentOpenedContactNumber == null ||
+                        PhoneNumberUtils.compare(sms.getContactIds(), BaseMobiComActivity.currentOpenedContactNumber))) {
             return;
         }
         Intent intent = new Intent();
@@ -45,8 +62,8 @@ public class NotificationService {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) (System.currentTimeMillis() & 0xfffffff), intent, 0);
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_launcher)
-                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
+                        .setSmallIcon(iconResourceId)
+                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), iconResourceId))
                         .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                         .setPriority(NotificationCompat.PRIORITY_MAX)
                         .setWhen(System.currentTimeMillis())
@@ -70,8 +87,8 @@ public class NotificationService {
             }
         }
         WearableNotificationWithVoice notificationWithVoice =
-                new WearableNotificationWithVoice(mBuilder,R.string.wearable_action_title,
-                        R.string.wearable_action_label,R.drawable.ic_action_send,sms.getContactIds().hashCode());
+                new WearableNotificationWithVoice(mBuilder,wearable_action_title,
+                        wearable_action_label,wearable_send_icon,sms.getContactIds().hashCode());
         notificationWithVoice.setCurrentContext(context);
         notificationWithVoice.setPendingIntent(pendingIntent);
 

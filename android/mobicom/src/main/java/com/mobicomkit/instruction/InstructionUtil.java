@@ -10,7 +10,6 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mobicomkit.R;
 
 /**
  * Created by devashish on 25/9/14.
@@ -22,13 +21,17 @@ public class InstructionUtil {
     private final static Map<Integer, Toast> toastMap = new HashMap<Integer, Toast>();
 
     public static boolean enabled = true;
+    private static final String info_message_sync="info_message_sync";
+    private static final String instruction_open_conversation_thread="instruction_open_conversation_thread";
+    private static final String instruction_go_back_to_recent_conversation_list="instruction_go_back_to_recent_conversation_list";
+    private static final String instruction_long_press_message="instruction_long_press_message";
 
     public static void init(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("net.mobitexter", Context.MODE_PRIVATE);
-        sharedPreferences.edit().putBoolean(SHARED_PREFERENCE_INSTRUCTION_KEY + "." + R.string.info_message_sync, true).commit();
-        sharedPreferences.edit().putBoolean(SHARED_PREFERENCE_INSTRUCTION_KEY + "." + R.string.instruction_open_conversation_thread, true).commit();
-        sharedPreferences.edit().putBoolean(SHARED_PREFERENCE_INSTRUCTION_KEY + "." + R.string.instruction_go_back_to_recent_conversation_list, true).commit();
-        sharedPreferences.edit().putBoolean(SHARED_PREFERENCE_INSTRUCTION_KEY + "." + R.string.instruction_long_press_message, true).commit();
+        sharedPreferences.edit().putBoolean(SHARED_PREFERENCE_INSTRUCTION_KEY + "." + info_message_sync, true).commit();
+        sharedPreferences.edit().putBoolean(SHARED_PREFERENCE_INSTRUCTION_KEY + "." + instruction_open_conversation_thread, true).commit();
+        sharedPreferences.edit().putBoolean(SHARED_PREFERENCE_INSTRUCTION_KEY + "." + instruction_go_back_to_recent_conversation_list, true).commit();
+        sharedPreferences.edit().putBoolean(SHARED_PREFERENCE_INSTRUCTION_KEY + "." + instruction_long_press_message, true).commit();
     }
 
     public static void showInstruction(final Context context, final int resId, int delay, String action) {
@@ -49,7 +52,7 @@ public class InstructionUtil {
         }, delay);
     }
 
-    public static void showInstruction(Context context, int resId, boolean actionable) {
+    public static void showInstruction(Context context, int resId, boolean actionable,int colorId) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("net.mobitexter", Context.MODE_PRIVATE);
         if (!sharedPreferences.contains(SHARED_PREFERENCE_INSTRUCTION_KEY + "." + resId)) {
             return;
@@ -57,7 +60,7 @@ public class InstructionUtil {
 
         Toast toast = Toast.makeText(context, context.getString(resId), Toast.LENGTH_LONG);
         if (actionable) {
-            toast.getView().setBackgroundColor(context.getResources().getColor(R.color.instruction_color));
+            toast.getView().setBackgroundColor(context.getResources().getColor(colorId));
         }
 
         toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);

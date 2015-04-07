@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import net.mobitexter.mobiframework.R;
 
 /**
  * This class contains static utility methods.
@@ -113,7 +112,7 @@ public class Utils {
         }
     }
 
-    public static boolean isNetworkAvailable(final Activity activity) {
+    public static boolean isNetworkAvailable(final Activity activity,final String errorMessage) {
         if (activity == null) {
             return true;
         }
@@ -122,7 +121,7 @@ public class Utils {
         if (activeNetworkInfo == null) {
             activity.runOnUiThread(new Runnable() {
                 public void run() {
-                    Toast.makeText(activity, R.string.internet_connection_not_available, Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show();
                 }
             });
         }

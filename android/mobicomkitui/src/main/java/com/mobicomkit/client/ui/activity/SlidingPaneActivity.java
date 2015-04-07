@@ -13,13 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
 import com.mobicomkit.broadcast.MobiComKitBroadcastReceiver;
 import com.mobicomkit.GeneralConstants;
 import com.mobicomkit.client.ui.MobiComKitApplication;
 import com.mobicomkit.client.ui.R;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
 
 import com.mobicomkit.client.ui.message.MessageIntentService;
 import com.mobicomkit.client.ui.message.conversation.ConversationFragment;
@@ -133,7 +133,8 @@ public class SlidingPaneActivity extends MobiComActivity {
                     .setType("text/plain").putExtra(Intent.EXTRA_TEXT, textToShare);
             startActivity(Intent.createChooser(intent, "Share Via"));
         } else if (i == R.id.refresh) {
-            new MobiComMessageService(this, MessageIntentService.class).syncMessagesWithServer();
+            String message = this.getString(R.string.info_message_sync);
+            new MobiComMessageService(this, MessageIntentService.class).syncMessagesWithServer(message);
         } else if (i == R.id.support) {
             openConversationFragment(Support.getSupportContact());
         } else if (i == R.id.deleteConversation) {

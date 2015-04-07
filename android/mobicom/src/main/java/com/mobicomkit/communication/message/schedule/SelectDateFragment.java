@@ -9,18 +9,24 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 
-import com.mobicomkit.R;
 
 import java.util.Calendar;
+
+
+
 
 public class SelectDateFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     private View scheduledDateView;
     private ScheduledTimeHolder scheduledTimeHolder;
     private String[] monthNames = {"Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"};
+    private TextView selectedDate;
 
+    public SelectDateFragment(){
 
-    public SelectDateFragment() {
+    }
 
+    public SelectDateFragment(TextView selectedDate) {
+        this.selectedDate= selectedDate;
     }
 
     public void setScheduledDateView(View scheduledDateView) {
@@ -47,7 +53,6 @@ public class SelectDateFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        TextView selectedDate = (TextView) scheduledDateView.findViewById(R.id.scheduledDate);
         scheduledTimeHolder.setDate(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
         selectedDate.setText(dayOfMonth + "-" + monthNames[monthOfYear] + "-" + year);
     }
