@@ -30,8 +30,7 @@ import java.util.*;
 
 public class ScheduledMessageAdapter extends ArrayAdapter<Message> {
     private ImageLoader mImageLoader;
-    private int lodingImage;
-    public ScheduledMessageAdapter(Context context, int textViewResourceId, List<Message> smsList,int lodingImage) {
+    public ScheduledMessageAdapter(Context context, int textViewResourceId, List<Message> smsList) {
         super(context, textViewResourceId, smsList);
         mImageLoader = new ImageLoader(getContext(), ImageUtils.getLargestScreenDimension((Activity) getContext())) {
             @Override

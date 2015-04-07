@@ -111,7 +111,7 @@ public class MobiComUserPreference {
     }
 
     public long getLastInboxSyncTime() {
-        return sharedPreferences.getLong(last_sms_sync_time, 0L);
+        return sharedPreferences.getLong(last_inbox_sync_time, 0L);
     }
 
     public void setLastInboxSyncTime(long lastInboxSyncTime) {
