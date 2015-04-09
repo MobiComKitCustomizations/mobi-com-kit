@@ -1,4 +1,1 @@
 include ':app', ':mobicommons', ':mobicom', ':aFileChooser', ':mobicomkitui'
-include ':azuga_bluetooth_addon'
-include ':cardview_lib_v7'
-include ':fleetMobile'
