@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
 
+    private String userId;
     private String emailId;
     private String password;
     private String registrationId;
@@ -19,6 +20,14 @@ public class User implements Serializable {
     private Short appVersionCode;
     private String roleName = "USER";
     private Short deviceType;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getEmailId() {
         return emailId;
