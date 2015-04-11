@@ -45,10 +45,6 @@ import net.mobitexter.mobiframework.people.SearchListFragment;
 
 import java.util.Locale;
 
-/**
- * This fragment displays a list of contacts stored in the Contacts Provider. Each item in the list
- * shows the contact's thumbnail photo and display name.
- */
 public class GroupListFragment extends ListFragment implements SearchListFragment,
         AdapterView.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
