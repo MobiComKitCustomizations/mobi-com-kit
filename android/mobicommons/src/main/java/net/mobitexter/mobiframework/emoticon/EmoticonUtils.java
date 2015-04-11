@@ -3,6 +3,7 @@ package net.mobitexter.mobiframework.emoticon;
 import android.content.Context;
 import android.text.Spannable;
 
+import net.mobitexter.mobiframework.commons.core.utils.Utils;
 
 
 /**
@@ -12,9 +13,9 @@ public class EmoticonUtils {
     public static final Spannable.Factory spannableFactory = Spannable.Factory
             .getInstance();
 
-    public static Spannable getSmiledText(Context context, CharSequence text) {
+    public static Spannable getSmiledText(Context context, CharSequence text,EmojiconHandler emojiHandler) {
         Spannable spannable = spannableFactory.newSpannable(text);
-        //EmojiconHandler.addEmojis(context, spannable, Utils.dpToPx(28));
+        emojiHandler.addEmojis(context, spannable, Utils.dpToPx(28));
         return spannable;
     }
 }

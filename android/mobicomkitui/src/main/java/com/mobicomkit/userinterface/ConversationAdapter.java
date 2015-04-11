@@ -45,6 +45,7 @@ import net.mobitexter.mobiframework.commons.core.utils.Support;
 import net.mobitexter.mobiframework.commons.core.utils.Utils;
 import net.mobitexter.mobiframework.commons.image.ImageLoader;
 import net.mobitexter.mobiframework.commons.image.ImageUtils;
+import net.mobitexter.mobiframework.emoticon.EmojiconHandler;
 import net.mobitexter.mobiframework.emoticon.EmoticonUtils;
 import net.mobitexter.mobiframework.json.GsonUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;
@@ -74,6 +75,7 @@ public class ConversationAdapter extends ArrayAdapter<Message> {
     private Drawable scheduledIcon;
     private ImageLoader imageThumbnailLoader;
     private TextView downloadSizeTextView;
+    private EmojiconHandler emojiconHandler;
     private static Map<Short, Integer> messageTypeColorMap = new HashMap<Short, Integer>();
     private FileClientService fileClientService;
     private MessageDatabaseService messageDatabaseService;
@@ -90,20 +92,21 @@ public class ConversationAdapter extends ArrayAdapter<Message> {
 
     private Class<?> messageIntentClass;
 
-    public ConversationAdapter(final Context context, int textViewResourceId, List<Message> messageList, Group group, Class messageIntentClass) {
-        this(context, textViewResourceId, messageList, null, group, false, messageIntentClass);
+    public ConversationAdapter(final Context context, int textViewResourceId, List<Message> messageList, Group group, Class messageIntentClass,EmojiconHandler emojiconHandler) {
+        this(context, textViewResourceId, messageList, null, group, false, messageIntentClass,emojiconHandler);
     }
 
-    public ConversationAdapter(final Context context, int textViewResourceId, List<Message> messageList, Contact contact, boolean quick, Class messageIntentClass) {
-        this(context, textViewResourceId, messageList, contact, null, quick, messageIntentClass);
+    public ConversationAdapter(final Context context, int textViewResourceId, List<Message> messageList, Contact contact, boolean quick, Class messageIntentClass,EmojiconHandler emojiconHandler) {
+        this(context, textViewResourceId, messageList, contact, null, quick, messageIntentClass,emojiconHandler);
     }
 
-    public ConversationAdapter(final Context context, int textViewResourceId, List<Message> messageList, Contact contact, Group group, boolean quick, Class messageIntentClass) {
+    public ConversationAdapter(final Context context, int textViewResourceId, List<Message> messageList, Contact contact, Group group, boolean quick, Class messageIntentClass,EmojiconHandler emojiconHandler) {
         super(context, textViewResourceId, messageList);
         this.messageIntentClass = messageIntentClass;
         this.context = context;
         this.contact = contact;
         this.group = group;
+        this.emojiconHandler = emojiconHandler;
         this.individual = (contact != null || group != null);
         this.quick = quick;
         this.fileClientService = new FileClientService(context);
@@ -445,7 +448,7 @@ public class ConversationAdapter extends ArrayAdapter<Message> {
             String mimeType = "";
 
             if (messageTextView != null) {
-                messageTextView.setText(EmoticonUtils.getSmiledText(context, message.getMessage()));
+                messageTextView.setText(EmoticonUtils.getSmiledText(context, message.getMessage(),emojiconHandler));
                 if (quick && message.hasAttachment() && message.getFilePaths() != null &&
                         !message.getFilePaths().isEmpty()) {
                     //Todo: handle it for fileKeyStrings when filePaths is empty

@@ -67,6 +67,7 @@ import com.mobicomkit.instruction.InstructionUtil;
 import com.mobicomkit.user.MobiComUserPreference;
 import net.mobitexter.mobiframework.commons.core.utils.Support;
 import net.mobitexter.mobiframework.commons.core.utils.Utils;
+import net.mobitexter.mobiframework.emoticon.EmojiconHandler;
 import net.mobitexter.mobiframework.file.FilePathFinder;
 import net.mobitexter.mobiframework.json.GsonUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;
@@ -130,6 +131,13 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
 
     protected boolean hideExtendedSendingOptionLayout;
 
+
+    private EmojiconHandler emojiIconHandler;
+
+    public void setEmojiIconHandler(EmojiconHandler emojiIconHandler) {
+        this.emojiIconHandler = emojiIconHandler;
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View list = inflater.inflate(R.layout.mobicom_message_list, container, false);
@@ -145,6 +153,9 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
         mediaUploadProgressBar = (ProgressBar) attachmentLayout.findViewById(R.id.media_upload_progress_bar);
         emoticonsFrameLayout = (FrameLayout) list.findViewById(R.id.emojicons_frame_layout);
         emoticonsBtn = (ImageButton) list.findViewById(R.id.emoticons_btn);
+        if(emojiIconHandler==null && emoticonsBtn!=null){
+            emoticonsBtn.setVisibility(View.GONE);
+        }
         spinnerLayout = inflater.inflate(R.layout.mobicom_message_list_header_footer, null);
         ProgressBar spinner = (ProgressBar) spinnerLayout.findViewById(R.id.spinner);
         spinner.setVisibility(View.GONE);
@@ -471,10 +482,10 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
 
         if (contact != null) {
             conversationAdapter = new ConversationAdapter(getActivity(),
-                    R.layout.mobicom_message_row_view, messageList, contact, false, messageIntentClass);
+                    R.layout.mobicom_message_row_view, messageList, contact, false, messageIntentClass,emojiIconHandler);
         } else if (group != null) {
             conversationAdapter = new ConversationAdapter(getActivity(),
-                    R.layout.mobicom_message_row_view, messageList, group, messageIntentClass);
+                    R.layout.mobicom_message_row_view, messageList, group, messageIntentClass,emojiIconHandler);
         }
 
         listView.setAdapter(conversationAdapter);
