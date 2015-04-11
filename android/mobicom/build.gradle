@@ -25,8 +25,8 @@ dependencies {
         exclude module: 'org.apache.httpcomponents:httpclient'
     }
     compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'com.rockerhieu.emojicon:library:1.0'
     compile 'com.google.code.gson:gson:2.2.4'
+
     compile 'com.shamanland:fab:0.0.5'
     compile 'de.hdodenhof:circleimageview:1.2.1'
     compile project(':aFileChooser')
