@@ -180,7 +180,7 @@
                 android:paddingRight="20dp"/>
 
 
-        <com.rockerhieu.emojicon.EmojiconEditText
+        <EditText
                 android:id="@+id/conversation_message"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -188,9 +188,8 @@
                 android:hint="@string/enter_message_hint"
                 android:maxLines="6"
                 android:textSize="16sp"
-                emojicon:emojiconSize="25sp"
                 android:minLines="2">
-        </com.rockerhieu.emojicon.EmojiconEditText>
+        </EditText>
 
         <!--<com.rockerhieu.emojicon.EmojiconEditText-->
         <!--android:id="@+id/conversation_message"-->

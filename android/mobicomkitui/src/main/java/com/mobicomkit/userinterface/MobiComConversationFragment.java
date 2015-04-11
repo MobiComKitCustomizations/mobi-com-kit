@@ -36,6 +36,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -49,10 +50,6 @@ import android.widget.Toast;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 import com.mobicomkit.MobiComKitConstants;
 import com.mobicomkit.communication.message.Message;
-import com.rockerhieu.emojicon.EmojiconEditText;
-import com.rockerhieu.emojicon.EmojiconHandler;
-import com.rockerhieu.emojicon.EmojiconsFragment;
-import com.rockerhieu.emojicon.emoji.Emojicon;
 
 
 import com.mobicomkit.broadcast.BroadcastService;
@@ -101,7 +98,7 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
     protected Contact contact;
     protected Group group;
     protected Short contactMTAppVersionCode;
-    protected EmojiconEditText messageEditText;
+    protected EditText messageEditText;
     protected ImageButton sendButton;
     protected ImageButton attachButton;
     protected Spinner sendType;
@@ -167,7 +164,7 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
         sendButton = (ImageButton) individualMessageSendLayout.findViewById(R.id.conversation_send);
         attachButton = (ImageButton) individualMessageSendLayout.findViewById(R.id.attach_button);
         sendType = (Spinner) extendedSendingOptionLayout.findViewById(R.id.sendTypeSpinner);
-        messageEditText = (EmojiconEditText) individualMessageSendLayout.findViewById(R.id.conversation_message);
+        messageEditText = (EditText) individualMessageSendLayout.findViewById(R.id.conversation_message);
         scheduleOption = (Button) extendedSendingOptionLayout.findViewById(R.id.scheduleOption);
         mediaContainer = (ImageView) attachmentLayout.findViewById(R.id.media_container);
         attachedFile = (TextView) attachmentLayout.findViewById(R.id.attached_file);
@@ -207,7 +204,8 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                EmojiconHandler.addEmojis(getActivity(), messageEditText.getText(), Utils.dpToPx(30));
+               // EmojiconHandler.addEmojis(getActivity(), messageEditText.getText(), Utils.dpToPx(30));
+                //TODO: write code to emoticons .....
 
             }
 
@@ -283,10 +281,10 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
                                      }
         );
         //Adding fragment for emoticons...
-        //Fragment emojiFragment = new EmojiconsFragment(this, this);
-        Fragment emojiFragment = new EmojiconsFragment();
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.add(R.id.emojicons_frame_layout, emojiFragment).commit();
+//        //Fragment emojiFragment = new EmojiconsFragment(this, this);
+//        Fragment emojiFragment = new EmojiconsFragment();
+//        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//        transaction.add(R.id.emojicons_frame_layout, emojiFragment).commit();
         return list;
     }
 
@@ -361,9 +359,9 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
         return scheduleOption;
     }
 
-    public EmojiconEditText getMessageEditText() {
-        return messageEditText;
-    }
+//    public EmojiconEditText getMessageEditText() {
+//        return messageEditText;
+//    }
 
     public void setFirstTimeMTexterFriend(boolean firstTimeMTexterFriend) {
         this.firstTimeMTexterFriend = firstTimeMTexterFriend;
@@ -519,9 +517,9 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
         return group;
     }
 
-    public void onEmojiconBackspace() {
-        EmojiconsFragment.backspace(messageEditText);
-    }
+//    public void onEmojiconBackspace() {
+//        EmojiconsFragment.backspace(messageEditText);
+//    }
 
     public void updateUploadFailedStatus(Message message) {
         int i = messageList.indexOf(message);
@@ -761,12 +759,12 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
         });
     }
 
-    public void onEmojiconClicked(Emojicon emojicon) {
-        //TODO: Move OntextChangeListiner to EmojiEditableTExt
-        int currentPos = messageEditText.getSelectionStart();
-        messageEditText.setTextKeepState(messageEditText.getText().
-                insert(currentPos, emojicon.getEmoji()));
-    }
+//    public void onEmojiconClicked(Emojicon emojicon) {
+//        //TODO: Move OntextChangeListiner to EmojiEditableTExt
+//        int currentPos = messageEditText.getSelectionStart();
+//        messageEditText.setTextKeepState(messageEditText.getText().
+//                insert(currentPos, emojicon.getEmoji()));
+//    }
 
 
     @Override
@@ -1039,4 +1037,6 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
             new Timer().schedule(new DisappearingMessageTask(getActivity(), conversationService, sms), sms.getTimeToLive() * 60 * 1000);
         }
     }
+
+
 }

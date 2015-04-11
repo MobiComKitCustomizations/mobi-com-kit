@@ -23,10 +23,6 @@ import android.widget.TextView;
 import com.mobicomkit.MobiComKitConstants;
 import com.mobicomkit.client.ui.R;
 import com.mobicomkit.communication.message.Message;
-import com.rockerhieu.emojicon.EmojiconGridFragment;
-import com.rockerhieu.emojicon.EmojiconsFragment;
-import com.rockerhieu.emojicon.emoji.Emojicon;
-
 
 import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.broadcast.MobiComKitBroadcastReceiver;
@@ -52,9 +48,7 @@ import java.util.ArrayList;
 
 
 abstract public class MobiComActivity extends ActionBarActivity implements ActionBar.OnNavigationListener,
-        MessageCommunicator,
-        EmojiconsFragment.OnEmojiconBackspaceClickedListener,
-        EmojiconGridFragment.OnEmojiconClickedListener {
+        MessageCommunicator {
 
     private static final String TAG = "MobiComActivity";
 
@@ -274,16 +268,16 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
         }
 
     }
-
-    @Override
-    public void onEmojiconBackspaceClicked(View view) {
-        conversationFragment.onEmojiconBackspace();
-    }
-
-    @Override
-    public void onEmojiconClicked(Emojicon emojicon) {
-        conversationFragment.onEmojiconClicked(emojicon);
-    }
+//
+//    @Override
+//    public void onEmojiconBackspaceClicked(View view) {
+//        conversationFragment.onEmojiconBackspace();
+//    }
+//
+//    @Override
+//    public void onEmojiconClicked(Emojicon emojicon) {
+//        conversationFragment.onEmojiconClicked(emojicon);
+//    }
 
     protected void registerMobiTexterBroadcastReceiver() {
         IntentFilter intentFilter = new IntentFilter();
