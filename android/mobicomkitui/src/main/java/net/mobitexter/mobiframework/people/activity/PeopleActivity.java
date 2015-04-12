@@ -47,10 +47,13 @@ public class PeopleActivity extends ActionBarActivity implements ActionBar.TabLi
     public static final String SHARED_TEXT = "SHARED_TEXT";
     public static final String FORWARD_MESSAGE = "forwardMessage";
     private boolean isSearchResultView = false;
+    private static final String ARG_SECTION_NUMBER = "section_number";
 
     private SearchView searchView;
 
     private String searchTerm;
+
+    private static Map<Integer, Fragment> fragmentMap = new HashMap<Integer, Fragment>();
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -66,6 +69,15 @@ public class PeopleActivity extends ActionBarActivity implements ActionBar.TabLi
      * The {@link android.support.v4.view.ViewPager that will host the section contents.
      */
     ViewPager mViewPager;
+
+    public Map<Integer,Fragment> getFragmentMap() {
+        if (fragmentMap == null || fragmentMap.isEmpty()) {
+            fragmentMap.put(1, new ContactsListFragment());
+            fragmentMap.put(2, new MobiTexterContactsListFragment());
+            fragmentMap.put(3, new GroupListFragment());
+        }
+        return fragmentMap;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +108,7 @@ public class PeopleActivity extends ActionBarActivity implements ActionBar.TabLi
             @Override
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
-                ((SearchListFragment) PlaceholderFragment.getFragmentMap().get(mViewPager.getCurrentItem() + 1)).onQueryTextChange(searchTerm);
+                ((SearchListFragment) getFragmentMap().get(mViewPager.getCurrentItem() + 1)).onQueryTextChange(searchTerm);
                 Utils.toggleSoftKeyBoard(PeopleActivity.this, true);
             }
         });
@@ -118,7 +130,7 @@ public class PeopleActivity extends ActionBarActivity implements ActionBar.TabLi
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            ((SearchListFragment) PlaceholderFragment.getFragmentMap().get(mViewPager.getCurrentItem() + 1)).onQueryTextChange(query);
+            ((SearchListFragment) getFragmentMap().get(mViewPager.getCurrentItem() + 1)).onQueryTextChange(query);
         }
     }
 
@@ -247,7 +259,7 @@ public class PeopleActivity extends ActionBarActivity implements ActionBar.TabLi
     @Override
     public boolean onQueryTextChange(String query) {
         this.searchTerm = query;
-        ((SearchListFragment) PlaceholderFragment.getFragmentMap().get(mViewPager.getCurrentItem() + 1)).onQueryTextChange(query);
+        ((SearchListFragment) getFragmentMap().get(mViewPager.getCurrentItem() + 1)).onQueryTextChange(query);
         return false;
     }
 
@@ -263,20 +275,22 @@ public class PeopleActivity extends ActionBarActivity implements ActionBar.TabLi
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            Fragment fragment = getFragmentMap().get(position + 1);
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, position + 1);
+            fragment.setArguments(args);
+            return fragment;
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            return getFragmentMap().size();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             Locale l = Locale.getDefault();
+            //Todo: return string based on position
             switch (position) {
                 case 0:
                     return getString(R.string.mobiframework_title_section1).toUpperCase(l);
@@ -286,52 +300,6 @@ public class PeopleActivity extends ActionBarActivity implements ActionBar.TabLi
                     return getString(R.string.mobiframework_title_section3).toUpperCase(l);
             }
             return null;
-        }
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        private static Map<Integer, Fragment> fragmentMap = new HashMap<Integer, Fragment>();
-
-        public static Map<Integer, Fragment> getFragmentMap() {
-            if (fragmentMap.isEmpty()) {
-                fragmentMap.put(1, new ContactsListFragment());
-                fragmentMap.put(2, new MobiTexterContactsListFragment());
-                fragmentMap.put(3, new GroupListFragment());
-            }
-            return fragmentMap;
-        }
-
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static Fragment newInstance(int sectionNumber) {
-            //PlaceholderFragment fragment = new PlaceholderFragment();
-            Fragment fragment = getFragmentMap().get(sectionNumber);
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_contact, container, false);
-            return rootView;
         }
     }
 
