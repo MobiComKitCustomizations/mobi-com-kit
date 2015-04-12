@@ -15,7 +15,9 @@ public class EmoticonUtils {
 
     public static Spannable getSmiledText(Context context, CharSequence text,EmojiconHandler emojiHandler) {
         Spannable spannable = spannableFactory.newSpannable(text);
-        emojiHandler.addEmojis(context, spannable, Utils.dpToPx(28));
+        if(emojiHandler!=null ){
+            emojiHandler.addEmojis(context, spannable, Utils.dpToPx(28));
+        }
         return spannable;
     }
 }
