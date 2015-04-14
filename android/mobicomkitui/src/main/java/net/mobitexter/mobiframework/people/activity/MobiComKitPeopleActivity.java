@@ -18,13 +18,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
-
 
 import com.mobicomkit.client.ui.R;
 
@@ -33,15 +29,13 @@ import net.mobitexter.mobiframework.people.OnContactsInteractionListener;
 import net.mobitexter.mobiframework.people.SearchListFragment;
 import net.mobitexter.mobiframework.people.contact.ContactUtils;
 import net.mobitexter.mobiframework.people.contact.device.ContactsListFragment;
-import net.mobitexter.mobiframework.people.contact.mobitexter.MobiTexterContactsListFragment;
 import net.mobitexter.mobiframework.people.group.Group;
-import net.mobitexter.mobiframework.people.group.GroupListFragment;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class PeopleActivity extends ActionBarActivity implements ActionBar.TabListener, OnContactsInteractionListener,
+public class MobiComKitPeopleActivity extends ActionBarActivity implements ActionBar.TabListener, OnContactsInteractionListener,
         SearchView.OnQueryTextListener {
 
     public static final String SHARED_TEXT = "SHARED_TEXT";
@@ -53,7 +47,7 @@ public class PeopleActivity extends ActionBarActivity implements ActionBar.TabLi
 
     private String searchTerm;
 
-    private static Map<Integer, Fragment> fragmentMap = new HashMap<Integer, Fragment>();
+    protected static Map<Integer, Fragment> fragmentMap = new HashMap<Integer, Fragment>();
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -63,18 +57,16 @@ public class PeopleActivity extends ActionBarActivity implements ActionBar.TabLi
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    protected SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link android.support.v4.view.ViewPager that will host the section contents.
      */
-    ViewPager mViewPager;
+    protected ViewPager mViewPager;
 
     public Map<Integer,Fragment> getFragmentMap() {
         if (fragmentMap == null || fragmentMap.isEmpty()) {
             fragmentMap.put(1, new ContactsListFragment());
-            fragmentMap.put(2, new MobiTexterContactsListFragment());
-            fragmentMap.put(3, new GroupListFragment());
         }
         return fragmentMap;
     }
@@ -109,7 +101,7 @@ public class PeopleActivity extends ActionBarActivity implements ActionBar.TabLi
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
                 ((SearchListFragment) getFragmentMap().get(mViewPager.getCurrentItem() + 1)).onQueryTextChange(searchTerm);
-                Utils.toggleSoftKeyBoard(PeopleActivity.this, true);
+                Utils.toggleSoftKeyBoard(MobiComKitPeopleActivity.this, true);
             }
         });
 
@@ -199,7 +191,7 @@ public class PeopleActivity extends ActionBarActivity implements ActionBar.TabLi
         finishActivity(intent);
     }
 
-    private void finishActivity(Intent intent) {
+    public void finishActivity(Intent intent) {
         String forwardMessage = getIntent().getStringExtra(FORWARD_MESSAGE);
         if (!TextUtils.isEmpty(forwardMessage)) {
             intent.putExtra(FORWARD_MESSAGE, forwardMessage);

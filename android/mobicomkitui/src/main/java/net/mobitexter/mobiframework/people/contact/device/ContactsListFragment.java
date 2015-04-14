@@ -35,13 +35,11 @@ import android.widget.TextView;
 
 import com.mobicomkit.client.ui.R;
 
-import net.mobitexter.mobiframework.BuildConfig;
-
 import net.mobitexter.mobiframework.commons.core.utils.Utils;
 import net.mobitexter.mobiframework.commons.image.ImageLoader;
 import net.mobitexter.mobiframework.people.OnContactsInteractionListener;
 import net.mobitexter.mobiframework.people.SearchListFragment;
-import net.mobitexter.mobiframework.people.activity.PeopleActivity;
+import net.mobitexter.mobiframework.people.activity.MobiComKitPeopleActivity;
 import net.mobitexter.mobiframework.people.contact.ContactUtils;
 
 import java.io.FileDescriptor;
@@ -119,7 +117,7 @@ public class ContactsListFragment extends ListFragment implements SearchListFrag
         // Create the main contacts adapter
         mAdapter = new ContactsAdapter(getActivity());
 
-        mSearchTerm = ((PeopleActivity) getActivity()).getSearchTerm();
+        mSearchTerm = ((MobiComKitPeopleActivity) getActivity()).getSearchTerm();
 
         if (savedInstanceState != null) {
             // If we're restoring state after this fragment was recreated then

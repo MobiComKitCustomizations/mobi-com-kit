@@ -37,7 +37,7 @@ import net.mobitexter.mobiframework.commons.core.utils.Utils;
 import net.mobitexter.mobiframework.commons.image.ImageUtils;
 import net.mobitexter.mobiframework.file.FilePathFinder;
 import net.mobitexter.mobiframework.json.GsonUtils;
-import net.mobitexter.mobiframework.people.activity.PeopleActivity;
+import net.mobitexter.mobiframework.people.activity.MobiComKitPeopleActivity;
 import net.mobitexter.mobiframework.people.contact.Contact;
 import net.mobitexter.mobiframework.people.contact.ContactUtils;
 import net.mobitexter.mobiframework.people.group.Group;
@@ -152,10 +152,10 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
 
     public void startContactActivityForResult(Intent intent, Message message, String messageContent) {
         if (message != null) {
-            intent.putExtra(PeopleActivity.FORWARD_MESSAGE, GsonUtils.getJsonFromObject(message, message.getClass()));
+            intent.putExtra(MobiComKitPeopleActivity.FORWARD_MESSAGE, GsonUtils.getJsonFromObject(message, message.getClass()));
         }
         if (messageContent != null) {
-            intent.putExtra(PeopleActivity.SHARED_TEXT, messageContent);
+            intent.putExtra(MobiComKitPeopleActivity.SHARED_TEXT, messageContent);
         }
 
         startActivityForResult(intent, REQUEST_CODE_CONTACT_GROUP_SELECTION);
@@ -389,13 +389,13 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
             openConversationFragment(group);
         }
 
-        String forwardMessage = intent.getStringExtra(PeopleActivity.FORWARD_MESSAGE);
+        String forwardMessage = intent.getStringExtra(MobiComKitPeopleActivity.FORWARD_MESSAGE);
         if (!TextUtils.isEmpty(forwardMessage)) {
             Message messageToForward = (Message) GsonUtils.getObjectFromJson(forwardMessage, Message.class);
             conversationFragment.forwardMessage(messageToForward);
         }
 
-        String sharedText = intent.getStringExtra(PeopleActivity.SHARED_TEXT);
+        String sharedText = intent.getStringExtra(MobiComKitPeopleActivity.SHARED_TEXT);
         if (!TextUtils.isEmpty(sharedText)) {
             conversationFragment.sendMessage(sharedText);
         }
