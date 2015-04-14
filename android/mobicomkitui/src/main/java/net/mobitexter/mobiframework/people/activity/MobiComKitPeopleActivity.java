@@ -35,34 +35,20 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class MobiComKitPeopleActivity extends ActionBarActivity implements ActionBar.TabListener, OnContactsInteractionListener,
+public class MobiComKitPeopleActivity extends ActionBarActivity implements OnContactsInteractionListener,
         SearchView.OnQueryTextListener {
 
     public static final String SHARED_TEXT = "SHARED_TEXT";
     public static final String FORWARD_MESSAGE = "forwardMessage";
     private boolean isSearchResultView = false;
-    private static final String ARG_SECTION_NUMBER = "section_number";
+    public static final String ARG_SECTION_NUMBER = "section_number";
+    ContactsListFragment mContactsListFragment;
 
-    private SearchView searchView;
+    protected SearchView searchView;
 
-    private String searchTerm;
+    protected String searchTerm;
 
     protected static Map<Integer, Fragment> fragmentMap = new HashMap<Integer, Fragment>();
-
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    protected SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link android.support.v4.view.ViewPager that will host the section contents.
-     */
-    protected ViewPager mViewPager;
 
     public Map<Integer,Fragment> getFragmentMap() {
         if (fragmentMap == null || fragmentMap.isEmpty()) {
@@ -74,7 +60,7 @@ public class MobiComKitPeopleActivity extends ActionBarActivity implements Actio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact);
+        setContentView(R.layout.people_activity);
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
@@ -85,44 +71,24 @@ public class MobiComKitPeopleActivity extends ActionBarActivity implements Actio
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(R.string.activity_contacts_title);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mContactsListFragment = (ContactsListFragment)
+                getSupportFragmentManager().findFragmentById(R.id.contact_list);
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        // When swiping between different sections, select the corresponding
-        // tab. We can also use ActionBar.Tab#select() to do this if we have
-        // a reference to the Tab.
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
-                ((SearchListFragment) getFragmentMap().get(mViewPager.getCurrentItem() + 1)).onQueryTextChange(searchTerm);
-                Utils.toggleSoftKeyBoard(MobiComKitPeopleActivity.this, true);
-            }
-        });
-
-        // For each of the sections in the app, add a tab to the action bar.
-
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            // Create a tab with text corresponding to the page title defined by
-            // the adapter. Also specify this Activity object, which implements
-            // the TabListener interface, as the callback (listener) for when
-            // this tab is selected.
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
-        }
+        // This flag notes that the Activity is doing a search, and so the result will be
+        // search results rather than all contacts. This prevents the Activity and Fragment
+        // from trying to a search on search results.
+        isSearchResultView = true;
 
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
+
+        String searchQuery = intent.getStringExtra(SearchManager.QUERY);
+        // Set special title for search results
+        String title = getString(R.string.contacts_list_search_results_title, searchQuery);
+        setTitle(title);
+
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            ((SearchListFragment) getFragmentMap().get(mViewPager.getCurrentItem() + 1)).onQueryTextChange(query);
+            ((SearchListFragment) getFragmentMap().get(mContactsListFragment)).onQueryTextChange(searchQuery);
         }
     }
 
@@ -136,21 +102,6 @@ public class MobiComKitPeopleActivity extends ActionBarActivity implements Actio
         searchView.setOnQueryTextListener(this);
         searchView.setSubmitButtonEnabled(true);
         return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        // When the given tab is selected, switch to the corresponding page in
-        // the ViewPager.
-        mViewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
     /**
@@ -251,48 +202,8 @@ public class MobiComKitPeopleActivity extends ActionBarActivity implements Actio
     @Override
     public boolean onQueryTextChange(String query) {
         this.searchTerm = query;
-        ((SearchListFragment) getFragmentMap().get(mViewPager.getCurrentItem() + 1)).onQueryTextChange(query);
+        ((SearchListFragment) getFragmentMap().get(0)).onQueryTextChange(query);
         return false;
-    }
-
-    /**
-     * A {@link android.support.v4.app.FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            Fragment fragment = getFragmentMap().get(position + 1);
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, position + 1);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public int getCount() {
-            return getFragmentMap().size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            Locale l = Locale.getDefault();
-            //Todo: return string based on position
-            switch (position) {
-                case 0:
-                    return getString(R.string.mobiframework_title_device).toUpperCase(l);
-                case 1:
-                    return getString(R.string.mobiframework_title_mobitexter).toUpperCase(l);
-                case 2:
-                    return getString(R.string.mobiframework_title_group).toUpperCase(l);
-            }
-            return null;
-        }
     }
 
 }
