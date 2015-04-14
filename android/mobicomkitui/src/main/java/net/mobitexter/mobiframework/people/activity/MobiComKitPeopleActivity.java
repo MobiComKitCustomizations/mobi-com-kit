@@ -285,11 +285,11 @@ public class MobiComKitPeopleActivity extends ActionBarActivity implements Actio
             //Todo: return string based on position
             switch (position) {
                 case 0:
-                    return getString(R.string.mobiframework_title_section1).toUpperCase(l);
+                    return getString(R.string.mobiframework_title_device).toUpperCase(l);
                 case 1:
-                    return getString(R.string.mobiframework_title_section2).toUpperCase(l);
+                    return getString(R.string.mobiframework_title_mobitexter).toUpperCase(l);
                 case 2:
-                    return getString(R.string.mobiframework_title_section3).toUpperCase(l);
+                    return getString(R.string.mobiframework_title_group).toUpperCase(l);
             }
             return null;
         }
