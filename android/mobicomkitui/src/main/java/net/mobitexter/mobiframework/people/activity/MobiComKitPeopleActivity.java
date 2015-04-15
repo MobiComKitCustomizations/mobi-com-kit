@@ -7,12 +7,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
@@ -24,7 +20,6 @@ import android.widget.Toast;
 
 import com.mobicomkit.client.ui.R;
 
-import net.mobitexter.mobiframework.commons.core.utils.Utils;
 import net.mobitexter.mobiframework.people.OnContactsInteractionListener;
 import net.mobitexter.mobiframework.people.SearchListFragment;
 import net.mobitexter.mobiframework.people.contact.ContactUtils;
@@ -32,7 +27,6 @@ import net.mobitexter.mobiframework.people.contact.device.ContactsListFragment;
 import net.mobitexter.mobiframework.people.group.Group;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class MobiComKitPeopleActivity extends ActionBarActivity implements OnContactsInteractionListener,
@@ -64,8 +58,6 @@ public class MobiComKitPeopleActivity extends ActionBarActivity implements OnCon
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(true);
