@@ -37,6 +37,7 @@ public class RegisterUserClientService extends MobiComKitClientService {
 
         MobiComUserPreference mobiComUserPreference = MobiComUserPreference.getInstance(context);
         //mobiComUserPreference.setCountryCode(user.getCountryCode());
+        mobiComUserPreference.setUserId(user.getUserId());
         mobiComUserPreference.setContactNumber(user.getContactNumber());
         mobiComUserPreference.setEmailVerified(user.isEmailVerified());
         mobiComUserPreference.setDeviceKeyString(registrationResponse.getDeviceKeyString());
