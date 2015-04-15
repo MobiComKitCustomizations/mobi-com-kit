@@ -17,7 +17,7 @@ import java.util.TimeZone;
  */
 public class RegisterUserClientService extends MobiComKitClientService {
 
-    private static final String TAG = "RegisterUserClientService";
+    private static final String TAG = "RegisterUserClient";
 
     public RegisterUserClientService(Context context) {
         this.context = context;
@@ -46,9 +46,10 @@ public class RegisterUserClientService extends MobiComKitClientService {
         return registrationResponse;
     }
 
-    public RegistrationResponse createAccount(String email, String phoneNumber, String pushNotificationId) throws Exception {
+    public RegistrationResponse createAccount(String email, String userId, String phoneNumber, String pushNotificationId) throws Exception {
         User user = new User();
         user.setEmailId(email);
+        user.setUserId(userId);
         user.setDeviceType(Short.valueOf("1"));
         user.setPrefContactAPI(Short.valueOf("1"));
         user.setTimezone(TimeZone.getDefault().getID());
