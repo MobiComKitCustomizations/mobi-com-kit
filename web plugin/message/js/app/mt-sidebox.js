@@ -171,7 +171,7 @@
         var $mck_sidebox = $("#mck-sidebox");
         var $mck_msg_form = $("#mck-msg-form");
         var $mck_msg_sbmt = $("#mck-msg-sbmt");
-        var $messageModalLink = $("[name='MtSideboxLink']");
+        var $messageModalLink = $("[name='MckSideboxLink']");
         var $mck_msg_error = $("#mck-msg-error");
         var $mck_msg_response = $("#mck-msg-response");
         var $mck_response_text = $("#mck_response_text");
