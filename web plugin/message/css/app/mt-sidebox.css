@@ -412,7 +412,7 @@ a:hover{
 
 .msg-left:before {
     border-color: transparent;
-    border-right-color: #ddd;
+    border-right-color:  #ffc107;
     border-width: 12px;
 }
 
