@@ -214,6 +214,7 @@ function MobiComKit() {
                 }
                 var messagePxy = {
                     'to': $mck_msg_to.val(),
+                    'contactIds': $mck_msg_to.val(),
                     'deviceKeyString': USER_DEVICE_KEY,
                     'type': 5,
                     'message': message
@@ -239,8 +240,6 @@ function MobiComKit() {
                 $("#mck-textbox-container").removeClass('text-req');
             });
         };
-
-
 
         _this.sendMessage = function sendMessage(messagePxy) {
             $.ajax({
