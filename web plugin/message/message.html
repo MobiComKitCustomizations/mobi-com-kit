@@ -19,8 +19,9 @@
 
     </head>
     <body>
-        <div> <a href="#" name="MckSideboxLink" type="button" id="openMessageBox" class="btn btn-primary pull-right">
-                <span>open MessageBox</span>
+        <div> 
+            <a href="#" name="MckSideboxLink" id="openMessageBox" class="btn btn-primary pull-right">
+                <span>Start Messaging</span>
             </a>
         </div>
         <div id="mck-sidebox"  class="modal mck-sidebox fade">
@@ -86,8 +87,8 @@
 
         </div>
         <script type="text/javascript" src="js/app/mt-sidebox.js"></script>
-        <script type="text/javascript" src="http://osu-alpha.appspot.com/_ah/channel/jsapi"></script>
-        <script src="js/jquery.ui.widget.js"></script>
+        <script type="text/javascript" src="http://mobicomkit.appspot.com/_ah/channel/jsapi"></script>
+        <script type="text/javascript" src="js/jquery.ui.widget.js"></script>
         <script type="text/javascript" src="js/jquery.fileupload.js"></script>
         <script type="text/javascript" src="js/load-image.js"></script>
         <script type="text/javascript" src="js/load-image-meta.js"></script>
@@ -97,6 +98,13 @@
         <script type="text/javascript" src="emojify/emoji.js"></script>  
         <script type="text/javascript" src="js/jquery.linkify.min.js"></script>
         <script type="text/javascript" src="js/jquery.fancybox.js"></script>
+        
+        <script type="text/javascript">
+                $(document).ready(function () {
+                /* ---  initiate side box --- */
+                $("#openMessageBox").mobiComKit({userId: 'sampleuserId', emailId: 'sample@mobitexter.net', appId: 'mobitexter-texting-from-pc'});
+            });
+        </script>
 
     </body>
 </html>

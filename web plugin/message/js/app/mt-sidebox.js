@@ -13,28 +13,17 @@
     var TAGS_BLOCK = ['p', 'div', 'pre', 'form'];
     var CONTACT_MAP = new Array();
     var MckUtils = new MckUtils();
-    var MckMessageService = new MckMessageService();
-    var MckFileService = new MckFileService();
-    var MckMessageLayout = new MckMessageLayout();
-    var MckContactUtils = new MckContactUtils();
-    var MckDateUtils = new MckDateUtils();
-    var MckNotificationService = new MckNotificationService();
+    var mckMessageService = new MckMessageService();
+    var mckFileService = new MckFileService();
+    var mckMessageLayout = new MckMessageLayout();
+    var mckContactUtils = new MckContactUtils();
+    var mckDateUtils = new MckDateUtils();
+    var mckNotificationService = new MckNotificationService();
     var $mck_text_box;
-    $(document).ready(function () {
-        $mck_text_box = $("#mck-text-box");
-        MckMessageService.init();
-        MckFileService.init();
-        /* ---  initiate side box --- */
-        $("#openMessageBox").mobiComKit({userId: 'Shanki091', emailId: 'gupta.shanki91@gmail.com',
-            appId: 'mobitexter-texting-from-pc'});
-
-
-    });
-
+    
     $.mobicomkit = {
         icons: {},
         defaults: {
-            baseUrl: "http://osu-alpha.appspot.com"
         }
     };
 
@@ -46,7 +35,11 @@
 
     var Mobicomkit_Message = function (options) {
         var _this = this;
-
+        
+        mckMessageService.init();
+        mckFileService.init();
+        
+        $mck_text_box = $("#mck-text-box");
         _this.options = options;
         _this.userId = options.userId;
         _this.appId = options.appId;
@@ -96,7 +89,7 @@
                 $("#mck-textbox-container").removeClass('mck-textbox-container-wf');
 
                 if (FILE_METAS !== "") {
-                    MckFileService.deleteFileMeta(FILE_METAS);
+                    mckFileService.deleteFileMeta(FILE_METAS);
                     FILE_METAS = "";
                 }
             });
@@ -187,7 +180,7 @@
                 $mck_response_text.html("");
                 $mck_msg_response.removeClass('show').addClass('hide');
                 $mck_msg_form[0].reset();
-                MckMessageService.addMessageList();
+                mckMessageService.addMessageList();
                 $mck_sidebox.modal();
                 $mck_msg_to.focus();
             });
@@ -250,7 +243,7 @@
 
 
                     } else {
-                        MckMessageLayout.clearMessageField();
+                        mckMessageLayout.clearMessageField();
                     }
 
                 },
@@ -273,11 +266,11 @@
                     if (data + '' == "null") {
                         //no data
                     } else if (typeof data.message.length == "undefined") {
-                        MckMessageLayout.addMessage(data.message, false);
+                        mckMessageLayout.addMessage(data.message, false);
                     } else {
                         $.each(data.message, function (i, data) {
                             if (!(typeof data.to == "undefined")) {
-                                MckMessageLayout.addMessage(data, false);
+                                mckMessageLayout.addMessage(data, false);
                             }
                         });
                     }
@@ -419,7 +412,7 @@
             if (msg.type == 0 || msg.type == 4 || msg.type == 6) {
                 floatWhere = "msg-left";
             }
-            statusIcon = MckMessageLayout.getStatusIconName(msg);
+            statusIcon = mckMessageLayout.getStatusIconName(msg);
             var replyId = msg.keyString;
             var replyMessageParameters = "'" + msg.deviceKeyString + "'," + "'" + msg.to + "'" + ",'" + msg.contactIds + "'" + ",'" + replyId + "'";
             var contactIds = msg.contactIds;
@@ -443,7 +436,7 @@
                         var contactId = contactIdsArray[i];
                         contact = {
                             'contactId': contactId,
-                            'htmlId': MckContactUtils.formatContactId(contactId),
+                            'htmlId': mckContactUtils.formatContactId(contactId),
                             'displayName': contactId,
                             'name': contactId + " <" + contactId + ">" + " [" + "Main" + "]",
                             'value': contactId,
@@ -503,7 +496,7 @@
                     msgFloatExpr: floatWhere,
                     contactNamesExpr: contactNames,
                     replyIdExpr: replyId,
-                    createdAtTimeExpr: MckDateUtils.getDate(msg.createdAtTime),
+                    createdAtTimeExpr: mckDateUtils.getDate(msg.createdAtTime),
                     msgFeatExpr: msgFeatExpr,
                     replyMessageParametersExpr: replyMessageParameters,
                     msgClassExpr: messageClass,
@@ -522,7 +515,7 @@
             var $textMessage = $("#text-" + replyId);
             $textMessage.html(emoji_template);
             if (msg.type == 6 || msg.type == 7) {
-                $textMessage.html(MckMessageLayout.getIcon(msg.type) + $textMessage.html());
+                $textMessage.html(mckMessageLayout.getIcon(msg.type) + $textMessage.html());
                 (msg.type == 6) ? $textMessage.addClass("call_incoming") : $textMessage.addClass('call_outgoing');
             }
             $textMessage.linkify({
@@ -640,7 +633,7 @@
                 submit: function (e, data) {
                     var $this = $(this);
                     if (FILE_METAS !== "") {
-                        MckFileService.deleteFileMeta(FILE_METAS);
+                        mckFileService.deleteFileMeta(FILE_METAS);
                         FILE_METAS = "";
                     }
                     $mck_text_box.addClass('mck-text-wf');
@@ -685,7 +678,7 @@
                             );
                 },
                 success: function (result, textStatus, jqXHR) {
-                    var fileExpr = MckFileService.getFilePreviewPath(result, $("#mck-file-box .mck-file-lb a").html());
+                    var fileExpr = mckFileService.getFilePreviewPath(result, $("#mck-file-box .mck-file-lb a").html());
                     $file_remove.attr("disabled", false);
                     $file_name.html(fileExpr);
                     $file_progress.removeClass('show').addClass('hide');
@@ -768,7 +761,7 @@
     }
 
     onError = function () {
-        MckNotificationService.getChannelToken();
+        mckNotificationService.getChannelToken();
     };
     onOpened = function () {
         connected = true;
@@ -783,7 +776,7 @@
         if (messageType.indexOf("SMS") != -1) {
             var message = JSON.parse(resp.message);
             if (messageType == "SMS_RECEIVED") {
-                MckMessageLayout.addMessage(message, true);
+                mckMessageLayout.addMessage(message, true);
                 //Todo: use contactNumber instead of contactId for Google Contacts API.
                 var contactId = message.contactIds.replace(",", "");
                 if (resp.notifyUser) {
@@ -791,14 +784,14 @@
                 }
 
             } else if (messageType === "SMS_SENDING") {
-                MckMessageLayout.addMessage(message, true);
+                mckMessageLayout.addMessage(message, true);
                 if (message.type == 3) {
                     $("." + message.keyString + "_status").removeClass('icon-time').addClass('icon-ok-circle');
-                    MckMessageLayout.addTooltip(message.keyString);
+                    mckMessageLayout.addTooltip(message.keyString);
                 }
             } else if (messageType === "SMS_SENT_UPDATE" && message.type != 0 && message.type != 4) {
                 $("." + message.keyString + "_status").removeClass('icon-time').addClass('icon-ok-circle');
-                MckMessageLayout.addTooltip(message.keyString);
+                mckMessageLayout.addTooltip(message.keyString);
             }
         }
     };
