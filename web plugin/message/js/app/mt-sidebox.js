@@ -1,4 +1,28 @@
 (function ($) {
+
+    var mobiComKit = new MobiComKit();
+    
+    var default_options = {
+        icons: {},
+        defaults: {
+            baseUrl: "http://mobicomkit.appspot.com",
+            launcher: "mobicomkit-launcher"
+        }
+    };
+    
+    $.fn.mobicomkit = function (options) {
+        options = $.extend({}, default_options.defaults, options);
+        mobiComKit.init(options);
+    };
+    
+}(jQuery));
+
+function MobiComKit() {
+    
+    this.init = function(options) {
+        new Mobicomkit_Message(options);
+    };
+
     var MCK_BASE_URL;
     var MCK_TOKEN;
     var APPLICATION_ID;
@@ -20,23 +44,11 @@
     var mckDateUtils = new MckDateUtils();
     var mckNotificationService = new MckNotificationService();
     var $mck_text_box;
-    
-    $.mobicomkit = {
-        icons: {},
-        defaults: {
-        }
-    };
-
-
-    $.fn.mobiComKit = function (options) {
-        options = $.extend({}, $.mobicomkit.defaults, options);
-        new Mobicomkit_Message(options);
-    };
 
     var Mobicomkit_Message = function (options) {
         var _this = this;
         
-        mckMessageService.init();
+        mckMessageService.init(options);
         mckFileService.init();
         
         $mck_text_box = $("#mck-text-box");
@@ -49,9 +61,11 @@
 
         MckUtils.initializeApp(options);
     };
+    
     function MckUtils() {
         var _this = this;
         var INITIALIZE_APP_URL = "/tab/initialize.page";
+        
         _this.initializeApp = function initializeApp(options) {
             var data = "applicationId=" + options.appId + "&userId=" + options.userId + "&emailId=" + options.emailId;
             $.getJSON(MCK_BASE_URL + INITIALIZE_APP_URL + "?" + data, function (result, status) {
@@ -66,7 +80,6 @@
                     AUTH_CODE = btoa(result.emailId + ":" + result.deviceKeyString);
                     $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
                         if (!options.beforeSend) {
-
                             options.beforeSend = function (jqXHR) {
                                 jqXHR.setRequestHeader("Authorization", "Basic " + AUTH_CODE);
                                 jqXHR.setRequestHeader("Application-Key", APPLICATION_ID);
@@ -79,6 +92,7 @@
                     alert("Unable to initiate app");
                 }
             });
+            
             $(document).on("click", ".mck-remove-file", function () {
                 $("#mck-file-box .mck-file-lb").html("");
                 $("#mck-file-box .mck-file-sz").html("");
@@ -93,10 +107,9 @@
                     FILE_METAS = "";
                 }
             });
+            
             $(document).on("click", ".fancybox", function (e) {
-
                 var href = $(this).find('img').data('imgurl');
-
                 $(this).fancybox({
                     openEffect: 'none',
                     closeEffect: 'none',
@@ -104,9 +117,9 @@
                     'href': href,
                     'type': 'image'
                 });
-
             });
         };
+        
         _this.textVal = function () {
             var lines = [];
             var line = [];
@@ -123,13 +136,15 @@
                     var tagName = node.tagName.toLowerCase();
                     var isBlock = TAGS_BLOCK.indexOf(tagName) !== -1;
 
-                    if (isBlock && line.length)
+                    if (isBlock && line.length) {
                         flush();
-
+                    }
+                    
                     if (tagName === 'img') {
                         var alt = node.getAttribute('alt') || '';
-                        if (alt)
+                        if (alt) {
                             line.push(alt);
+                        }
                         return;
                     } else if (tagName === 'br') {
                         flush();
@@ -140,8 +155,9 @@
                         sanitizeNode(children[i]);
                     }
 
-                    if (isBlock && line.length)
+                    if (isBlock && line.length) {
                         flush();
+                    }
                 }
             };
 
@@ -150,8 +166,9 @@
                 sanitizeNode(children[i]);
             }
 
-            if (line.length)
+            if (line.length) {
                 flush();
+            }
 
             return lines.join('\n');
         };
@@ -164,15 +181,14 @@
         var $mck_sidebox = $("#mck-sidebox");
         var $mck_msg_form = $("#mck-msg-form");
         var $mck_msg_sbmt = $("#mck-msg-sbmt");
-        var $messageModalLink = $("[name='MckSideboxLink']");
         var $mck_msg_error = $("#mck-msg-error");
         var $mck_msg_response = $("#mck-msg-response");
         var $mck_response_text = $("#mck_response_text");
         var $mck_msg_to = $("#mck-msg-to");
+        var $messageModalLink;
 
-
-        _this.init = function init() {
-
+        _this.init = function init(options) {
+            $messageModalLink = $("[name='" + options.launcher + "']");
             $messageModalLink.click(function (e) {
                 $('.modal').modal('hide');
                 $mck_msg_error.html("");
@@ -929,4 +945,4 @@
             ]
         };
     }
-}(jQuery));
+};

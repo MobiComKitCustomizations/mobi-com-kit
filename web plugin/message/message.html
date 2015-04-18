@@ -20,7 +20,7 @@
     </head>
     <body>
         <div> 
-            <a href="#" name="MckSideboxLink" id="openMessageBox" class="btn btn-primary pull-right">
+            <a href="#" name="mobicomkit-launcher" class="btn btn-primary pull-right">
                 <span>Start Messaging</span>
             </a>
         </div>
@@ -101,9 +101,9 @@
         
         <script type="text/javascript">
                 $(document).ready(function () {
-                /* ---  initiate side box --- */
-                $("#openMessageBox").mobiComKit({userId: 'sampleuserId', emailId: 'sample@mobitexter.net', appId: 'mobitexter-texting-from-pc'});
-            });
+                    /* ---  Initialize MobiComKit --- */
+                    $.fn.mobicomkit({userId: 'sampleuserId', emailId: 'sample@mobitexter.net', appId: 'mobitexter-texting-from-pc'});
+                });
         </script>
 
     </body>
