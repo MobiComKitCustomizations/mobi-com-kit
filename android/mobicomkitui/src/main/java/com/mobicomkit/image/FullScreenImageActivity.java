@@ -14,12 +14,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
-import com.ipaulpro.afilechooser.utils.FileUtils;
 import com.mobicomkit.MobiComKitConstants;
 import com.mobicomkit.client.ui.R;
 import com.mobicomkit.attachment.AttachmentView;
 import com.mobicomkit.communication.message.Message;
 
+import net.mobitexter.mobicom.FileUtils;
 import net.mobitexter.mobiframework.json.GsonUtils;
 
 import java.io.File;

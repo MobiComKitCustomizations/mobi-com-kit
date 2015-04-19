@@ -10,11 +10,12 @@ import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 
-import com.ipaulpro.afilechooser.utils.FileUtils;
 
 import com.mobicomkit.client.ui.R;
 import com.mobicomkit.userinterface.MobiComActivity;
 import com.mobicomkit.attachment.FileClientService;
+
+import net.mobitexter.mobicom.FileUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

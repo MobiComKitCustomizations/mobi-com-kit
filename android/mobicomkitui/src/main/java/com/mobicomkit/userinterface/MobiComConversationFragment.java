@@ -47,7 +47,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ipaulpro.afilechooser.utils.FileUtils;
+
 import com.mobicomkit.MobiComKitConstants;
 import com.mobicomkit.communication.message.Message;
 
@@ -65,6 +65,8 @@ import com.mobicomkit.communication.message.schedule.ScheduledTimeHolder;
 import com.mobicomkit.communication.message.selfdestruct.DisappearingMessageTask;
 import com.mobicomkit.instruction.InstructionUtil;
 import com.mobicomkit.user.MobiComUserPreference;
+
+import net.mobitexter.mobicom.FileUtils;
 import net.mobitexter.mobiframework.commons.core.utils.Support;
 import net.mobitexter.mobiframework.commons.core.utils.Utils;
 import net.mobitexter.mobiframework.emoticon.EmojiconHandler;
