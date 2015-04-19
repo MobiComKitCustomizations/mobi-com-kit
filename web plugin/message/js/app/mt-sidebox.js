@@ -5,7 +5,7 @@
     var default_options = {
         icons: {},
         defaults: {
-            baseUrl: "http://mobicomkit.appspot.com",
+            baseUrl: "http://mobi-com-alpha.appspot.com",
             launcher: "mobicomkit-launcher"
         }
     };
@@ -412,6 +412,7 @@ function MobiComKit() {
 
             return "";
         };
+        
         _this.addMessage = function addMessage(msg, append) {
             if (msg.type == 6 || msg.type == 7) {
                 return;
@@ -543,6 +544,9 @@ function MobiComKit() {
                     $textMessage.hide();
                 }
             }
+            
+            var messageListBox = $('#mck-message-cell');
+            messageListBox.animate({scrollTop: messageListBox.prop("scrollHeight")}, 500);
 
             this.addTooltip(msg.keyString);
         };
