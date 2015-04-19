@@ -1,6 +1,5 @@
 package com.mobicomkit.client.ui.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,23 +15,23 @@ import android.widget.Toast;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
-import com.mobicomkit.broadcast.MobiComKitBroadcastReceiver;
 import com.mobicomkit.GeneralConstants;
+import com.mobicomkit.broadcast.BroadcastService;
+import com.mobicomkit.broadcast.MobiComKitBroadcastReceiver;
+import com.mobicomkit.client.ui.MessageIntentService;
 import com.mobicomkit.client.ui.MobiComKitApplication;
 import com.mobicomkit.client.ui.R;
-
-import com.mobicomkit.client.ui.MessageIntentService;
 import com.mobicomkit.client.ui.message.conversation.ConversationFragment;
 import com.mobicomkit.client.ui.message.conversation.QuickConversationFragment;
-import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.communication.message.Message;
 import com.mobicomkit.communication.message.MobiComMessageService;
 import com.mobicomkit.instruction.InstructionUtil;
 import com.mobicomkit.user.MobiComUserPreference;
 import com.mobicomkit.user.UserClientService;
 import com.mobicomkit.userinterface.MobiComActivity;
+
 import net.mobitexter.mobiframework.commons.core.utils.Support;
-import net.mobitexter.mobiframework.people.activity.PeopleActivity;
+import net.mobitexter.mobiframework.people.activity.MobiComKitPeopleActivity;
 
 
 /**
@@ -155,26 +154,9 @@ public class SlidingPaneActivity extends MobiComActivity {
     }
 
     @Override
-    public void startContactActivityForResult(Message sms, String message) {
-        final Activity activity = this;
-        Intent intent = new Intent(this, PeopleActivity.class);
-
-       /* ArrayList<String> mtContactIds = (ArrayList<String>) ContactService.getMTContactIds(activity);
-        if (mtContactIds == null || mtContactIds.isEmpty()) {
-            if (!UserPreferences.getInstance(activity).isMobiTexterContactSyncCompleted()) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ContactService.updateMobiTexterUsers(activity);
-                    }
-                }).start();
-            } else {
-                intent.putExtra(MobiTexterContactsListFragment.SYNC_STATUS, false);
-            }
-        }
-        intent.putStringArrayListExtra(MobiTexterContactsListFragment.MT_CONTACTS,  mtContactIds);*/
-
-        super.startContactActivityForResult(intent, sms, message);
+    public void startContactActivityForResult(Message message, String messageContent) {
+        Intent intent = new Intent(this, MobiComKitPeopleActivity.class);
+        super.startContactActivityForResult(intent, message, messageContent);
 
     }
 

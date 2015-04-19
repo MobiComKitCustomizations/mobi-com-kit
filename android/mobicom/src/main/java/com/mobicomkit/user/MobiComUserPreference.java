@@ -28,6 +28,7 @@ public class MobiComUserPreference {
     private static String last_message_stat_sync_time="last_message_stat_sync_time";
     private static String sent_sms_sync_pref_key="sent_sms_sync_pref_key";
     private static String email="email";
+    private static final String USER_ID = "userId";
     private static String email_verified="email_verified";
     private static String user_key_string="user_key_string";
     private static String stop_service="stop_service";
@@ -140,6 +141,18 @@ public class MobiComUserPreference {
 
     public String getEmailIdValue() {
         return sharedPreferences.getString(email, null);
+    }
+
+    public void setUserId(String userId) {
+        sharedPreferences.edit().putString(USER_ID, userId).commit();
+    }
+
+    public String getUserId() {
+        String userId = sharedPreferences.getString(USER_ID, null);
+        if (TextUtils.isEmpty(userId)) {
+            return getEmailIdValue();
+        }
+        return userId;
     }
 
     public void setEmailVerified(boolean emailVerified) {

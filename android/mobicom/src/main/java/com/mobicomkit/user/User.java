@@ -14,7 +14,7 @@ public class User implements Serializable {
     private String applicationId;
     private String contactNumber;
     private String countryCode;
-    private Short prefContactAPI = Short.valueOf("1");
+    private Short prefContactAPI = Short.valueOf("2");
     private boolean emailVerified = true;
     private String timezone;
     private Short appVersionCode;

@@ -38,7 +38,7 @@ public class MobiComConversationService {
         this.messageDatabaseService = new MessageDatabaseService(context);
     }
 
-    public synchronized List<Message> getQuickMessages(boolean loadMore, long createdAt) {
+    public synchronized List<Message> getQuickMessages(long createdAt) {
         boolean emptyTable = messageDatabaseService.isMessageTableEmpty();
 
         if (emptyTable) {

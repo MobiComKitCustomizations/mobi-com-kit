@@ -298,7 +298,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                new RegisterUserClientService(LoginActivity.this).createAccount(mEmail, "", "");
+                new RegisterUserClientService(LoginActivity.this).createAccount(mEmail, mEmail, "", "");
             } catch (Exception e) {
                 e.printStackTrace();
             }

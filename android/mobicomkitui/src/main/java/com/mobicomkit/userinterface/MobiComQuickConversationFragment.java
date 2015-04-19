@@ -266,7 +266,7 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
 
         protected Long doInBackground(Void... voids) {
             if (initial) {
-                nextMessageList = conversationService.getQuickMessages(false, 0L);
+                nextMessageList = conversationService.getQuickMessages(0L);
                 if (!nextMessageList.isEmpty()) {
                     minCreatedAtTime = nextMessageList.get(nextMessageList.size() - 1).getCreatedAtTime();
                 }
@@ -278,7 +278,7 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
                 } else {
                     minCreatedAtTime = Math.min(minCreatedAtTime, createdAt);
                 }
-                nextMessageList = conversationService.getQuickMessages(true, minCreatedAtTime);
+                nextMessageList = conversationService.getQuickMessages(minCreatedAtTime);
             }
 
             return 0L;
