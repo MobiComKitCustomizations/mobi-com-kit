@@ -190,14 +190,18 @@ function MobiComKit() {
         _this.init = function init(options) {
             $messageModalLink = $("[name='" + options.launcher + "']");
             $messageModalLink.click(function (e) {
-                $('.modal').modal('hide');
+                
                 $mck_msg_error.html("");
                 $mck_msg_error.removeClass('show').addClass('hide');
                 $mck_response_text.html("");
                 $mck_msg_response.removeClass('show').addClass('hide');
                 $mck_msg_form[0].reset();
-                mckMessageService.addMessageList();
-                $mck_sidebox.modal();
+                $("#mck-message-inner").html("");
+                mckMessageService.loadMessageList($(this).data("mck-id"));
+                if ($mck_sidebox.css('display') == 'none') {
+                    $('.modal').modal('hide');
+                    $mck_sidebox.modal();
+                }
                 $mck_msg_to.focus();
             });
 
@@ -273,9 +277,15 @@ function MobiComKit() {
             return false;
         };
 
-        _this.addMessageList = function addMessageList() {
+        _this.loadMessageList = function loadMessageList(userId) {
+            var userIdParam = "";            
+            if (typeof userId !== "undefined") {
+                userIdParam = "&userId=" + userId;
+                $("#mck-msg-to").val(userId);
+            }
+            
             $.ajax({
-                url: MCK_BASE_URL + MESSAGE_LIST_URL + "?startIndex=0&pageSize=5",
+                url: MCK_BASE_URL + MESSAGE_LIST_URL + "?startIndex=0&pageSize=10&userId=" + userIdParam,
                 type: 'get',
                 success: function (data, status) {
                     if (data + '' == "null") {
@@ -546,7 +556,7 @@ function MobiComKit() {
             }
             
             var messageListBox = $('#mck-message-cell');
-            messageListBox.animate({scrollTop: messageListBox.prop("scrollHeight")}, 500);
+            messageListBox.animate({scrollTop: messageListBox.prop("scrollHeight")}, 0);
 
             this.addTooltip(msg.keyString);
         };
