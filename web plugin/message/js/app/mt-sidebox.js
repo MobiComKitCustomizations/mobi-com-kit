@@ -285,7 +285,7 @@ function MobiComKit() {
             }
             
             $.ajax({
-                url: MCK_BASE_URL + MESSAGE_LIST_URL + "?startIndex=0&pageSize=10&userId=" + userIdParam,
+                url: MCK_BASE_URL + MESSAGE_LIST_URL + "?startIndex=0&pageSize=10" + userIdParam,
                 type: 'get',
                 success: function (data, status) {
                     if (data + '' == "null") {
