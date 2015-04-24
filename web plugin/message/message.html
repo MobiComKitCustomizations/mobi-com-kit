@@ -1,4 +1,3 @@
-
 <html>
 
     <head>
@@ -19,14 +18,24 @@
 
     </head>
     <body>
-        <div> 
-            <a href="#" name="mobicomkit-launcher" class="btn btn-primary pull-right">
+        <div>
+            <a href="#" name="mobicomkit-launcher" class="btn btn-primary">
                 <span>Start Messaging</span>
+            </a>            
+        </div>
+        
+        <div>
+            <a href="#" name="mobicomkit-launcher" data-mck-id="adarsh.cse.hit@gmail.com" class="btn">
+                Adarsh
+            </a>
+            <a href="#" name="mobicomkit-launcher" data-mck-id="devashish.mamgain@mobitexter.net" class="btn">
+                Devashish
             </a>
         </div>
+        
         <div id="mck-sidebox"  class="modal mck-sidebox fade">
             <div  class="modal-dialog modal-sm right bg-white md-box-s">
-                <div class="modal-conten mck-sidebox-content">
+                <div class="modal-content mck-sidebox-content">
                     <div class="modal-header mck-box-top">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h2 class="modal-title mck-box-title"><strong>Conversation</strong></h2>
@@ -35,9 +44,6 @@
                         <div id="mck-message-cell" class="mck-message-cell">
                             <div class="mck-message-inner"></div>
                         </div>
-
-
-
                     </div>
                     <div class="modal-footer mck-box-ft">
                         <div class="modal-form">
@@ -52,7 +58,6 @@
                                     <label class="sr-only placeholder-text control-label" for="mt-ms-to">To:</label>
                                     <input class="form-control" id="mck-msg-to" name="mt-ms-to" placeholder="To" required>
                                 </div>
-
 
                                 <div class="form-group">
                                     <label class="sr-only placeholder-text control-label" for="mck-textbox">Message</label>
@@ -77,15 +82,16 @@
 
                                     <label id="mck-file-up" class= "fileinput-button file-upload pull-right" title="Attach File">
                                         <button type="button" class="btn btn-secondary" title="Attach File"><img src="images/ic_action_attachment.png" alt="Attach file"></img></button>
-                                        <input type="file" name="files[]"></label>
+                                        <input type="file" name="files[]">
+                                    </label>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
+        
         <script type="text/javascript" src="js/app/mt-sidebox.js"></script>
         <script type="text/javascript" src="http://mobicomkit.appspot.com/_ah/channel/jsapi"></script>
         <script type="text/javascript" src="js/jquery.ui.widget.js"></script>
@@ -98,17 +104,14 @@
         <script type="text/javascript" src="emojify/emoji.js"></script>  
         <script type="text/javascript" src="js/jquery.linkify.min.js"></script>
         <script type="text/javascript" src="js/jquery.fancybox.js"></script>
-        
+
         <script type="text/javascript">
-                $(document).ready(function () {
-                    /* ---  Initialize MobiComKit --- */
-                    $.fn.mobicomkit({userId: 'sampleuserId', emailId: 'sample@mobitexter.net', appId: 'mobitexter-texting-from-pc'});
-                });
+            $(document).ready(function () {
+                /* ---  Initialize MobiComKit --- */
+                $.fn.mobicomkit({userId: 'misha.hubner@gmail.com', emailId: 'misha.hubner@gmail.com', appId: '21cd92e5f49902fa6089cb042'});
+                
+            });
         </script>
 
     </body>
 </html>
-
-
-
-

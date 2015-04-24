@@ -52,7 +52,7 @@ public class RegisterUserClientService extends MobiComKitClientService {
         user.setEmailId(email);
         user.setUserId(userId);
         user.setDeviceType(Short.valueOf("1"));
-        user.setPrefContactAPI(Short.valueOf("1"));
+        user.setPrefContactAPI(Short.valueOf("2"));
         user.setTimezone(TimeZone.getDefault().getID());
         user.setRegistrationId(pushNotificationId);
         MobiComUserPreference mobiComUserPreference = MobiComUserPreference.getInstance(context);
