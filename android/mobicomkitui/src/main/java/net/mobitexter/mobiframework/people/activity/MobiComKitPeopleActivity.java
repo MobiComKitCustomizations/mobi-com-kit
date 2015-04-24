@@ -35,21 +35,9 @@ public class MobiComKitPeopleActivity extends ActionBarActivity implements OnCon
     public static final String SHARED_TEXT = "SHARED_TEXT";
     public static final String FORWARD_MESSAGE = "forwardMessage";
     private boolean isSearchResultView = false;
-    public static final String ARG_SECTION_NUMBER = "section_number";
     ContactsListFragment mContactsListFragment;
-
     protected SearchView searchView;
-
     protected String searchTerm;
-
-    protected static Map<Integer, Fragment> fragmentMap = new HashMap<Integer, Fragment>();
-
-    public Map<Integer,Fragment> getFragmentMap() {
-        if (fragmentMap == null || fragmentMap.isEmpty()) {
-            fragmentMap.put(1, new ContactsListFragment());
-        }
-        return fragmentMap;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +68,7 @@ public class MobiComKitPeopleActivity extends ActionBarActivity implements OnCon
         setTitle(title);
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            ((SearchListFragment) getFragmentMap().get(mContactsListFragment)).onQueryTextChange(searchQuery);
+            mContactsListFragment.onQueryTextChange(searchQuery);
         }
     }
 
@@ -194,7 +182,7 @@ public class MobiComKitPeopleActivity extends ActionBarActivity implements OnCon
     @Override
     public boolean onQueryTextChange(String query) {
         this.searchTerm = query;
-        ((SearchListFragment) getFragmentMap().get(0)).onQueryTextChange(query);
+        mContactsListFragment.onQueryTextChange(query);
         return false;
     }
 
