@@ -283,6 +283,7 @@ function MobiComKit() {
                 userIdParam = "&userId=" + userId;
                 $("#mck-msg-to").val(userId);
             }
+            $("#mck-message-cell .mck-message-inner").html("");
             
             $.ajax({
                 url: MCK_BASE_URL + MESSAGE_LIST_URL + "?startIndex=0&pageSize=10" + userIdParam,
@@ -334,15 +335,12 @@ function MobiComKit() {
                 '</div></div>';
         $.template("messageTemplate", markup);
 
-
-
         _this.addTooltip = function addTooltip(msgKeyString) {
             $("." + msgKeyString + " .icon-time").data('tooltip', false).tooltip({
                 placement: "left",
                 trigger: "hover",
                 title: "pending"
             });
-
             $("." + msgKeyString + " .btn-trash").data('tooltip', false).tooltip({
                 placement: "left",
                 trigger: "hover",
@@ -363,16 +361,6 @@ function MobiComKit() {
                 trigger: "hover",
                 title: "delivered"
             });
-            $("." + msgKeyString + " .btn-icon-share").data('tooltip', false).tooltip({
-                placement: "left",
-                trigger: "hover",
-                title: "share on facebook"
-            });
-            $("." + msgKeyString + " .btn-icon-facebook").data('tooltip', false).tooltip({
-                placement: "left",
-                trigger: "hover",
-                title: "already shared on facebook"
-            });
             $("." + msgKeyString + " .msgtype-outbox-cr").data('tooltip', false).tooltip({
                 placement: "right",
                 trigger: "hover",
@@ -381,7 +369,7 @@ function MobiComKit() {
             $("." + msgKeyString + " .msgtype-outbox-mck").data('tooltip', false).tooltip({
                 placement: "right",
                 trigger: "hover",
-                title: "sent via MT"
+                title: "sent"
             });
             $("." + msgKeyString + " .msgtype-inbox-cr").data('tooltip', false).tooltip({
                 placement: "right",
@@ -391,7 +379,7 @@ function MobiComKit() {
             $("." + msgKeyString + " .msgtype-inbox-mck").data('tooltip', false).tooltip({
                 placement: "right",
                 trigger: "hover",
-                title: "recieved via MT"
+                title: "recieved"
             });
         };
 
