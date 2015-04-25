@@ -5,7 +5,7 @@
     var default_options = {
         icons: {},
         defaults: {
-            baseUrl: "http://mobi-com.appspot.com",
+            baseUrl: "http://mobi-com-alpha.appspot.com",
             launcher: "mobicomkit-launcher"
         }
     };
@@ -259,8 +259,6 @@ function MobiComKit() {
                     if (data === 'error') {
                         $mck_msg_error.html("Unable to process your request. Please try again");
                         $mck_msg_error.removeClass('hide').addClass('show');
-
-
                     } else {
                         mckMessageLayout.clearMessageField();
                     }
@@ -328,6 +326,8 @@ function MobiComKit() {
 
         var FILE_PREVIEW_URL = "/rest/ws/file/shared/";
         var _this = this;
+        var $mck_msg_sbmt = $("#mck-msg-sbmt");
+
         var markup = '<div class="row-fluid m-b"><div class="clear"><div class="col-lg-12"><div name="message" data-msgtype="${msgTypeExpr}" data-msgdelivered="${msgDeliveredExpr}" data-msgsent="${msgSentExpr}" data-msgtime="${msgCreatedAtTime}" data-msgcontent="${replyIdExpr}"  data-msgkeystring="${msgKeyExpr}" data-contact="${contactIdsExpr}" class="${msgFloatExpr} mck-msg-box ${msgKeyExpr} ${msgClassExpr}">' +
                 '<div class="mck-msg-text" id="text-${replyIdExpr}"></div>' +
                 '<div  id="file-${replyIdExpr}" class="mck-msg-text notranslate span12 attachment hide" data-filemetakeystring="${fileMetaKeyExpr}" data-filename="${fileNameExpr}" data-filesize="${fileSizeExpr}">{{html fileExpr}}</div>' +
@@ -606,19 +606,15 @@ function MobiComKit() {
         _this.clearMessageField = function clearMessageField() {
             var $mck_textbox_container = $("#mck-textbox-container");
             $mck_text_box.html("");
-            $("#mck-msg-sbmt").attr('disabled', false);
+            $mck_msg_sbmt.attr('disabled', false);
             $("#mck-file-box").removeClass('show').addClass('hide');
             $mck_text_box.removeClass('mck-text-wf');
             $mck_textbox_container.removeClass('text-req');
             $mck_textbox_container.removeClass('mck-textbox-container-wf');
-            $mck_text_box.attr("required", "");
-            $("#mck-msg-to").val("");
+            $mck_text_box.attr("required", "");            
         };
 
-
     }
-
-
 
     function MckFileService() {
         var _this = this;
