@@ -326,6 +326,7 @@ function MobiComKit() {
 
     function MckMessageLayout() {
 
+        var FILE_PREVIEW_URL = "/rest/ws/file/shared/";
         var _this = this;
         var markup = '<div class="row-fluid m-b"><div class="clear"><div class="col-lg-12"><div name="message" data-msgtype="${msgTypeExpr}" data-msgdelivered="${msgDeliveredExpr}" data-msgsent="${msgSentExpr}" data-msgtime="${msgCreatedAtTime}" data-msgcontent="${replyIdExpr}"  data-msgkeystring="${msgKeyExpr}" data-contact="${contactIdsExpr}" class="${msgFloatExpr} mck-msg-box ${msgKeyExpr} ${msgClassExpr}">' +
                 '<div class="mck-msg-text" id="text-${replyIdExpr}"></div>' +
@@ -548,29 +549,30 @@ function MobiComKit() {
 
             this.addTooltip(msg.keyString);
         };
+        
         _this.getImagePath = function getImagePath(msg) {
             if (msg.fileMetaKeyStrings && typeof msg.fileMetas != "undefined") {
                 if (typeof msg.fileMetas.length === "undefined") {
                     if (msg.fileMetas.contentType.indexOf("image") != -1) {
                         if (msg.fileMetas.contentType.indexOf("svg") != -1) {
-                            return '<a href="#" role="link" class="file-preview-link fancybox-media fancybox"><img src="/rest/ws/file/' + msg.fileMetaKeyStrings + '" area-hidden="true" data-imgurl="' + MCK_BASE_URL + '/rest/ws/file/' + msg.fileMetaKeyStrings + '"></img></a>';
+                            return '<a href="#" role="link" class="file-preview-link fancybox-media fancybox"><img src="' + MCK_BASE_URL + FILE_PREVIEW_URL + msg.fileMetaKeyStrings + '" area-hidden="true" data-imgurl="' + MCK_BASE_URL + FILE_PREVIEW_URL + msg.fileMetaKeyStrings + '"></img></a>';
                         } else {
-                            return '<a href="#" role="link" class="file-preview-link fancybox-media fancybox"><img src="' + msg.fileMetas.thumbnailUrl + '" area-hidden="true" data-imgurl="' + MCK_BASE_URL + '/rest/ws/file/' + msg.fileMetaKeyStrings + '"></img></a>';
+                            return '<a href="#" role="link" class="file-preview-link fancybox-media fancybox"><img src="' + msg.fileMetas.thumbnailUrl + '" area-hidden="true" data-imgurl="' + MCK_BASE_URL + FILE_PREVIEW_URL + msg.fileMetaKeyStrings + '"></img></a>';
                         }
 
                     } else {
-                        return '<a href="' + MCK_BASE_URL + '/rest/ws/file/' + msg.fileMetaKeyStrings + '" role="link" class="file-preview-link" target="_blank"><span class="file-detail"><div class="file-name"><i class="icon-paperclip"></i>&nbsp;' + msg.fileMetas.name + '</div>&nbsp;<div class="file-size">' + fileService.getFilePreviewSize(msg.fileMetas.size) + '</div></span></a>';
+                        return '<a href="' + MCK_BASE_URL + FILE_PREVIEW_URL + '"' + msg.fileMetaKeyStrings + '" role="link" class="file-preview-link" target="_blank"><span class="file-detail"><div class="file-name"><i class="icon-paperclip"></i>&nbsp;' + msg.fileMetas.name + '</div>&nbsp;<div class="file-size">' + fileService.getFilePreviewSize(msg.fileMetas.size) + '</div></span></a>';
                     }
                 } else {
                     if (msg.fileMetas[0].contentType.indexOf("image") != -1) {
                         if (msg.fileMetas[0].contentType.indexOf("svg") != -1) {
-                            return '<a href="#" role="link" class="file-preview-link fancybox-media fancybox"><img src="/rest/ws/file/' + msg.fileMetaKeyStrings + '" area-hidden="true" data-imgurl="' + MCK_BASE_URL + '/rest/ws/file/' + msg.fileMetaKeyStrings + '"></img></a>';
+                            return '<a href="#" role="link" class="file-preview-link fancybox-media fancybox"><img src="' + MCK_BASE_URL + FILE_PREVIEW_URL + msg.fileMetaKeyStrings + '" area-hidden="true" data-imgurl="' + MCK_BASE_URL + FILE_PREVIEW_URL + msg.fileMetaKeyStrings + '"></img></a>';
                         } else {
-                            return '<a href="#" role="link" class="file-preview-link fancybox-media fancybox"><img src="' + msg.fileMetas[0].thumbnailUrl + '" area-hidden="true" data-imgurl="' + MCK_BASE_URL + '/rest/ws/file/' + msg.fileMetaKeyStrings + '"></img></a>';
+                            return '<a href="#" role="link" class="file-preview-link fancybox-media fancybox"><img src="' + msg.fileMetas[0].thumbnailUrl + '" area-hidden="true" data-imgurl="' + MCK_BASE_URL + FILE_PREVIEW_URL + msg.fileMetaKeyStrings + '"></img></a>';
                         }
 
                     } else {
-                        return '<a href="' + MCK_BASE_URL + '/rest/ws/file/' + msg.fileMetaKeyStrings + '" role="link" class="file-preview-link" target="_blank"><span class="file-detail"><div class="file-name"><i class="icon-paperclip"></i>&nbsp;' + msg.fileMetas[0].name + '</div>&nbsp;<div class="file-size">' + fileService.getFilePreviewSize(msg.fileMetas[0].size) + '</div></span></a>';
+                        return '<a href="' + MCK_BASE_URL + FILE_PREVIEW_URL + msg.fileMetaKeyStrings + '" role="link" class="file-preview-link" target="_blank"><span class="file-detail"><div class="file-name"><i class="icon-paperclip"></i>&nbsp;' + msg.fileMetas[0].name + '</div>&nbsp;<div class="file-size">' + fileService.getFilePreviewSize(msg.fileMetas[0].size) + '</div></span></a>';
                     }
                 }
 
@@ -622,7 +624,7 @@ function MobiComKit() {
         var _this = this;
         var FILE_UPLOAD_URL = "/rest/ws/file/url";
         var FILE_DELETE_URL = "/rest/ws/file/delete/file/meta";
-        var FILE_PREVIEW_URL = "/rest/ws/file/";
+        var FILE_PREVIEW_URL = "/rest/ws/file/shared/";
         var $file_upload;
         var $file_name;
         var $file_size;
