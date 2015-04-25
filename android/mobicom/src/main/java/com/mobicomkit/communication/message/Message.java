@@ -1,11 +1,14 @@
 package com.mobicomkit.communication.message;
 
+import android.content.Context;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
+import com.mobicomkit.user.MobiComUserPreference;
 
-import net.mobitexter.mobiframework.json.Exclude;
+import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
+import net.mobitexter.mobiframework.people.contact.ContactUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -245,6 +248,17 @@ public class Message {
 
     public Short getType() {
         return type;
+    }
+
+    public void processContactIds(Context context) {
+        MobiComUserPreference userPreferences = MobiComUserPreference.getInstance(context);
+        if (TextUtils.isEmpty(getContactIds())) {
+            if (userPreferences.getCountryCode() != null) {
+                setContactIds(ContactNumberUtils.getPhoneNumber(getTo(), userPreferences.getCountryCode()));
+            } else {
+                setContactIds(ContactUtils.getContactId(getTo(), context.getContentResolver()));
+            }
+        }
     }
 
     public void setContactIds(String contactIds) {

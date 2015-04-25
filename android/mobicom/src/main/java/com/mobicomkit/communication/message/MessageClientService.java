@@ -141,7 +141,7 @@ public class MessageClientService extends MobiComKitClientService {
         message.setSent(Boolean.TRUE);
         message.setSendToDevice(Boolean.FALSE);
         message.setSuUserKeyString(userPreferences.getSuUserKeyString());
-        message.setContactIds(ContactNumberUtils.getPhoneNumbers(message.getTo(), userPreferences.getCountryCode()));
+        message.processContactIds(context);
         BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString(), message);
 
         long smsId = -1;

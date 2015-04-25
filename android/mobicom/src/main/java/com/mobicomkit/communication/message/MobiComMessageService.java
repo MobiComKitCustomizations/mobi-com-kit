@@ -8,16 +8,13 @@ import android.widget.Toast;
 
 import com.mobicomkit.GeneralConstants;
 import com.mobicomkit.MobiComKitConstants;
-
 import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
 import com.mobicomkit.communication.message.selfdestruct.DisappearingMessageTask;
-import com.mobicomkit.notification.NotificationService;
 import com.mobicomkit.sync.SyncMessageFeed;
 import com.mobicomkit.user.MobiComUserPreference;
 
-import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
 import net.mobitexter.mobiframework.commons.core.utils.Support;
 import net.mobitexter.mobiframework.json.GsonUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;
@@ -90,13 +87,8 @@ public class MobiComMessageService {
 
     public Contact addMTMessage(Message message) {
         MobiComUserPreference userPreferences = MobiComUserPreference.getInstance(context);
-        if (userPreferences.getCountryCode() != null) {
-            message.setContactIds(ContactNumberUtils.getPhoneNumber(message.getTo(), userPreferences.getCountryCode()));
-        } else {
-            message.setContactIds(ContactUtils.getContactId(message.getTo(), context.getContentResolver()));
-        }
 
-        message.setTo(message.getTo());
+        message.processContactIds(context);
         Contact receiverContact = ContactUtils.getContact(context, message.getTo());
 
         if (message.getMessage() != null && PersonalizedMessage.isPersonalized(message.getMessage())) {
@@ -196,12 +188,7 @@ public class MobiComMessageService {
                 mTextMessageReceived.setFileMetaKeyStrings(fileMetaKeyStrings);
             }
 
-            MobiComUserPreference userPreferences = MobiComUserPreference.getInstance(context);
-            if (userPreferences.getCountryCode() != null) {
-                mTextMessageReceived.setContactIds(ContactNumberUtils.getPhoneNumber(mTextMessageReceived.getTo(), userPreferences.getCountryCode()));
-            } else {
-                mTextMessageReceived.setContactIds(ContactUtils.getContactId(mTextMessageReceived.getTo(), context.getContentResolver()));
-            }
+            mTextMessageReceived.processContactIds(context);
 
             mTextMessageReceived.setTo(mTextMessageReceived.getTo());
             Contact receiverContact = ContactUtils.getContact(context, receiverNumber);
@@ -210,7 +197,6 @@ public class MobiComMessageService {
                 mTextMessageReceived.setMessage(PersonalizedMessage.prepareMessageFromTemplate(mTextMessageReceived.getMessage(), receiverContact));
             }
 
-            Contact contact = ContactUtils.getContact(context, mTextMessageReceived.getTo());
             try {
                 messageClientService.sendMessageToServer(mTextMessageReceived, null);
             } catch (Exception ex) {

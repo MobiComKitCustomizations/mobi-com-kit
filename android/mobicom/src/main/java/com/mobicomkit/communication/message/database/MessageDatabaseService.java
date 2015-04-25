@@ -349,7 +349,7 @@ public class MessageDatabaseService {
                 singleMessage.setKeyString(message.getKeyString());
                 singleMessage.setBroadcastGroupId(null);
                 singleMessage.setTo(tofield);
-                singleMessage.setContactIds(ContactNumberUtils.getPhoneNumbers(tofield, userPreferences.getCountryCode()));
+                singleMessage.processContactIds(context);
                 long singleSmsId = createSingleMessage(singleMessage);
                 singleMessage.setMessageId(singleSmsId);
             }
