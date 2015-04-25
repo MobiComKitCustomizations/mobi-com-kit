@@ -157,12 +157,19 @@ public class ConversationAdapter extends ArrayAdapter<Message> {
         }
 
         List<String> items = Arrays.asList(message.getTo().split("\\s*,\\s*"));
+        List<String> userIds = null;
+        if (!TextUtils.isEmpty(message.getContactIds())) {
+            userIds = Arrays.asList(message.getContactIds().split("\\s*,\\s*"));
+        }
         final Contact contactReceiver;
         if (group != null) {
             contactReceiver = null;
         } else if (individual) {
             contactReceiver = contact;
             contact.setContactNumber(items.get(0));
+            if (userIds != null) {
+                contact.setUserId(userIds.get(0));
+            }
             contact.setFormattedContactNumber(ContactNumberUtils.getPhoneNumber(items.get(0), MobiComUserPreference.getInstance(context).getCountryCode()));
         } else {
             contactReceiver = ContactUtils.getContact(getContext(), items.get(0));

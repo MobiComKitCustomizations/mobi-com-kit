@@ -38,6 +38,8 @@ public class Contact {
     private long contactId;
     private String fullName;
 
+    private String userId;
+
     public Contact() {
 
     }
@@ -230,4 +232,11 @@ public class Contact {
                 '}';
     }
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
 }
