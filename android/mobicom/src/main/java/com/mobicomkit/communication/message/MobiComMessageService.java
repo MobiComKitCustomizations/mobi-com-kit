@@ -125,17 +125,12 @@ public class MobiComMessageService {
 
             for (final Message message : messageList) {
                 Log.i(TAG, "calling  syncMessages : " + message.getTo() + " " + message.getMessage());
-                    String[] toList = message.getTo().trim().replace("undefined,", "").split(",");
-                    final int groupSmsDelayInSec = MobiComUserPreference.getInstance(context).getGroupSmsDelayInSec();
-                    boolean isDelayRequire = groupSmsDelayInSec > 0 && message.isSentViaCarrier() && message.isSentToMany();
+                String[] toList = message.getTo().trim().replace("undefined,", "").split(",");
 
-                    for (String tofield : toList) {
-
-                            processMessage(message, tofield);
-
-                        MobiComUserPreference.getInstance(context).setLastInboxSyncTime(message.getCreatedAtTime());
-                    }
-
+                for (String tofield : toList) {
+                    processMessage(message, tofield);
+                    MobiComUserPreference.getInstance(context).setLastInboxSyncTime(message.getCreatedAtTime());
+                }
 
                 MessageClientService.recentProcessedMessage.add(message);
                 BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString(), message);
@@ -249,7 +244,7 @@ public class MobiComMessageService {
     }
 
     public void createEmptyMessages(List<Contact> contactList) {
-        for (Contact contact: contactList) {
+        for (Contact contact : contactList) {
             createEmptyMessage(contact);
         }
 

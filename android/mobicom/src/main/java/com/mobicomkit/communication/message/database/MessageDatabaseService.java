@@ -355,16 +355,6 @@ public class MessageDatabaseService {
             }
         }
 
-       /* if (message.getCreatedAtTime() >= userPreferences.getLastMessageStatSyncTime()) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    //Todo: Move this to somewhere else inside "app" module.
-                    //MessageStatUtil.updateSmsStats(context, sms);
-                }
-            }).start();
-        }*/
-
         recentlyAddedMessage.add(message);
         if (recentlyAddedMessage.size() > 20) {
             recentlyAddedMessage.subList(0, 10).clear();

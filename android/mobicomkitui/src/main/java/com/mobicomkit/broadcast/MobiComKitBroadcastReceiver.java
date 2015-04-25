@@ -56,7 +56,7 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
                 singleMessage.setBroadcastGroupId(null);
                 singleMessage.setKeyString(message.getKeyString());
                 singleMessage.setTo(toField);
-                singleMessage.setContactIds(ContactNumberUtils.getPhoneNumbers(toField, userPreferences.getCountryCode()));
+                singleMessage.processContactIds(context);
                 quickConversationFragment.addMessage(singleMessage);
             }
         }

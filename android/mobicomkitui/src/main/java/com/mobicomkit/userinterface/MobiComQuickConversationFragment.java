@@ -105,8 +105,7 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
         this.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                MobiComUserPreference userPreferences = MobiComUserPreference.getInstance(context);
-                message.setContactIds(ContactNumberUtils.getPhoneNumber(message.getContactIds(), userPreferences.getCountryCode()));
+                message.processContactIds(context);
                 Message recentMessage = latestSmsForEachContact.get(message.getContactIds());
                 if (recentMessage != null && message.getCreatedAtTime() >= recentMessage.getCreatedAtTime()) {
                     messageList.remove(recentMessage);
