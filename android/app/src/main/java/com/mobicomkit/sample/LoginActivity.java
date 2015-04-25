@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.mobicomkit.sample.pushNotification.GCMRegistrationUtils;
 import com.mobicomkit.user.RegisterUserClientService;
 
 import java.util.ArrayList;
@@ -321,11 +322,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
+                //Start GCM registartion....
+                GCMRegistrationUtils gcmRegistrationUtils =  new GCMRegistrationUtils(LoginActivity.this);
+                gcmRegistrationUtils.setUpGcmNotification();
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
+
         }
 
         @Override
