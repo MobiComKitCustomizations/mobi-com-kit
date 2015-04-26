@@ -185,6 +185,7 @@ function MobiComKit() {
         var $mck_msg_response = $("#mck-msg-response");
         var $mck_response_text = $("#mck_response_text");
         var $mck_msg_to = $("#mck-msg-to");
+        var $mck_conversation_title = $("#mck-conversation-title");
         var $messageModalLink;
 
         _this.init = function init(options) {
@@ -275,9 +276,9 @@ function MobiComKit() {
             if (typeof userId !== "undefined") {
                 userIdParam = "&userId=" + userId;
                 $("#mck-msg-to").val(userId);
-                $("#mck-conversation-title").html(userId);
+                $mck_conversation_title.html(userId);
             } else {
-                $("#mck-conversation-title").html("Conversation");
+                $mck_conversation_title.html("Conversation");
             }
             $("#mck-message-cell .mck-message-inner").html("");
             
