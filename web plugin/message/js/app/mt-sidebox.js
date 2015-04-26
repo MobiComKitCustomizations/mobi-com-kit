@@ -188,7 +188,7 @@ function MobiComKit() {
         var $messageModalLink;
 
         _this.init = function init(options) {
-            $messageModalLink = $("[name='" + options.launcher + "']");
+            $messageModalLink = $("." + options.launcher);
             $messageModalLink.click(function (e) {
                 
                 $mck_msg_error.html("");
