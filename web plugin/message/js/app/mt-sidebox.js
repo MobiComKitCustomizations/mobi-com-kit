@@ -189,8 +189,7 @@ function MobiComKit() {
 
         _this.init = function init(options) {
             $messageModalLink = $("." + options.launcher);
-            $messageModalLink.click(function (e) {
-                
+            $messageModalLink.click(function (e) {                
                 $mck_msg_error.html("");
                 $mck_msg_error.removeClass('show').addClass('hide');
                 $mck_response_text.html("");
@@ -198,11 +197,7 @@ function MobiComKit() {
                 $mck_msg_form[0].reset();
                 $("#mck-message-inner").html("");
                 mckMessageService.loadMessageList($(this).data("mck-id"));
-                if ($mck_sidebox.css('display') == 'none') {
-                    $('.modal').modal('hide');
-                    $mck_sidebox.modal();
-                }
-                $mck_msg_to.focus();
+                mckMessageLayout.openConversation();
             });
 
             $mck_msg_form.submit(function (e) {
@@ -227,7 +222,7 @@ function MobiComKit() {
                     messagePxy.fileMetaKeyStrings = FILE_METAS;
                 }
                 $mck_msg_sbmt.attr('disabled', true);
-                $mck_msg_sbmt.html('Submitting...');
+                $mck_msg_sbmt.html('Sending...');
                 $mck_msg_error.removeClass('show').addClass('hide');
                 $mck_msg_error.html("");
                 $mck_response_text.html("");
@@ -327,6 +322,8 @@ function MobiComKit() {
         var FILE_PREVIEW_URL = "/rest/ws/file/shared/";
         var _this = this;
         var $mck_msg_sbmt = $("#mck-msg-sbmt");
+        var $mck_sidebox = $("#mck-sidebox");
+        var $mck_msg_to = $("#mck-msg-to");
 
         var markup = '<div class="row-fluid m-b"><div class="clear"><div class="col-lg-12"><div name="message" data-msgtype="${msgTypeExpr}" data-msgdelivered="${msgDeliveredExpr}" data-msgsent="${msgSentExpr}" data-msgtime="${msgCreatedAtTime}" data-msgcontent="${replyIdExpr}"  data-msgkeystring="${msgKeyExpr}" data-contact="${contactIdsExpr}" class="${msgFloatExpr} mck-msg-box ${msgKeyExpr} ${msgClassExpr}">' +
                 '<div class="mck-msg-text" id="text-${replyIdExpr}"></div>' +
@@ -335,6 +332,14 @@ function MobiComKit() {
                 '<div id="msg-expr-${replyIdExpr}" class="${msgFloatExpr}-muted  mck-text-muted text-xs m-t-xs">${createdAtTimeExpr} <i class="${statusIconExpr} ${msgKeyExpr}-status status-icon"></i></div>' +
                 '</div></div>';
         $.template("messageTemplate", markup);
+        
+        _this.openConversation = function openConversation() {
+            if ($mck_sidebox.css('display') == 'none') {
+                $('.modal').modal('hide');
+                $mck_sidebox.modal();
+            }
+            $mck_msg_to.focus();
+        }
 
         _this.addTooltip = function addTooltip(msgKeyString) {
             $("." + msgKeyString + " .icon-time").data('tooltip', false).tooltip({
@@ -788,9 +793,11 @@ function MobiComKit() {
         var data = response.data;
         var resp = JSON.parse(data);
         var messageType = resp.type;
+        
         if (messageType.indexOf("SMS") != -1) {
             var message = JSON.parse(resp.message);
             if (messageType == "SMS_RECEIVED") {
+                mckMessageLayout.openConversation();
                 mckMessageLayout.addMessage(message, true);
                 //Todo: use contactNumber instead of contactId for Google Contacts API.
                 var contactId = message.contactIds.replace(",", "");
