@@ -189,7 +189,7 @@ function MobiComKit() {
 
         _this.init = function init(options) {
             $messageModalLink = $("." + options.launcher);
-            $messageModalLink.click(function (e) {                
+            $messageModalLink.on("click", function (e) {                
                 $mck_msg_error.html("");
                 $mck_msg_error.removeClass('show').addClass('hide');
                 $mck_response_text.html("");
@@ -275,6 +275,9 @@ function MobiComKit() {
             if (typeof userId !== "undefined") {
                 userIdParam = "&userId=" + userId;
                 $("#mck-msg-to").val(userId);
+                $("#mck-conversation-title").html(userId);
+            } else {
+                $("#mck-conversation-title").html("Conversation");
             }
             $("#mck-message-cell .mck-message-inner").html("");
             
@@ -295,7 +298,7 @@ function MobiComKit() {
                     }
                 },
                 error: function (xhr, desc, err) {
-                    alert('Unable to process your request. Please try refreshing the page.');
+                    alert('Unable to process your request.');
                 }
             });
         };
