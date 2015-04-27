@@ -87,6 +87,10 @@ a:hover{
 }
 
 
+.modal-dialog.md-box-s {
+    max-width: 300px;
+}
+
 
 .modal.in .left, .modal.in .right, .modal.in .top, .modal.in .bottom {
     -webkit-transform: translate3d(0,0,0);
