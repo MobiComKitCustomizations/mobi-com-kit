@@ -86,7 +86,7 @@ function MobiComKit() {
                             options.beforeSend = function (jqXHR) {
                                 jqXHR.setRequestHeader("Authorization", "Basic " + AUTH_CODE);
                                 jqXHR.setRequestHeader("Application-Key", APPLICATION_ID);
-                            }
+                            };
                         }
                     });
                     MckInitializeChannel(MCK_TOKEN);
@@ -185,14 +185,16 @@ function MobiComKit() {
         var _this = this;
         var ADD_MESSAGE_URL = "/rest/ws/mobicomkit/v1/message/add";
         var MESSAGE_LIST_URL = "/rest/ws/mobicomkit/v1/message/list";
+        var $mck_msg_to = $("#mck-msg-to");
         var $mck_sidebox = $("#mck-sidebox");
         var $mck_msg_form = $("#mck-msg-form");
         var $mck_msg_sbmt = $("#mck-msg-sbmt");
         var $mck_msg_error = $("#mck-msg-error");
         var $mck_msg_response = $("#mck-msg-response");
         var $mck_response_text = $("#mck_response_text");
-        var $mck_msg_to = $("#mck-msg-to");
+        var $mck_textbox_container = $("#mck-textbox-container");
         var $mck_conversation_title = $("#mck-conversation-title");
+        var $mck_msg_inner = $("#mck-message-cell .mck-message-inner");
         var $messageModalLink;
 
         _this.init = function init(options) {
@@ -204,7 +206,7 @@ function MobiComKit() {
                 $mck_response_text.html("");
                 $mck_msg_response.removeClass('show').addClass('hide');
                 $mck_msg_form[0].reset();
-                $("#mck-message-inner").html("");
+                $mck_msg_inner.html("");
                 mckMessageService.loadMessageList($(this).data("mck-id"));
                 mckMessageLayout.openConversation();
             });
@@ -215,7 +217,7 @@ function MobiComKit() {
                 $mck_response_text.html("");
                 $mck_msg_response.removeClass('show').addClass('hide');
                 $mck_msg_form[0].reset();
-                $("#mck-message-inner").html("");
+                $mck_msg_inner.html("");
                 mckMessageService.loadMessageList($(this).data("mck-id"));
                 mckMessageLayout.openConversation();
             });
@@ -228,7 +230,7 @@ function MobiComKit() {
                 var message = MckUtils.textVal();
 
                 if ($.trim(message).length == 0 && !FILE_METAS) {
-                    $("#mck-textbox-container").addClass("text-req");
+                    $mck_textbox_container.addClass("text-req");
                     return false;
                 }
                 var messagePxy = {
@@ -256,7 +258,7 @@ function MobiComKit() {
                 $mck_msg_response.removeClass('show').addClass('hide');
             });
             $("#mck-text-box").on('click', function () {
-                $("#mck-textbox-container").removeClass('text-req');
+                $mck_textbox_container.removeClass('text-req');
             });
         };
 
@@ -307,19 +309,14 @@ function MobiComKit() {
                 $mck_msg_to.parent('.form-group').show();
                 if (typeof (Storage) !== "undefined") {
                     var mckMessageArray = JSON.parse(localStorage.getItem('mckMessageArray'));
-
-
                     if (mckMessageArray != null) {
                         msgData.message = mckMessageArray;
                         mckMessageLayout.addContactsFromMessageList(msgData);
                         return;
                     }
                 }
-
-
             }
-            $("#mck-message-cell .mck-message-inner").html("");
-
+            $mck_msg_inner.html("");
 
             $.ajax({
                 url: MCK_BASE_URL + MESSAGE_LIST_URL + "?startIndex=0&pageSize=" + pageSize + userIdParam,
@@ -329,7 +326,7 @@ function MobiComKit() {
                         //no data
                     } else {
                         if (individual) {
-                            $("#mck-message-cell .mck-message-inner").data('mck-id', userId);
+                            $mck_msg_inner.data('mck-id', userId);
                             if (typeof data.message.length === "undefined") {
                                 mckMessageLayout.addMessage(data.message, false);
                             } else {
@@ -406,7 +403,7 @@ function MobiComKit() {
                 $mck_sidebox.modal();
             }
             $mck_msg_to.focus();
-        }
+        };
 
         _this.addTooltip = function addTooltip(msgKeyString) {
             $("." + msgKeyString + " .icon-time").data('tooltip', false).tooltip({
@@ -637,7 +634,7 @@ function MobiComKit() {
                         }
 
                     } else {
-                        return '<a href="' + MCK_BASE_URL + FILE_PREVIEW_URL + '"' + msg.fileMetaKeyStrings + '" role="link" class="file-preview-link" target="_blank"><span class="file-detail"><div class="file-name"><i class="icon-paperclip"></i>&nbsp;' + msg.fileMetas.name + '</div>&nbsp;<div class="file-size">' + fileService.getFilePreviewSize(msg.fileMetas.size) + '</div></span></a>';
+                        return '<a href="' + MCK_BASE_URL + FILE_PREVIEW_URL + '"' + msg.fileMetaKeyStrings + '" role="link" class="file-preview-link" target="_blank"><span class="file-detail"><div class="file-name"><i class="icon-paperclip"></i>&nbsp;' + msg.fileMetas.name + '</div>&nbsp;<div class="file-size">' + mckFileService.getFilePreviewSize(msg.fileMetas.size) + '</div></span></a>';
                     }
                 } else {
                     if (msg.fileMetas[0].contentType.indexOf("image") != -1) {
@@ -648,7 +645,7 @@ function MobiComKit() {
                         }
 
                     } else {
-                        return '<a href="' + MCK_BASE_URL + FILE_PREVIEW_URL + msg.fileMetaKeyStrings + '" role="link" class="file-preview-link" target="_blank"><span class="file-detail"><div class="file-name"><i class="icon-paperclip"></i>&nbsp;' + msg.fileMetas[0].name + '</div>&nbsp;<div class="file-size">' + fileService.getFilePreviewSize(msg.fileMetas[0].size) + '</div></span></a>';
+                        return '<a href="' + MCK_BASE_URL + FILE_PREVIEW_URL + msg.fileMetaKeyStrings + '" role="link" class="file-preview-link" target="_blank"><span class="file-detail"><div class="file-name"><i class="icon-paperclip"></i>&nbsp;' + msg.fileMetas[0].name + '</div>&nbsp;<div class="file-size">' + mckFileService.getFilePreviewSize(msg.fileMetas[0].size) + '</div></span></a>';
                     }
                 }
 
@@ -667,7 +664,7 @@ function MobiComKit() {
         };
 
         _this.getContactImageByAlphabet = function getContactImageByAlphabet(name) {
-            if (typeof name === 'undefined' || name == "") {
+            if (typeof name === 'undefined' || name === "") {
                 return '<div class="mck-alpha-contact-image mck-alpha-user"><span class="mck-contact-icon"><img src="images/ic_action_user.png" alt=""></span></div>';
             }
             var first_alpha = name.charAt(0);
@@ -724,7 +721,6 @@ function MobiComKit() {
                         };
                         CONTACT_MAP[contactId] = contact;
                     }
-                    //contact will be undefined for messages with contactId of prefContactAPI other than the current pref.
                     this.updateRecentConversationList(contact, data, update);
                 }
             }
@@ -736,9 +732,6 @@ function MobiComKit() {
                     this.updateContact(contact, msg);
                 }
             } else {
-                /*  if($btn_show_more_contacts.data("addContacts") === "opened") {
-                 $btn_show_more_contacts.data("addContacts", "closed");
-                 }*/
                 this.addContact(contact, msg);
             }
         };
@@ -750,8 +743,6 @@ function MobiComKit() {
             emoji_template = emoji.replace_colons(emoji_template);
             $("#li-" + contact.htmlId + " .mck-cont-msg-date").html(typeof msg.createdAtTime == 'undefined' ? "" : mckDateUtils.getTimeOrDate(msg ? msg.createdAtTime : "", true));
             $("#li-" + contact.htmlId + " .mck-cont-msg-wrapper").html(msg ? emoji_template : "");
-            //   $("#li-" + contact.htmlId + " .statusPart").html(mckMessageService.getStatusIcon(msg ? msg : ""));
-
             var latestCreatedAtTime = $('#mck-contact-list li:nth-child(1)').data('msg-time');
             var $contactElem = $("#li-" + contact.htmlId);
             $contactElem.data('msg-time', msg ? msg.createdAtTime : "");
@@ -762,17 +753,11 @@ function MobiComKit() {
         };
 
         _this.addContact = function addContact(contact, msg) {
-
-
-
             var imgsrctag = this.getContactImageLink(contact);
-            // imgsrctag = '<img class="icon-contact" src="' + contactService.getContactImageLink(contact) + '" />';
             if (typeof msg != 'undefined') {
                 var emoji_template = emoji.replace_unified(msg.message.substring(0, 15));
                 emoji_template = emoji.replace_colons(emoji_template);
             }
-
-
             var contactList = [
                 {
                     contIdExpr: contact.htmlId,
@@ -791,8 +776,6 @@ function MobiComKit() {
             } else {
                 $.tmpl("contactTemplate", contactList).appendTo("#mck-contact-list");
             }
-
-
         };
 
         _this.getStatusIcon = function getStatusIcon(msg) {
@@ -868,8 +851,6 @@ function MobiComKit() {
                     }
                     $mck_text_box.addClass('mck-text-wf');
                     $textbox_container.addClass('mck-textbox-container-wf');
-
-
                     $file_name.html('<a href="#">' + data.files[0].name + '</a>');
                     $file_size.html("(" + parseInt(data.files[0].size / 1024) + " KB)");
                     $file_progressbar.css('width', '0%');
@@ -1011,7 +992,7 @@ function MobiComKit() {
                 mckMessageLayout.addContactsFromMessage(message, true);
             } else {
 
-                if (messageType == "SMS_RECEIVED") {
+                if (messageType === "SMS_RECEIVED") {
                     mckMessageLayout.openConversation();
                     mckMessageLayout.addMessage(message, true);
                     //Todo: use contactNumber instead of contactId for Google Contacts API.
@@ -1072,7 +1053,7 @@ function MobiComKit() {
             var currentDate = new Date();
             var utcCurrentTime = parseInt(currentDate.getTime() + (localDate.getTimezoneOffset() * 60000));
             currentDate = new Date(parseInt(utcCurrentTime + parseInt(MCK_USER_TIMEZONEOFFSET, 10)));
-            return currentDate.getDate() != date.getDate() ? dateFormat(date, fullDateFormat, false) : dateFormat(date, onlyTimeFormat, false);
+            return currentDate.getDate() !== date.getDate() ? dateFormat(date, fullDateFormat, false) : dateFormat(date, onlyTimeFormat, false);
         };
 
         _this.getTimeOrDate = function getTimeOrDate(createdAtTime, timeFormat) {
@@ -1084,7 +1065,7 @@ function MobiComKit() {
             var utcCurrentTime = parseInt(currentDate.getTime() + (localDate.getTimezoneOffset() * 60000));
             currentDate = new Date(parseInt(utcCurrentTime + parseInt(MCK_USER_TIMEZONEOFFSET, 10)));
             if (timeFormat) {
-                return currentDate.getDate() != date.getDate() ? dateFormat(date, onlyDateFormat, false) : dateFormat(date, onlyTimeFormat, false);
+                return currentDate.getDate() !== date.getDate() ? dateFormat(date, onlyDateFormat, false) : dateFormat(date, onlyTimeFormat, false);
             } else {
                 return dateFormat(date, fullDateFormat, false);
             }
@@ -1094,7 +1075,7 @@ function MobiComKit() {
         _this.getSystemDate = function getSystemDate(time) {
             var date = new Date(parseInt(time, 10));
             return dateFormat(date, fullDateFormat, false);
-        }
+        };
 
         var dateFormat = function () {
             var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
