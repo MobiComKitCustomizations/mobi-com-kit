@@ -33,7 +33,6 @@ import android.widget.QuickContactBadge;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.client.ui.R;
 import com.mobicomkit.instruction.InstructionUtil;
 
@@ -157,7 +156,7 @@ public class ContactsListFragment extends ListFragment implements SearchListFrag
         // Add a cache to the image loader
         mImageLoader.addImageCache(getActivity().getSupportFragmentManager(), 0.1f);
 
-        InstructionUtil.showInfo(getActivity(), R.string.info_sample_contact_list, BroadcastService.INTENT_ACTIONS.INSTRUCTION.toString());
+        InstructionUtil.showToast(getActivity(), R.string.info_sample_contact_list, R.color.instruction_color);
     }
 
     @Override
