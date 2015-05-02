@@ -30,6 +30,7 @@
     <string name="stop_service">STOPSERVICE</string>
     <string name="patch_available">NEWPATCHAVAILABLE</string>
     <string name="update_push_registration">UPDATE_PUSH_REGISTRATION</string>
+    <string name="info_sample_contact_list">Populate your app contacts here, showing device contacts as sample</string>
     <string name="info_message_sync">Syncing messages with the server, it might take few mins!</string>
     <string name="instruction_open_conversation_thread">Tap on any conversation to see full thread</string>
     <string name="instruction_go_back_to_recent_conversation_list">To go back to previous screen, slide from left to right</string>

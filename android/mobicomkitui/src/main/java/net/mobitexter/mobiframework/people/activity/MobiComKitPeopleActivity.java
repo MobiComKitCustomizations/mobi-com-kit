@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -21,12 +20,10 @@ import android.widget.Toast;
 import com.mobicomkit.client.ui.R;
 
 import net.mobitexter.mobiframework.people.OnContactsInteractionListener;
-import net.mobitexter.mobiframework.people.SearchListFragment;
 import net.mobitexter.mobiframework.people.contact.ContactUtils;
 import net.mobitexter.mobiframework.people.contact.device.ContactsListFragment;
 import net.mobitexter.mobiframework.people.group.Group;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class MobiComKitPeopleActivity extends ActionBarActivity implements OnContactsInteractionListener,
@@ -81,6 +78,7 @@ public class MobiComKitPeopleActivity extends ActionBarActivity implements OnCon
         searchView.setQueryHint(getResources().getString(R.string.search_hint));
         searchView.setOnQueryTextListener(this);
         searchView.setSubmitButtonEnabled(true);
+        searchView.setIconified(false);
         return super.onCreateOptionsMenu(menu);
     }
 

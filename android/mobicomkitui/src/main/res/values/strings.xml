@@ -8,7 +8,7 @@
     <string name="menu_edit_contact">Edit Contact</string>
     <string name="no_contacts">No Contacts Found</string>
     <string name="no_contact_selected">No Contact Selected</string>
-    <string name="search_hint">Search contacts</string>
+    <string name="search_hint">Email, userId, number</string>
     <string name="activity_contacts_list">MobiTexter</string>
     <string name="activity_contacts_title">Select contact</string>
     <string name="activity_contact_detail">Contact Detail</string>
@@ -17,7 +17,7 @@
     <string name="phone_number_not_present">Phone number is not present</string>
     <string name="mobiframework_title_device">Device</string>
     <string name="mobiframework_title_group">Group</string>
-    <string name="zero_friends_on_phone">No contacts</string>
+    <string name="zero_friends_on_phone">No matching contact found on phone contacts but you can still send message by entering the email, userId or phone number</string>
     <string name="contact_sync_in_progress">Contact sync is in progress, might take few mins</string>
     <string name="zero_friends_on_mobitexter">No contacts on mobitexter</string>
     <string name="zero_groups_on_phone">No groups, add groups in your mobile or gmail account</string>

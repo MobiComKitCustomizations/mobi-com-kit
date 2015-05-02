@@ -52,7 +52,14 @@ public class InstructionUtil {
         }, delay);
     }
 
-    public static void showInstruction(Context context, int resId, boolean actionable,int colorId) {
+    public static void showToast(Context context, int resId, int colorId) {
+        Toast toast = Toast.makeText(context, context.getString(resId), Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
+        toast.getView().setBackgroundColor(context.getResources().getColor(colorId));
+        toast.show();
+    }
+
+    public static void showInstruction(Context context, int resId, boolean actionable, int colorId) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("net.mobitexter", Context.MODE_PRIVATE);
         if (!sharedPreferences.contains(SHARED_PREFERENCE_INSTRUCTION_KEY + "." + resId)) {
             return;

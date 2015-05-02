@@ -34,6 +34,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.mobicomkit.client.ui.R;
+import com.mobicomkit.instruction.InstructionUtil;
 
 import net.mobitexter.mobiframework.commons.core.utils.Utils;
 import net.mobitexter.mobiframework.commons.image.ImageLoader;
@@ -154,6 +155,8 @@ public class ContactsListFragment extends ListFragment implements SearchListFrag
 
         // Add a cache to the image loader
         mImageLoader.addImageCache(getActivity().getSupportFragmentManager(), 0.1f);
+
+        InstructionUtil.showToast(getActivity(), R.string.info_sample_contact_list, R.color.instruction_color);
     }
 
     @Override
