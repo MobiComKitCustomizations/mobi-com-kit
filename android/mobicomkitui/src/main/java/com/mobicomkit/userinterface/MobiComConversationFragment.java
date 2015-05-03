@@ -512,6 +512,8 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
             sendType.setSelection(1);
             extendedSendingOptionLayout.setVisibility(View.GONE);
             messageEditText.setHint(R.string.enter_support_query_hint);
+        } else {
+            messageEditText.setHint(R.string.enter_mt_message_hint);
         }
         if (hideExtendedSendingOptionLayout) {
             extendedSendingOptionLayout.setVisibility(View.GONE);

@@ -6,19 +6,12 @@ package com.mobicomkit;
 public class MobiComKitServer {
 
     public static String APPLICATION_KEY_HEADER = "Application-Key";
-    //public static String APPLICATION_KEY_HEADER_VALUE = "mobitexter-texting-from-pc";
-    //public static String APPLICATION_KEY_HEADER_VALUE = "992a65190e8da391740e47537";
-    public static String APPLICATION_KEY_HEADER_VALUE = "21cd92e5f49902fa6089cb042";
+    public static String APPLICATION_KEY_HEADER_VALUE = "mobicomkit-sample-app";
 
     public static final boolean PROD = true;
-    public static final String PROD_DISPLAY_URL = "http://www.mobitexter.net";
+    public static final String PROD_DISPLAY_URL = "http://www.mobicomkit.com";
 
-    //public static final String BASE_URL = "https://mobitexter.appspot.com";
-    //Urls For Different Services
-    //public static final String BASE_URL = "https://osu-alpha.appspot.com";
     public static final String BASE_URL = "http://mobi-com.appspot.com";
-    //public static final String BASE_URL = "https://onlinesmsutility-test.appspot.com";
-    //public static final String BASE_URL = "https://onlinesmsutility.appspot.com";
 
     public static final Short MOBICOMKIT_VERSION_CODE = 65;
 
