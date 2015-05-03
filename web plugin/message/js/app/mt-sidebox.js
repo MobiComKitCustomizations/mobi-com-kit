@@ -305,7 +305,7 @@ function MobiComKit() {
                 individual = false;
                 pageSize = 50;
                 var msgData = new Object();
-                $mck_conversation_title.html('Conversation');
+                $mck_conversation_title.html('Conversations');
                 $mck_msg_to.parent('.form-group').show();
                 if (typeof (Storage) !== "undefined") {
                     var mckMessageArray = JSON.parse(localStorage.getItem('mckMessageArray'));

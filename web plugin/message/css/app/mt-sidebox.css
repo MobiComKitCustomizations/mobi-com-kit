@@ -38,7 +38,8 @@ a:hover{
 }
 
 .m-b {
-    margin-bottom: 16px;
+    margin-bottom: 12px;
+    margin-top: 12px;
 }
 .clear {
     display: block;
@@ -121,10 +122,8 @@ a:hover{
 
 .mck-box-top {
     padding: 0 15px 0 15px;
-    border-bottom: none;
     min-height: 50px;
 }
-
 
 .mck-box-top .close {
     margin-top :13px;
@@ -140,7 +139,6 @@ a:hover{
 
 
 .mck-box-md {
-    background-color: #f8f8f8;
     padding: 0;
 }
 
@@ -167,8 +165,7 @@ a:hover{
     top: 0;
     right: 0;
     bottom: 0;
-    left: 0;
-    padding: 15px;
+    left: 0;    
 }
 
 .mck-message-inner .col-lg-12 {
@@ -179,6 +176,7 @@ a:hover{
     min-height: 50px;
     border-top: 0px;
     text-align: left;
+    border-top: 1px solid #e5e5e5;
 }
 
 .mck-box-ft .col-lg-6 {
@@ -462,13 +460,14 @@ a:hover{
 }
 
 .mck-contact-list {
-    padding: 5px;
     margin-bottom: 15px;
-    background-color: lavender;
+    background-color: white;
+    border-bottom: none;
 }
 .mck-contact-list li {
     float: left;
     width: 100%;
+    border-bottom: 2px solid whitesmoke;
 }
 .mck-contact-list .row {
     margin: 0;
@@ -612,4 +611,8 @@ a:hover{
 
 .nav>li>a:hover {
     background-color: #fff;
+}
+
+#mck-contact-list>li>a:hover {
+    background: #ECF9FF;
 }
