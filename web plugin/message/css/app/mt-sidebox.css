@@ -477,8 +477,7 @@ a:hover{
 .mck-contact-list li a {
     color: #444;
     border-radius: 0;
-    border-left: none;
-    border-right: none;
+    border-bottom: 1px solid #ddd;
     line-height: 18px;
     padding: 5px 8px;
 }

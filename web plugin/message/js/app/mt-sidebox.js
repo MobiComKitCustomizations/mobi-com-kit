@@ -323,7 +323,7 @@ function MobiComKit() {
                 type: 'get',
                 success: function (data, status) {
                     if (data + '' === "null") {
-                        //no data
+                        $mck_msg_inner.html('<strong>no messages yet!</strong>');
                     } else {
                         if (individual) {
                             $mck_msg_inner.data('mck-id', userId);
