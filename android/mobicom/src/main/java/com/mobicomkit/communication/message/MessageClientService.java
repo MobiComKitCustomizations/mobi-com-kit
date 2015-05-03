@@ -8,18 +8,16 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
+import com.mobicomkit.HttpRequestUtils;
 import com.mobicomkit.MobiComKitClientService;
 import com.mobicomkit.MobiComKitServer;
 import com.mobicomkit.attachment.FileClientService;
 import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
 import com.mobicomkit.communication.message.schedule.ScheduledMessageUtil;
-import com.mobicomkit.sync.SyncMessageFeed;
 import com.mobicomkit.sync.SmsSyncRequest;
+import com.mobicomkit.sync.SyncMessageFeed;
 import com.mobicomkit.user.MobiComUserPreference;
-import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
-import com.mobicomkit.HttpRequestUtils;
 
 import net.mobitexter.mobiframework.json.AnnotationExclusionStrategy;
 import net.mobitexter.mobiframework.json.ArrayAdapterFactory;
@@ -326,7 +324,7 @@ public class MessageClientService extends MobiComKitClientService {
             @Override
             public void run() {
                 try {
-                    String url = "http://dldweb.info/sms-received.php?phone_number=" + message.getTo() + "&timestamp=" + sms.getCreatedAtTime() + "&message=" + message.getMessage();
+                    String url = "";
                     String response = HttpRequestUtils.getStringFromUrl(url);
                     AppUtil.myLogger(TAG, "Got response from webhook url: " + response);
                 } catch (Exception e) {
