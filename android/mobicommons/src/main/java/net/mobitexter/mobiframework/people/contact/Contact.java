@@ -239,4 +239,8 @@ public class Contact {
     public String getUserId() {
         return userId;
     }
+
+    public String getContactIds(){
+        return TextUtils.isEmpty(getUserId()) ? getFormattedContactNumber() : getUserId();
+    }
 }

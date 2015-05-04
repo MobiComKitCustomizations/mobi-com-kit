@@ -148,7 +148,7 @@ public class MobiComConversationService {
     }
 
     public void deleteAndBroadCast(final Contact contact, boolean deleteFromServer) {
-        deleteConversationFromDevice(contact.getFormattedContactNumber());
+        deleteConversationFromDevice(contact.getContactIds());
         if (deleteFromServer) {
             new Thread(new Runnable() {
                 @Override

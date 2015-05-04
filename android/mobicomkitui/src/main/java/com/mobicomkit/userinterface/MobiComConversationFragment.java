@@ -498,10 +498,10 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
         if (contact != null) {
             processPhoneNumbers();
 
-            if (!TextUtils.isEmpty(contact.getFormattedContactNumber())) {
+            if (!TextUtils.isEmpty(contact.getContactIds())) {
                 NotificationManager notificationManager =
                         (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.cancel(contact.getFormattedContactNumber().hashCode());
+                notificationManager.cancel(contact.getContactIds().hashCode());
             }
         }
 
@@ -690,11 +690,7 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
             messageToSend.setContactIds(TextUtils.join(",", contactIds));
         } else {
             messageToSend.setTo(contact.getContactNumber());
-            if (TextUtils.isEmpty(contact.getUserId())) {
-                messageToSend.setContactIds(contact.getFormattedContactNumber());
-            } else {
-                messageToSend.setContactIds(contact.getUserId());
-            }
+            messageToSend.setContactIds(contact.getContactIds());
         }
 
         messageToSend.setRead(Boolean.TRUE);
