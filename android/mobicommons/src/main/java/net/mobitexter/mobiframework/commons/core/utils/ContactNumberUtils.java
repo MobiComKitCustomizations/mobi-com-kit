@@ -40,7 +40,6 @@ public class ContactNumberUtils {
         } catch (Exception ex) {
             try {
                 contactNumber = Long.parseLong(number);
-                Logger.getLogger(ContactNumberUtils.class.getName()).log(Level.INFO, null, ex);
             } catch(Exception e) {
                 return number;
             }
