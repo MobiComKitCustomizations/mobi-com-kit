@@ -229,8 +229,8 @@ public class ContactUtils {
     public static Contact getContact(Context context, String number) {
         if (TextUtils.isEmpty(number)) {
             return new Contact();
-
         }
+
         String contactId = "";
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
         Cursor phoneCursor = context.getContentResolver().query(uri,

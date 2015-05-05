@@ -122,9 +122,9 @@ public class MessageDatabaseService {
             structuredNameWhere += "broadcastGroupId = ? AND ";
             structuredNameParamsList.add(String.valueOf(group.getGroupId()));
         }
-        if (contact != null && !TextUtils.isEmpty(contact.getFormattedContactNumber())) {
+        if (contact != null && !TextUtils.isEmpty(contact.getContactIds())) {
             structuredNameWhere += "contactNumbers = ? AND ";
-            structuredNameParamsList.add(contact.getFormattedContactNumber());
+            structuredNameParamsList.add(contact.getContactIds());
         }
         if (startTime != null) {
             structuredNameWhere += "createdAt >= ? AND ";

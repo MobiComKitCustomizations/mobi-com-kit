@@ -305,7 +305,7 @@ function MobiComKit() {
                 individual = false;
                 pageSize = 50;
                 var msgData = new Object();
-                $mck_conversation_title.html('Conversation');
+                $mck_conversation_title.html('Conversations');
                 $mck_msg_to.parent('.form-group').show();
                 if (typeof (Storage) !== "undefined") {
                     var mckMessageArray = JSON.parse(localStorage.getItem('mckMessageArray'));
@@ -323,7 +323,7 @@ function MobiComKit() {
                 type: 'get',
                 success: function (data, status) {
                     if (data + '' === "null") {
-                        //no data
+                        $mck_msg_inner.html('<strong>no messages yet!</strong>');
                     } else {
                         if (individual) {
                             $mck_msg_inner.data('mck-id', userId);

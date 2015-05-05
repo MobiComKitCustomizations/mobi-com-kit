@@ -197,7 +197,7 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
     }
 
     public void checkForEmptyConversations() {
-        if (latestSmsForEachContact.isEmpty() && spinner.getVisibility() == View.INVISIBLE) {
+        if (latestSmsForEachContact.isEmpty() && spinner.getVisibility() == View.GONE) {
             emptyTextView.setVisibility(View.VISIBLE);
             startNewButton.setVisibility(View.VISIBLE);
         } else {
@@ -315,7 +315,7 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
             } else {
                 listView.setSelection(firstVisibleItem);
             }
-            spinner.setVisibility(View.INVISIBLE);
+            spinner.setVisibility(View.GONE);
             String errorMessage = getResources().getString(R.string.internet_connection_not_available);
             Utils.isNetworkAvailable(getActivity(),errorMessage);
             loadMore = !nextMessageList.isEmpty();

@@ -370,6 +370,13 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
             conversationFragment.setFirstTimeMTexterFriend(firstTimeMTexterFriend);
         }
 
+        String userId = intent.getStringExtra("userId");
+        if (!TextUtils.isEmpty(userId)) {
+            contact = new Contact();
+            contact.setUserId(userId);
+            //Todo: Load contact details from server.
+        }
+
         String messageJson = intent.getStringExtra(MobiComKitConstants.MESSAGE_JSON_INTENT);
         if (!TextUtils.isEmpty(messageJson)) {
             Message message = (Message) GsonUtils.getObjectFromJson(messageJson, Message.class);

@@ -162,10 +162,6 @@ public class MobiComKitPeopleActivity extends ActionBarActivity implements OnCon
         return !isSearchResultView && super.onSearchRequested();
     }
 
-    public SearchView getSearchView() {
-        return searchView;
-    }
-
     public String getSearchTerm() {
         return searchTerm;
     }

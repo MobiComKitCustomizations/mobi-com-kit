@@ -26,7 +26,7 @@ import java.util.List;
 
 public class MobiComConversationService {
 
-    private static final String TAG = "MobiComConversationService";
+    private static final String TAG = "Conversation";
 
     protected Context context = null;
     protected MessageClientService messageClientService;
@@ -65,8 +65,6 @@ public class MobiComConversationService {
                 (cachedMessageList.size() > 1 || !cachedMessageList.get(0).isLocalMessage())) {
             return cachedMessageList;
         }
-
-        String contactNumber = (contact != null ? contact.getFormattedContactNumber() : "");
 
         String data;
         try {
@@ -150,7 +148,7 @@ public class MobiComConversationService {
     }
 
     public void deleteAndBroadCast(final Contact contact, boolean deleteFromServer) {
-        deleteConversationFromDevice(contact.getFormattedContactNumber());
+        deleteConversationFromDevice(contact.getContactIds());
         if (deleteFromServer) {
             new Thread(new Runnable() {
                 @Override
