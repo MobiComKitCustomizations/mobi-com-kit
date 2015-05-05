@@ -55,7 +55,6 @@ public class FileClientService extends MobiComKitClientService {
         File filePath;
         File dir;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            System.out.println("@@@@ SD Card is mounted .....");
             String folder = MOBI_TEXTER_OTHER_FILES_FOLDER;
             if (contentType.startsWith("image")) {
                 folder = MOBI_TEXTER_IMAGES_FOLDER;
@@ -65,13 +64,11 @@ public class FileClientService extends MobiComKitClientService {
             if (isThumbnail) {
                 folder = folder + MOBI_TEXTER_THUMBNAIL_SUFIX;
             }
-            System.out.println("@@@ external ####...." + Environment.getExternalStorageDirectory().getAbsolutePath() );
             dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + folder);
             if (!dir.exists()) {
                 dir.mkdirs();
             }
         } else {
-            System.out.println("@@ SD CARD is not mounted..........");
             ContextWrapper cw = new ContextWrapper(context);
             // path to /data/data/yourapp/app_data/imageDir
             dir = cw.getDir(IMAGE_DIR, Context.MODE_PRIVATE);
@@ -79,7 +76,6 @@ public class FileClientService extends MobiComKitClientService {
         // Create image name
         //String extention = "." + contentType.substring(contentType.indexOf("/") + 1);
         filePath = new File(dir, fileName );
-        System.out.println("@@@ fileName:" + filePath);
         return filePath;
     }
 
