@@ -1,7 +1,6 @@
-package com.mobicomkit.sample.pushNotification;
+package com.mobicomkit.sample.pushnotification;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -14,7 +13,6 @@ import com.mobicomkit.user.MobiComUserPreference;
 import com.mobicomkit.user.RegisterUserClientService;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 
 public class GCMRegistrationUtils extends Handler {
 

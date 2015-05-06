@@ -27,23 +27,33 @@ public class MobiComPushReceiver  {
     public static final List<String> notificationKeyList = new ArrayList<String>();
     static {
 
-        notificationKeyList.add("SYNC");
-        notificationKeyList.add("MARK_ALL_SMS_AS_READ");
-        notificationKeyList.add("DELIVERED");
-        notificationKeyList.add("SYNC_PENDING");
-        notificationKeyList.add("DELETE_SMS");
-        notificationKeyList.add("DELETE_MULTIPLE_MESSAGE");
-        notificationKeyList.add("DELETE_SMS_CONTACT");
-        notificationKeyList.add("MTEXTER_USER");
-        notificationKeyList.add("MESSAGE");
+            notificationKeyList.add("MT_SYNC"); // 0
+            notificationKeyList.add("MT_MARK_ALL_MESSAGE_AS_READ"); //1
+            notificationKeyList.add("MT_DELIVERED"); //2
+            notificationKeyList.add("MT_SYNC_PENDING"); //3
+            notificationKeyList.add("MT_DELETE_MESSAGE"); //4
+            notificationKeyList.add("MT_DELETE_MULTIPLE_MESSAGE"); //5
+            notificationKeyList.add("MT_DELETE_MESSAGE_CONTACT");// 6
+            notificationKeyList.add("MTEXTER_USER");//7
+            notificationKeyList.add("MT_CONTACT_VERIFIED"); //8
+            notificationKeyList.add("MT_CONTACT_UPDATED"); //9
+            notificationKeyList.add("MT_DEVICE_CONTACT_SYNC");//10
+            notificationKeyList.add("MT_EMAIL_VERIFIED");//11
+            notificationKeyList.add("MT_DEVICE_CONTACT_MESSAGE");//12
+            notificationKeyList.add("MT_CANCEL_CALL");//13
+            notificationKeyList.add("MT_MESSAGE");//14
+
+
+
 
     }
 
-    public static final String MTCOM_PREFIX = "MTCOM";
+    public static final String MTCOM_PREFIX = "MT_";
     private static final String TAG = "MobiComPushReceiver";
 
     public static  boolean isMobiComPushNotification(Context context, Intent intent ){
 
+    //This is to identify collapse key sent in notification..
     String playload = intent.getStringExtra("collapse_key");
     if (playload.contains(MTCOM_PREFIX) || notificationKeyList.contains(playload)){
         return true;
@@ -58,24 +68,17 @@ public class MobiComPushReceiver  {
     }
     }
 
-    public static void  processPushNoticiation( Context context, Intent intent ) {
-        //TODO: process notification logic from C2DMReciver.....
-        Bundle extras = intent.getExtras();
-
-
-    }
-
     public static void processMessage(Context context, Intent intent) {
         Bundle extras = intent.getExtras();
         if (extras != null) {
             // ToDo: do something for invalidkey ;
             // && extras.get("InvalidKey") != null
               String message = intent.getStringExtra("collapse_key");
-              String deleteConversationForContact = intent.getStringExtra("DELETE_SMS_CONTACT");
-              String deleteSms = intent.getStringExtra("DELETE_SMS");
-              String multipleMessageDelete = intent.getStringExtra("DELETE_MULTIPLE_MESSAGE");
-              String mtexterUser = intent.getStringExtra("MTEXTER_USER");
-              String payloadForDelivered = intent.getStringExtra("DELIVERED");
+              String deleteConversationForContact = intent.getStringExtra(notificationKeyList.get(6));
+              String deleteSms = intent.getStringExtra(notificationKeyList.get(4));
+              String multipleMessageDelete = intent.getStringExtra(notificationKeyList.get(5));
+              String mtexterUser = intent.getStringExtra(notificationKeyList.get(7));
+              String payloadForDelivered = intent.getStringExtra(notificationKeyList.get(2));
 
               MobiComMessageService messageService = new MobiComMessageService(context, MessageIntentService.class);
 
@@ -113,11 +116,11 @@ public class MobiComPushReceiver  {
                 processDeleteSingleMessageRequest(context, deleteSms.split(",")[0], contactNumbers);
             }
 
-            if ("MARK_ALL_SMS_AS_READ".equalsIgnoreCase(message)) {
+            if (notificationKeyList.get(1).equalsIgnoreCase(message)) {
 
-            } else if ("SYNC".equalsIgnoreCase(message)) {
+            } else if (notificationKeyList.get(0).equalsIgnoreCase(message)) {
                 messageService.syncMessages();
-            } else if ("SYNC_PENDING".equalsIgnoreCase(message)) {
+            } else if (notificationKeyList.get(3).equalsIgnoreCase(message)) {
               //  MessageStatUtil.sendMessageStatsToServer(context);
             }
         }

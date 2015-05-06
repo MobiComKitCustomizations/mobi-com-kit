@@ -51,11 +51,13 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                 context.startService(newIntent);
                 return;
             }
-            newIntent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+            //TODO: get activity name in intent...
+            newIntent = new Intent(context,getActivityToOpen("com.mobicomkit.client.ui.activity.SlidingPaneActivity") );
             newIntent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, messageJson);
             newIntent.putExtra("sms_body", "text");
             newIntent.setType("vnd.android-dir/mms-sms");
             newIntent.setAction(NotificationBroadcastReceiver.LAUNCH_MOBITEXTER);
+            newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(newIntent);
         }
     }
@@ -67,4 +69,19 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
         }
         return null;
     }
+
+    public Class getActivityToOpen(String StringClassname ) {
+        if (StringClassname != null) {
+            try {
+                Class c = Class.forName(StringClassname);
+                return c;
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+
+            }
+        }
+        return null;
+    }
+
+
 }

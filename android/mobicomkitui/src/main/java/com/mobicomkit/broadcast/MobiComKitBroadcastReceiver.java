@@ -25,7 +25,7 @@ import net.mobitexter.mobiframework.people.contact.ContactUtils;
  */
 public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
 
-    private static final String TAG = "MobiTexterBroadcastReceiver";
+    private static final String TAG = "MTBroadcastReceiver";
 
     private MobiComQuickConversationFragment quickConversationFragment;
     private MobiComConversationFragment conversationFragment;

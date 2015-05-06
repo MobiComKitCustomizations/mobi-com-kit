@@ -1,4 +1,4 @@
-package com.mobicomkit.sample.pushNotification;
+package com.mobicomkit.sample.pushnotification;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;

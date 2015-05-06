@@ -39,7 +39,7 @@ public class NotificationService {
     private int wearable_send_icon;
 
 
-    NotificationService( int iconResourceID, Context context,int wearable_action_label,int wearable_action_title,int wearable_send_icon){
+    public NotificationService( int iconResourceID, Context context,int wearable_action_label,int wearable_action_title,int wearable_send_icon){
         this.context =  context;
         this.iconResourceId = iconResourceID;
         this.wearable_action_label= wearable_action_label;

@@ -100,6 +100,7 @@ public class MobiComMessageService {
         Contact contact = ContactUtils.getContact(context, message.getTo());
         BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString(), message);
         //Todo: use email if contact number is empty
+        BroadcastService.sendNotificationBroadcast(context,message);
         Log.i(TAG, "Updating delivery status: " + message.getPairedMessageKeyString() + ", " + userPreferences.getContactNumber());
         messageClientService.updateDeliveryStatus(message.getPairedMessageKeyString(), userPreferences.getContactNumber());
         return contact;

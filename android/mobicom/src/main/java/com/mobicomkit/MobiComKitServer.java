@@ -13,7 +13,7 @@ public class MobiComKitServer {
 
     public static final String BASE_URL = "http://mobi-com.appspot.com";
 
-    public static final Short MOBICOMKIT_VERSION_CODE = 65;
+    public static final Short MOBICOMKIT_VERSION_CODE = 71;
 
     public static final String CREATE_ACCOUNT_URL = BASE_URL + "/rest/ws/registration/v1/register";
     public static final String CHECK_FOR_MT_USER = BASE_URL + "/rest/ws/contact/v2/ismtexter";

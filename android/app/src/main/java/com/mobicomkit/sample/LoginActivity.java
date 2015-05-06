@@ -26,7 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.mobicomkit.sample.pushNotification.GCMRegistrationUtils;
+import com.mobicomkit.sample.pushnotification.GCMRegistrationUtils;
 import com.mobicomkit.user.RegisterUserClientService;
 
 import java.util.ArrayList;

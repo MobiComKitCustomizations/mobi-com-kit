@@ -69,8 +69,18 @@ public class BroadcastService {
         context.sendBroadcast(intentUpdate);
     }
 
+
+    public static void sendNotificationBroadcast(Context context, Message message) {
+        Log.i(TAG, "Sending notification broadcast....");
+        Intent notificationIntent = new Intent();
+        notificationIntent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, GsonUtils.getJsonFromObject(message, Message.class));
+        notificationIntent.setAction("com.mobicomkit.notification");
+       //    notificationIntent.addCategory();
+        context.sendBroadcast(notificationIntent);
+    }
+
     public static enum INTENT_ACTIONS {LOAD_MORE, FIRST_TIME_SYNC_COMPLETE, MESSAGE_SYNC_ACK_FROM_SERVER,
         SYNC_MESSAGE, DELETE_MESSAGE, DELETE_CONVERSATION, MESSAGE_DELIVERY, INSTRUCTION,
         UPLOAD_ATTACHMENT_FAILED, MESSAGE_ATTACHMENT_DOWNLOAD_DONE,SMS_ATTACHMENT_DOWNLOAD_FAILD,
-        CONTACT_VERIFIED}
+        CONTACT_VERIFIED,NOTIFY_USER}
 }
