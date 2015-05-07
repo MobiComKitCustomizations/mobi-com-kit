@@ -1,2 +1,0 @@
-var dateUtils = new DateUtils();
-
