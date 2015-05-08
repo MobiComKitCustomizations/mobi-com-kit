@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message.conversation;
+package com.mobicomkit.uiwidgets.message.conversation;
 
 /**
  * Created by devashish on 23/2/14.
@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mobicomkit.client.ui.R;
+import com.mobicomkit.communication.message.conversation.SpinnerNavItem;
 
 import net.mobitexter.mobiframework.people.contact.Contact;
 

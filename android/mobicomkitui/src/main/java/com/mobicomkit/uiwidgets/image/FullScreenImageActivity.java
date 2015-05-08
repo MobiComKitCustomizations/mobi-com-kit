@@ -1,4 +1,4 @@
-package com.mobicomkit.image;
+package com.mobicomkit.uiwidgets.image;
 
 import android.annotation.TargetApi;
 import android.content.Intent;

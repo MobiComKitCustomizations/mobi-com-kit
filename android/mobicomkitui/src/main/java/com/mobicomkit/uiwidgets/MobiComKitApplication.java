@@ -1,4 +1,4 @@
-package com.mobicomkit.client.ui;
+package com.mobicomkit.uiwidgets;
 
 import android.app.Application;
 

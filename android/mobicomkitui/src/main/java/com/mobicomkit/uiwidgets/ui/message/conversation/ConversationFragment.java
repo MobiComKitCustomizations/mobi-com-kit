@@ -1,4 +1,4 @@
-package com.mobicomkit.client.ui.message.conversation;
+package com.mobicomkit.uiwidgets.ui.message.conversation;
 
 import android.location.Location;
 import android.os.Bundle;
@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.mobicomkit.client.ui.MobiComKitApplication;
+import com.mobicomkit.uiwidgets.MobiComKitApplication;
 import com.mobicomkit.client.ui.R;
 
 import com.mobicomkit.client.ui.MessageIntentService;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;
-import com.mobicomkit.userinterface.MobiComConversationFragment;
+import com.mobicomkit.uiwidgets.userinterface.MobiComConversationFragment;
 import net.mobitexter.mobiframework.commons.core.utils.LocationUtils;
 
 public class ConversationFragment extends MobiComConversationFragment {

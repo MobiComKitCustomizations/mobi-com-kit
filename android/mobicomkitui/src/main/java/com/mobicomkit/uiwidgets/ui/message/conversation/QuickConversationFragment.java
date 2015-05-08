@@ -1,14 +1,14 @@
-package com.mobicomkit.client.ui.message.conversation;
+package com.mobicomkit.uiwidgets.ui.message.conversation;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
-import com.mobicomkit.client.ui.MobiComKitApplication;
+import com.mobicomkit.uiwidgets.MobiComKitApplication;
 import com.mobicomkit.client.ui.R;
 import com.mobicomkit.client.ui.MessageIntentService;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;
-import com.mobicomkit.userinterface.ConversationAdapter;
-import com.mobicomkit.userinterface.MobiComQuickConversationFragment;
+import com.mobicomkit.uiwidgets.userinterface.ConversationAdapter;
+import com.mobicomkit.uiwidgets.userinterface.MobiComQuickConversationFragment;
 
 public class QuickConversationFragment extends MobiComQuickConversationFragment {
 ;

@@ -1,4 +1,4 @@
-package com.mobicomkit.userinterface;
+package com.mobicomkit.uiwidgets.userinterface;
 
 
 import android.app.Activity;
@@ -16,7 +16,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -56,11 +55,11 @@ import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.communication.message.FileMeta;
 import com.mobicomkit.communication.message.conversation.ConversationListView;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;
-import com.mobicomkit.communication.message.conversation.MultimediaOptionFragment;
+import com.mobicomkit.uiwidgets.message.conversation.MultimediaOptionFragment;
 import com.mobicomkit.communication.message.conversation.SpinnerNavItem;
-import com.mobicomkit.communication.message.conversation.TitleNavigationAdapter;
+import com.mobicomkit.uiwidgets.message.conversation.TitleNavigationAdapter;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
-import com.mobicomkit.communication.message.schedule.ConversationScheduler;
+import com.mobicomkit.uiwidgets.message.schedule.ConversationScheduler;
 import com.mobicomkit.communication.message.schedule.ScheduledTimeHolder;
 import com.mobicomkit.communication.message.selfdestruct.DisappearingMessageTask;
 import com.mobicomkit.instruction.InstructionUtil;

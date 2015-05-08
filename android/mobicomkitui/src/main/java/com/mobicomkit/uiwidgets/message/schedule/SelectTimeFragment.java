@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message.schedule;
+package com.mobicomkit.uiwidgets.message.schedule;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.mobicomkit.client.ui.R;
+import com.mobicomkit.communication.message.schedule.ScheduledTimeHolder;
 
 import java.util.Calendar;
 

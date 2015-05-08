@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mobicomkit.client.ui.activity.SlidingPaneActivity"
+            android:name="com.mobicomkit.uiwidgets.ui.activity.SlidingPaneActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity"
@@ -65,12 +65,12 @@
             android:name="net.mobitexter.mobiframework.people.activity.MobiComKitPeopleActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/activity_contacts_list"
-            android:parentActivityName="com.mobicomkit.client.ui.activity.SlidingPaneActivity"
+            android:parentActivityName="com.mobicomkit.uiwidgets.ui.activity.SlidingPaneActivity"
             android:theme="@style/ContactTheme"
             android:windowSoftInputMode="adjustResize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mobicomkit.client.ui.activity.SlidingPaneActivity" />
+                android:value="com.mobicomkit.uiwidgets.ui.activity.SlidingPaneActivity" />
 
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -82,16 +82,16 @@
         </activity>
 
         <activity
-            android:name="com.mobicomkit.image.FullScreenImageActivity"
+            android:name="com.mobicomkit.uiwidgets.image.FullScreenImageActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Image"
-            android:parentActivityName="com.mobicomkit.client.ui.activity.SlidingPaneActivity"
+            android:parentActivityName="com.mobicomkit.uiwidgets.ui.activity.SlidingPaneActivity"
             android:theme="@style/MobiComAppBaseTheme" >
 
             <!-- Parent activity meta-data to support API level 7+ -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mobicomkit.client.ui.activity.SlidingPaneActivity" />
+                android:value="com.mobicomkit.uiwidgets.ui.activity.SlidingPaneActivity" />
         </activity>
 
         <service
@@ -114,7 +114,7 @@
         </receiver>
 
         <receiver
-            android:name="com.mobicomkit.broadcast.MTNotificationBroadcastReceiver"
+            android:name="com.mobicomkit.uiwidgets.broadcast.MTNotificationBroadcastReceiver"
             >
             <intent-filter>
                 <action  android:name="com.mobicomkit.notification" />

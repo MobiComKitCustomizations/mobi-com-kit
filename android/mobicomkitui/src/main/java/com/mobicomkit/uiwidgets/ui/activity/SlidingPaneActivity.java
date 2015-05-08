@@ -1,4 +1,4 @@
-package com.mobicomkit.client.ui.activity;
+package com.mobicomkit.uiwidgets.ui.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -17,18 +17,18 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.mobicomkit.GeneralConstants;
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.broadcast.MobiComKitBroadcastReceiver;
+import com.mobicomkit.uiwidgets.broadcast.MobiComKitBroadcastReceiver;
 import com.mobicomkit.client.ui.MessageIntentService;
-import com.mobicomkit.client.ui.MobiComKitApplication;
+import com.mobicomkit.uiwidgets.MobiComKitApplication;
 import com.mobicomkit.client.ui.R;
-import com.mobicomkit.client.ui.message.conversation.ConversationFragment;
-import com.mobicomkit.client.ui.message.conversation.QuickConversationFragment;
+import com.mobicomkit.uiwidgets.ui.message.conversation.ConversationFragment;
+import com.mobicomkit.uiwidgets.ui.message.conversation.QuickConversationFragment;
 import com.mobicomkit.communication.message.Message;
 import com.mobicomkit.communication.message.MobiComMessageService;
 import com.mobicomkit.instruction.InstructionUtil;
 import com.mobicomkit.user.MobiComUserPreference;
 import com.mobicomkit.user.UserClientService;
-import com.mobicomkit.userinterface.MobiComActivity;
+import com.mobicomkit.uiwidgets.userinterface.MobiComActivity;
 
 import net.mobitexter.mobiframework.commons.core.utils.Support;
 import net.mobitexter.mobiframework.people.activity.MobiComKitPeopleActivity;

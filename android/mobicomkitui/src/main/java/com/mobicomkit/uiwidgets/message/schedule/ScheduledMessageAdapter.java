@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message.schedule;
+package com.mobicomkit.uiwidgets.message.schedule;
 
 
 import android.annotation.TargetApi;

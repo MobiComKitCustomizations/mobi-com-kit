@@ -12,7 +12,7 @@
 
     <fragment
             android:id="@+id/quick_conversation_fragment_pane"
-            android:name="com.mobicomkit.client.ui.message.conversation.QuickConversationFragment"
+            android:name="com.mobicomkit.uiwidgets.ui.message.conversation.QuickConversationFragment"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="left" ></fragment>
@@ -28,7 +28,7 @@
 
     <fragment
             android:id="@+id/conversation_fragment_pane"
-            android:name="com.mobicomkit.client.ui.message.conversation.ConversationFragment"
+            android:name="com.mobicomkit.uiwidgets.ui.message.conversation.ConversationFragment"
             android:layout_width="450dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

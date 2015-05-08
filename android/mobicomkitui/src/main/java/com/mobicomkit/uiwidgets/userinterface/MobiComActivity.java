@@ -1,4 +1,4 @@
-package com.mobicomkit.userinterface;
+package com.mobicomkit.uiwidgets.userinterface;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,10 +25,10 @@ import com.mobicomkit.client.ui.R;
 import com.mobicomkit.communication.message.Message;
 
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.broadcast.MobiComKitBroadcastReceiver;
-import com.mobicomkit.communication.message.conversation.MultimediaOptionFragment;
+import com.mobicomkit.uiwidgets.broadcast.MobiComKitBroadcastReceiver;
+import com.mobicomkit.uiwidgets.message.conversation.MultimediaOptionFragment;
 import com.mobicomkit.communication.message.conversation.SpinnerNavItem;
-import com.mobicomkit.communication.message.conversation.TitleNavigationAdapter;
+import com.mobicomkit.uiwidgets.message.conversation.TitleNavigationAdapter;
 import com.mobicomkit.instruction.InstructionUtil;
 import com.mobicomkit.user.MobiComUserPreference;
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;

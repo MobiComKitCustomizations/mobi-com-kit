@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message.schedule;
+package com.mobicomkit.uiwidgets.message.schedule;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,6 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mobicomkit.client.ui.R;
+import com.mobicomkit.communication.message.schedule.ScheduledTimeHolder;
+import com.mobicomkit.communication.message.schedule.SelectDateFragment;
+
 import net.mobitexter.mobiframework.commons.core.utils.DateUtils;
 
 /**

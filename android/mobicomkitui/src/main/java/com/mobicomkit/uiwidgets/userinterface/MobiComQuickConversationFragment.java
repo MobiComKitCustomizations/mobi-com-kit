@@ -1,4 +1,4 @@
-package com.mobicomkit.userinterface;
+package com.mobicomkit.uiwidgets.userinterface;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -22,10 +22,8 @@ import com.mobicomkit.communication.message.conversation.ConversationListView;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
 import com.mobicomkit.instruction.InstructionUtil;
-import com.mobicomkit.user.MobiComUserPreference;
 import com.shamanland.fab.FloatingActionButton;
 
-import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
 import net.mobitexter.mobiframework.commons.core.utils.Utils;
 import net.mobitexter.mobiframework.people.contact.Contact;
 
