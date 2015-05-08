@@ -1,4 +1,4 @@
-package com.mobicomkit.uiwidgets.message.schedule;
+package com.mobicomkit.uiwidgets.schedule;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;

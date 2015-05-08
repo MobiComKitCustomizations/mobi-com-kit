@@ -1,4 +1,4 @@
-package com.mobicomkit.uiwidgets.userinterface;
+package com.mobicomkit.uiwidgets.conversation;
 
 import com.mobicomkit.communication.message.Message;
 

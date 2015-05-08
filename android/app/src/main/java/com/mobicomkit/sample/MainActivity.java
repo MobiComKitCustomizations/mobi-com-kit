@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mobicomkit.uiwidgets.ui.activity.SlidingPaneActivity;
+import com.mobicomkit.uiwidgets.conversation.activity.SlidingPaneActivity;
 import com.mobicomkit.database.MobiComDatabaseHelper;
 import com.mobicomkit.user.MobiComUserPreference;
 

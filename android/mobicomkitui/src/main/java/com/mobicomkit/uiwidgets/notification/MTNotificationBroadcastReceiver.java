@@ -1,4 +1,4 @@
-package com.mobicomkit.uiwidgets.broadcast;
+package com.mobicomkit.uiwidgets.notification;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

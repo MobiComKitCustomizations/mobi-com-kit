@@ -1,4 +1,4 @@
-package com.mobicomkit.uiwidgets.userinterface;
+package com.mobicomkit.uiwidgets.conversation.fragment;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -22,6 +22,8 @@ import com.mobicomkit.communication.message.conversation.ConversationListView;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
 import com.mobicomkit.instruction.InstructionUtil;
+import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
+import com.mobicomkit.uiwidgets.conversation.adapter.ConversationAdapter;
 import com.shamanland.fab.FloatingActionButton;
 
 import net.mobitexter.mobiframework.commons.core.utils.Utils;

@@ -1,4 +1,4 @@
-package com.mobicomkit.uiwidgets.userinterface;
+package com.mobicomkit.uiwidgets.conversation.adapter;
 
 
 import android.app.Activity;
@@ -35,7 +35,8 @@ import com.mobicomkit.communication.message.FileMeta;
 import com.mobicomkit.communication.message.Message;
 import com.mobicomkit.communication.message.database.MessageDatabaseService;
 import com.mobicomkit.instruction.InstructionUtil;
-import com.mobicomkit.uiwidgets.image.FullScreenImageActivity;
+import com.mobicomkit.uiwidgets.conversation.activity.FullScreenImageActivity;
+import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
 import com.mobicomkit.user.MobiComUserPreference;
 import net.mobitexter.mobiframework.alphanumbericcolor.AlphaNumberColorUtil;
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;

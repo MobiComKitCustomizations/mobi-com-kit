@@ -1,4 +1,4 @@
-package com.mobicomkit.uiwidgets.message.conversation;
+package com.mobicomkit.uiwidgets.conversation.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,7 +12,7 @@ import android.support.v4.app.FragmentManager;
 
 
 import com.mobicomkit.client.ui.R;
-import com.mobicomkit.uiwidgets.userinterface.MobiComActivity;
+import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
 import com.mobicomkit.attachment.FileClientService;
 
 import net.mobitexter.mobicom.FileUtils;

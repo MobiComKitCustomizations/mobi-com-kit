@@ -1,4 +1,4 @@
-package com.mobicomkit.uiwidgets.message.conversation;
+package com.mobicomkit.uiwidgets.conversation.adapter;
 
 /**
  * Created by devashish on 23/2/14.

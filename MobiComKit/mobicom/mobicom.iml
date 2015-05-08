@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.path="$MODULE_DIR$/../../android/mobicom" external.root.project.path="$MODULE_DIR$/../../../../MobiTexter/Source Code/MobileApps/Android/MobiTexterGradle" external.system.id="GRADLE" type="JAVA_MODULE" version="4">
+<module external.linked.project.path="$MODULE_DIR$/../../android/mobicom" external.root.project.path="E:/../MobiTexter/Source Code/MobileApps/Android/MobiTexterGradle" external.system.id="GRADLE" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
@@ -24,20 +24,20 @@
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/../../android/mobicom/build/intermediates/classes/debug" />
+    <output url="file://$MODULE_DIR$/../../android/mobicomkit/build/intermediates/classes/debug" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../android/mobicom">
-      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/build/generated/source/r/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/build/generated/source/aidl/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/build/generated/source/buildConfig/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/build/generated/source/rs/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/build/generated/res/rs/debug" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicomkit/build/generated/source/r/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicomkit/build/generated/source/aidl/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicomkit/build/generated/source/buildConfig/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicomkit/build/generated/source/rs/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicomkit/build/generated/res/rs/debug" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/build/generated/res/generated/debug" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/build/generated/source/r/test/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/build/generated/source/aidl/test/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/build/generated/source/buildConfig/test/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/build/generated/source/rs/test/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/build/generated/res/rs/test/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicomkit/build/generated/source/r/test/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicomkit/build/generated/source/aidl/test/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicomkit/build/generated/source/buildConfig/test/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicomkit/build/generated/source/rs/test/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicomkit/build/generated/res/rs/test/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/build/generated/res/generated/test/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/src/debug/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/src/debug/resources" type="java-resource" />
@@ -50,14 +50,14 @@
       <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/src/main/assets" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/src/main/aidl" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicomkit/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/src/main/jni" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/src/main/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/src/androidTest/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/src/androidTest/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/src/androidTest/assets" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/src/androidTest/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/src/androidTest/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../android/mobicomkit/src/androidTest/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/src/androidTest/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../android/mobicom/src/androidTest/rs" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/../../android/mobicom/build/intermediates/assets" />

@@ -1,4 +1,4 @@
-package com.mobicomkit.uiwidgets.broadcast;
+package com.mobicomkit.uiwidgets.conversation;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,9 +12,9 @@ import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.client.ui.R;
 import com.mobicomkit.communication.message.Message;
 import com.mobicomkit.user.MobiComUserPreference;
-import com.mobicomkit.uiwidgets.userinterface.MobiComActivity;
-import com.mobicomkit.uiwidgets.userinterface.MobiComConversationFragment;
-import com.mobicomkit.uiwidgets.userinterface.MobiComQuickConversationFragment;
+import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
+import com.mobicomkit.uiwidgets.conversation.fragment.MobiComConversationFragment;
+import com.mobicomkit.uiwidgets.conversation.fragment.MobiComQuickConversationFragment;
 import com.mobicomkit.instruction.InstructionUtil;
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
 import net.mobitexter.mobiframework.json.GsonUtils;
