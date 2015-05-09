@@ -17,20 +17,21 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.mobicomkit.GeneralConstants;
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.uiwidgets.conversation.MobiComKitBroadcastReceiver;
 import com.mobicomkit.client.ui.MessageIntentService;
-import com.mobicomkit.uiwidgets.MobiComKitApplication;
-import com.mobicomkit.uiwidgets.R;
-import com.mobicomkit.uiwidgets.conversation.fragment.ConversationFragment;
-import com.mobicomkit.uiwidgets.conversation.fragment.QuickConversationFragment;
 import com.mobicomkit.communication.message.Message;
 import com.mobicomkit.communication.message.MobiComMessageService;
 import com.mobicomkit.instruction.InstructionUtil;
+import com.mobicomkit.uiwidgets.MobiComKitApplication;
+import com.mobicomkit.uiwidgets.R;
+import com.mobicomkit.uiwidgets.conversation.MobiComKitBroadcastReceiver;
+import com.mobicomkit.uiwidgets.conversation.fragment.ConversationFragment;
+import com.mobicomkit.uiwidgets.conversation.fragment.QuickConversationFragment;
 import com.mobicomkit.user.MobiComUserPreference;
 import com.mobicomkit.user.UserClientService;
 
 import net.mobitexter.mobiframework.commons.core.utils.Support;
 import net.mobitexter.mobiframework.people.activity.MobiComKitPeopleActivity;
+import net.mobitexter.mobiframework.people.contact.Contact;
 
 
 /**
@@ -93,6 +94,10 @@ public class SlidingPaneActivity extends MobiComActivity {
                 .build();*/
 
         checkForStartNewConversation(getIntent());
+
+        /*Contact contact = new Contact();
+        contact.setUserId("devashish.mamgain");
+        openConversationFragment(contact);*/
 
        /* AppRater appRater = new AppRater();
         appRater.appLaunched(this);*/
