@@ -1,6 +1,6 @@
 package net.mobitexter.mobiframework.alphanumbericcolor;
 
-import com.mobicomkit.client.ui.R;
+import com.mobicomkit.uiwidgets.R;
 
 import java.util.Map;
 

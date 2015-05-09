@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.mobicomkit.uiwidgets.MobiComKitApplication;
-import com.mobicomkit.client.ui.R;
+import com.mobicomkit.uiwidgets.R;
 
 import com.mobicomkit.client.ui.MessageIntentService;
 import com.mobicomkit.communication.message.conversation.MobiComConversationService;

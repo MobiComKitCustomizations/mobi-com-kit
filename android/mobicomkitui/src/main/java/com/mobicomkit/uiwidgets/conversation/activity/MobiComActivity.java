@@ -21,7 +21,7 @@ import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.mobicomkit.MobiComKitConstants;
-import com.mobicomkit.client.ui.R;
+import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.communication.message.Message;
 
 import com.mobicomkit.broadcast.BroadcastService;
@@ -53,10 +53,7 @@ import java.util.ArrayList;
 abstract public class MobiComActivity extends ActionBarActivity implements ActionBar.OnNavigationListener,
         MessageCommunicator {
 
-    private static final String TAG = "MobiComActivity";
-
     public static final int REQUEST_CODE_FULL_SCREEN_ACTION = 301;
-
     public static final int REQUEST_CODE_CONTACT_GROUP_SELECTION = 101;
     public static final int LOCATION_SERVICE_ENABLE = 1001;
     public static final int REQUEST_CODE_ATTACHMENT_ACTION = 201;
@@ -64,23 +61,20 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
     public static final int INSTRUCTION_DELAY = 5000;
     protected static final long UPDATE_INTERVAL = 5;
     protected static final long FASTEST_INTERVAL = 1;
-    protected static boolean HOME_BUTTON_ENABLED = false;
+    private static final String TAG = "MobiComActivity";
     public static String currentOpenedContactNumber;
     public static boolean mobiTexterBroadcastReceiverActivated;
+    public static String title = "Conversations";
+    protected static boolean HOME_BUTTON_ENABLED = false;
     protected ActionBar mActionBar;
-
     protected SlidingPaneLayout slidingPaneLayout;
     protected MobiComKitBroadcastReceiver mobiComKitBroadcastReceiver;
-
     protected MobiComQuickConversationFragment quickConversationFragment;
     protected MobiComConversationFragment conversationFragment;
-
     // Title navigation Spinner data
     protected ArrayList<SpinnerNavItem> navSpinner;
     // Navigation adapter
     protected TitleNavigationAdapter adapter;
-
-    public static String title = "Conversations";
 
     @Override
     protected void onResume() {
@@ -166,30 +160,6 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
 
     public abstract void startContactActivityForResult(Message message, String messageContent);
 
-    /**
-     * This global layout listener is used to fire an event after first layout
-     * occurs and then it is removed. This gives us a chance to configure parts
-     * of the UI that adapt based on available space after they have had the
-     * opportunity to measure and layout.
-     */
-    public class FirstLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener {
-        @Override
-        public void onGlobalLayout() {
-
-            if (slidingPaneLayout.isSlideable() && !slidingPaneLayout.isOpen()) {
-                panelClosed();
-            } else {
-                panelOpened();
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                slidingPaneLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            } else {
-                slidingPaneLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            }
-        }
-    }
-
-
     public void onQuickConversationFragmentItemClick(View view, Contact contact) {
         TextView textView = (TextView)view.findViewById(R.id.unreadSmsCount);
         textView.setVisibility(View.GONE);
@@ -242,7 +212,6 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
         currentOpenedContactNumber = conversationFragment.getFormattedContactNumber();
     }
 
-
     public void loadLatestInConversationFragment() {
         if (conversationFragment.getContact() != null || conversationFragment.getGroup() != null) {
             return;
@@ -253,34 +222,6 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
             conversationFragment.loadConversation(contact);
         }
     }
-
-    public class SliderListener extends SlidingPaneLayout.SimplePanelSlideListener {
-
-        @Override
-        public void onPanelOpened(View panel) {
-            panelOpened();
-        }
-
-        @Override
-        public void onPanelClosed(View panel) {
-            panelClosed();
-        }
-
-        @Override
-        public void onPanelSlide(View view, float v) {
-        }
-
-    }
-//
-//    @Override
-//    public void onEmojiconBackspaceClicked(View view) {
-//        conversationFragment.onEmojiconBackspace();
-//    }
-//
-//    @Override
-//    public void onEmojiconClicked(Emojicon emojicon) {
-//        conversationFragment.onEmojiconClicked(emojicon);
-//    }
 
     protected void registerMobiTexterBroadcastReceiver() {
         IntentFilter intentFilter = new IntentFilter();
@@ -307,6 +248,16 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
         }
         return super.onKeyDown(keyCode, event);
     }
+//
+//    @Override
+//    public void onEmojiconBackspaceClicked(View view) {
+//        conversationFragment.onEmojiconBackspace();
+//    }
+//
+//    @Override
+//    public void onEmojiconClicked(Emojicon emojicon) {
+//        conversationFragment.onEmojiconClicked(emojicon);
+//    }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
@@ -457,6 +408,47 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
         return Uri.parse(path);
     }
 
-    public SlidingPaneLayout getSlidingPaneLayout() {
+public SlidingPaneLayout getSlidingPaneLayout() {
         return slidingPaneLayout;
+    }
+
+    /**
+     * This global layout listener is used to fire an event after first layout
+     * occurs and then it is removed. This gives us a chance to configure parts
+     * of the UI that adapt based on available space after they have had the
+     * opportunity to measure and layout.
+     */
+    public class FirstLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener {
+        @Override
+        public void onGlobalLayout() {
+
+            if (slidingPaneLayout.isSlideable() && !slidingPaneLayout.isOpen()) {
+                panelClosed();
+            } else {
+                panelOpened();
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                slidingPaneLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            } else {
+                slidingPaneLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+        }
+    }
+
+        public class SliderListener extends SlidingPaneLayout.SimplePanelSlideListener {
+
+        @Override
+        public void onPanelOpened(View panel) {
+            panelOpened();
+        }
+
+        @Override
+        public void onPanelClosed(View panel) {
+            panelClosed();
+        }
+
+        @Override
+        public void onPanelSlide(View view, float v) {
+        }
+
     }}

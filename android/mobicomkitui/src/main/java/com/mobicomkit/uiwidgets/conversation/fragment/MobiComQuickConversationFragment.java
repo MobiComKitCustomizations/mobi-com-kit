@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.mobicomkit.client.ui.R;
+import com.mobicomkit.uiwidgets.R;
 
 /**
  * Created by devashish on 10/2/15.
@@ -231,6 +231,44 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
         ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        //FlurryAgent.logEvent(QUICK_CONVERSATION_EVENT);
+        listView.setAdapter(conversationAdapter);
+        startNewButton.setOnClickListener(startNewConversation());
+        fabButton.setOnClickListener(startNewConversation());
+
+        //listView.setOnTouchListener(new ShowHideOnScroll(fabButton));
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0 && loadMore) {
+                    loadMore = false;
+                    new DownloadConversation(view, false, firstVisibleItem, visibleItemCount, totalItemCount).execute();
+                }
+            }
+        });
+    }
+
+    public void downloadConversations() {
+        downloadConversations(false);
+    }
+
+    public void downloadConversations(boolean showInstruction) {
+        minCreatedAtTime = 0;
+        new DownloadConversation(listView, true, 1, 0, 0, showInstruction).execute();
+    }
+
     public class DownloadConversation extends AsyncTask<Void, Integer, Long> {
 
         private AbsListView view;
@@ -324,44 +362,6 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
                 InstructionUtil.showInstruction(context, R.string.instruction_open_conversation_thread, MobiComActivity.INSTRUCTION_DELAY, BroadcastService.INTENT_ACTIONS.INSTRUCTION.toString());
             }
         }
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        //FlurryAgent.logEvent(QUICK_CONVERSATION_EVENT);
-        listView.setAdapter(conversationAdapter);
-        startNewButton.setOnClickListener(startNewConversation());
-        fabButton.setOnClickListener(startNewConversation());
-
-        //listView.setOnTouchListener(new ShowHideOnScroll(fabButton));
-
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem,
-                                 int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0 && loadMore) {
-                    loadMore = false;
-                    new DownloadConversation(view, false, firstVisibleItem, visibleItemCount, totalItemCount).execute();
-                }
-            }
-        });
-    }
-
-    public void downloadConversations() {
-        downloadConversations(false);
-    }
-
-    public void downloadConversations(boolean showInstruction) {
-        minCreatedAtTime = 0;
-        new DownloadConversation(listView, true, 1, 0, 0, showInstruction).execute();
     }
 
 }

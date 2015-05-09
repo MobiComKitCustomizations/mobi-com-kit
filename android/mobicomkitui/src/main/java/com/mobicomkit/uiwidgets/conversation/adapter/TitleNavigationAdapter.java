@@ -15,7 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mobicomkit.client.ui.R;
+import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.communication.message.conversation.SpinnerNavItem;
 
 import net.mobitexter.mobiframework.people.contact.Contact;

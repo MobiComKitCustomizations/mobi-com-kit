@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.mobicomkit.MobiComKitConstants;
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.client.ui.R;
+import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.communication.message.Message;
 import com.mobicomkit.user.MobiComUserPreference;
 import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;

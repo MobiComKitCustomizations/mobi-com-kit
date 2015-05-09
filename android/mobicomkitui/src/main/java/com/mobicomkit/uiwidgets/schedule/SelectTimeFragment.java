@@ -9,16 +9,34 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.mobicomkit.client.ui.R;
+import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.communication.message.schedule.ScheduledTimeHolder;
 
 import java.util.Calendar;
 
 public class SelectTimeFragment extends DialogFragment implements TimePickerDialog.OnClickListener {
+    final Calendar calendar = Calendar.getInstance();
     private View scheduledTimeView;
     private ScheduledTimeHolder scheduledTimeHolder;
-    final Calendar calendar = Calendar.getInstance();
     private String[] monthNames = {"Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"};
+    public TimePickerDialog.OnTimeSetListener mTimeSetListener =
+            new TimePickerDialog.OnTimeSetListener() {
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    if (scheduledTimeHolder.getDate() == null) {
+                        int year = calendar.get(Calendar.YEAR);
+                        int monthOfYear = calendar.get(Calendar.MONTH);
+                        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                        scheduledTimeHolder.setDate(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                        TextView selectedDate = (TextView) scheduledTimeView.findViewById(R.id.scheduledDate);
+                        selectedDate.setText(dayOfMonth + "-" + monthNames[monthOfYear] + "-" + year);
+                    }
+
+                    TextView selectedTime = (TextView) scheduledTimeView.findViewById(R.id.scheduledTime);
+                    scheduledTimeHolder.setTime(hourOfDay + ":" + minute + ":" + "00");
+                    selectedTime.setText(scheduledTimeHolder.getTime());
+
+                }
+            };
 
     public SelectTimeFragment() {
 
@@ -48,25 +66,6 @@ public class SelectTimeFragment extends DialogFragment implements TimePickerDial
         }
         return timePickerDialog;
     }
-
-    public TimePickerDialog.OnTimeSetListener mTimeSetListener =
-            new TimePickerDialog.OnTimeSetListener() {
-                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    if (scheduledTimeHolder.getDate() == null) {
-                        int year = calendar.get(Calendar.YEAR);
-                        int monthOfYear = calendar.get(Calendar.MONTH);
-                        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                        scheduledTimeHolder.setDate(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                        TextView selectedDate = (TextView) scheduledTimeView.findViewById(R.id.scheduledDate);
-                        selectedDate.setText(dayOfMonth + "-" + monthNames[monthOfYear] + "-" + year);
-                    }
-
-                    TextView selectedTime = (TextView) scheduledTimeView.findViewById(R.id.scheduledTime);
-                    scheduledTimeHolder.setTime(hourOfDay + ":" + minute + ":" + "00");
-                    selectedTime.setText(scheduledTimeHolder.getTime());
-
-                }
-            };
 
 
 }

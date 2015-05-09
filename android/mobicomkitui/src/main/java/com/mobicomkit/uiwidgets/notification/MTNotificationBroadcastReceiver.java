@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mobicomkit.MobiComKitConstants;
-import com.mobicomkit.client.ui.R;
+import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.communication.message.Message;
 import com.mobicomkit.notification.NotificationService;
 

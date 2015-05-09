@@ -53,7 +53,7 @@ import net.mobitexter.mobiframework.people.contact.Contact;
 import net.mobitexter.mobiframework.people.contact.ContactUtils;
 import net.mobitexter.mobiframework.people.group.Group;
 import net.mobitexter.mobiframework.people.group.GroupUtils;
-import com.mobicomkit.client.ui.R;
+import com.mobicomkit.uiwidgets.R;
 
 import java.io.File;
 import java.util.Arrays;
@@ -64,6 +64,7 @@ import java.util.Map;
 
 public class ConversationAdapter extends ArrayAdapter<Message> {
     private static final int FILE_THRESOLD_SIZE = 400;
+    private static Map<Short, Integer> messageTypeColorMap = new HashMap<Short, Integer>();
     private ImageLoader contactImageLoader;
     private Context context;
     private Contact contact;
@@ -77,7 +78,6 @@ public class ConversationAdapter extends ArrayAdapter<Message> {
     private ImageLoader imageThumbnailLoader;
     private TextView downloadSizeTextView;
     private EmojiconHandler emojiconHandler;
-    private static Map<Short, Integer> messageTypeColorMap = new HashMap<Short, Integer>();
     private FileClientService fileClientService;
     private MessageDatabaseService messageDatabaseService;
 

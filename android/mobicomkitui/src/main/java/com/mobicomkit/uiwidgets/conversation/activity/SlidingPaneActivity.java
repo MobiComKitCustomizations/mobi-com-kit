@@ -20,7 +20,7 @@ import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.uiwidgets.conversation.MobiComKitBroadcastReceiver;
 import com.mobicomkit.client.ui.MessageIntentService;
 import com.mobicomkit.uiwidgets.MobiComKitApplication;
-import com.mobicomkit.client.ui.R;
+import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.uiwidgets.conversation.fragment.ConversationFragment;
 import com.mobicomkit.uiwidgets.conversation.fragment.QuickConversationFragment;
 import com.mobicomkit.communication.message.Message;
@@ -40,18 +40,13 @@ import net.mobitexter.mobiframework.people.activity.MobiComKitPeopleActivity;
 //http://gmariotti.blogspot.in/2013/05/working-with-slidingpanelayout.html
 public class SlidingPaneActivity extends MobiComActivity {
 
-    private static final String TAG = "SlidingPaneActivity";
-
-    private LocationRequest locationRequest;
-
-    private ProgressDialog resProgressBar;
-
-    protected GoogleApiClient googleApiClient;
-
-    private static int RESULT_LOAD_IMAGE = 1;
     public static final int RESULT_OK = -1;
-
+    private static final String TAG = "SlidingPaneActivity";
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    private static int RESULT_LOAD_IMAGE = 1;
+    protected GoogleApiClient googleApiClient;
+    private LocationRequest locationRequest;
+    private ProgressDialog resProgressBar;
 
     @Override
     protected void onStop() {

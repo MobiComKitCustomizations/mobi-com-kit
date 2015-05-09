@@ -21,7 +21,7 @@ import net.mobitexter.mobiframework.people.contact.Contact;
 import net.mobitexter.mobiframework.people.contact.ContactUtils;
 import net.mobitexter.mobiframework.commons.image.ImageLoader;
 
-import com.mobicomkit.client.ui.R;
+import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.communication.message.Message;
 
 import java.text.DateFormat;

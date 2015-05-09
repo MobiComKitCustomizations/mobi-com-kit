@@ -76,7 +76,7 @@ import net.mobitexter.mobiframework.file.FilePathFinder;
 import net.mobitexter.mobiframework.json.GsonUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;
 import net.mobitexter.mobiframework.people.group.Group;
-import com.mobicomkit.client.ui.R;
+import com.mobicomkit.uiwidgets.R;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,16 +88,14 @@ import java.util.Timer;
  */
 abstract public class MobiComConversationFragment extends Fragment implements View.OnClickListener {
 
+    public static final int MAX_ALLOWED_FILE_SIZE = 5 * 1024 * 1024;
     private static final String TAG = "MobiComConversationFragment";
-
+    public FrameLayout emoticonsFrameLayout;
     protected String title = "Conversations";
     protected DownloadConversation downloadConversation;
     protected MobiComConversationService conversationService;
-
     protected TextView infoBroadcast;
-
     protected Class messageIntentClass;
-
     protected TextView emptyTextView;
     protected boolean loadMore = true;
     protected Contact contact;
@@ -111,7 +109,6 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
     protected LinearLayout extendedSendingOptionLayout;
     protected RelativeLayout attachmentLayout;
     protected ProgressBar mediaUploadProgressBar;
-    public FrameLayout emoticonsFrameLayout;
     protected View spinnerLayout;
     protected SwipeRefreshLayout swipeLayout;
     protected Button scheduleOption;
@@ -121,8 +118,6 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
     protected TextView attachedFile;
     protected String filePath;
     protected boolean firstTimeMTexterFriend;
-
-    public static final int MAX_ALLOWED_FILE_SIZE = 5 * 1024 * 1024;
     protected MessageCommunicator messageCommunicator;
     protected ConversationListView listView = null;
     protected List<Message> messageList = new ArrayList<Message>();
@@ -337,16 +332,13 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
             ((MobiComActivity) getActivity()).updateLatestMessage(messageList.get(messageListSize - 1), contact.getFormattedContactNumber());
         }
     }
-    protected void setContact(Contact contact) {
-        this.contact = contact;
-    }
 
     public Contact getContact() {
         return contact;
     }
 
-    protected void setGroup(Group group) {
-        this.group = group;
+    protected void setContact(Contact contact) {
+        this.contact = contact;
     }
 
     public String getFormattedContactNumber() {
@@ -356,7 +348,6 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
     public boolean hasMultiplePhoneNumbers() {
         return contact != null && contact.hasMultiplePhoneNumbers();
     }
-
 
     public MultimediaOptionFragment getMultimediaOptionFragment() {
         return multimediaOptionFragment;
@@ -374,13 +365,13 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
         return scheduleOption;
     }
 
-//    public EmojiconEditText getMessageEditText() {
-//        return messageEditText;
-//    }
-
     public void setFirstTimeMTexterFriend(boolean firstTimeMTexterFriend) {
         this.firstTimeMTexterFriend = firstTimeMTexterFriend;
     }
+
+//    public EmojiconEditText getMessageEditText() {
+//        return messageEditText;
+//    }
 
     public void clearList() {
         this.getActivity().runOnUiThread(new Runnable() {
@@ -525,13 +516,16 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
         InstructionUtil.showInstruction(getActivity(), R.string.instruction_go_back_to_recent_conversation_list, MobiComActivity.INSTRUCTION_DELAY, BroadcastService.INTENT_ACTIONS.INSTRUCTION.toString());
     }
 
-
     public boolean isBroadcastedToGroup(Long groupId) {
         return getGroup() != null && getGroup().getGroupId().equals(groupId);
     }
 
     public Group getGroup() {
         return group;
+    }
+
+    protected void setGroup(Group group) {
+        this.group = group;
     }
 
 //    public void onEmojiconBackspace() {
@@ -928,6 +922,12 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
         });
     }
 
+    public void selfDestructMessage(Message sms) {
+        if (Message.MessageType.MT_INBOX.getValue().equals(sms.getType()) &&
+                sms.getTimeToLive() != null && sms.getTimeToLive() != 0) {
+            new Timer().schedule(new DisappearingMessageTask(getActivity(), conversationService, sms), sms.getTimeToLive() * 60 * 1000);
+        }
+    }
 
     public class DownloadConversation extends AsyncTask<Void, Integer, Long> {
 
@@ -1045,13 +1045,6 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
             }
             swipeLayout.setRefreshing(false);
             loadMore = !nextSmsList.isEmpty();
-        }
-    }
-
-    public void selfDestructMessage(Message sms) {
-        if (Message.MessageType.MT_INBOX.getValue().equals(sms.getType()) &&
-                sms.getTimeToLive() != null && sms.getTimeToLive() != 0) {
-            new Timer().schedule(new DisappearingMessageTask(getActivity(), conversationService, sms), sms.getTimeToLive() * 60 * 1000);
         }
     }
 

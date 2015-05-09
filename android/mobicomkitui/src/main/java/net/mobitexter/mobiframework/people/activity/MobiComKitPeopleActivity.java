@@ -17,7 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.mobicomkit.client.ui.R;
+import com.mobicomkit.uiwidgets.R;
 
 import net.mobitexter.mobiframework.people.OnContactsInteractionListener;
 import net.mobitexter.mobiframework.people.contact.ContactUtils;
@@ -31,10 +31,10 @@ public class MobiComKitPeopleActivity extends ActionBarActivity implements OnCon
 
     public static final String SHARED_TEXT = "SHARED_TEXT";
     public static final String FORWARD_MESSAGE = "forwardMessage";
-    private boolean isSearchResultView = false;
-    ContactsListFragment mContactsListFragment;
     protected SearchView searchView;
     protected String searchTerm;
+    ContactsListFragment mContactsListFragment;
+    private boolean isSearchResultView = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
