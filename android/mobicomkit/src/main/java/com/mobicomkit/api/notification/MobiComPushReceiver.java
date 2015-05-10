@@ -8,14 +8,12 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.api.conversation.MessageIntentService;
-import com.mobicomkit.api.conversation.MobiComMessageService;
 import com.mobicomkit.api.conversation.MobiComConversationService;
-import com.mobicomkit.api.conversation.database.MessageDatabaseService;
-import com.mobicomkit.contact.ContactService;
+import com.mobicomkit.api.conversation.MobiComMessageService;
 import com.mobicomkit.api.people.ContactContent;
-
+import com.mobicomkit.broadcast.BroadcastService;
+import com.mobicomkit.contact.ContactService;
 
 import java.util.ArrayList;
 import java.util.List;

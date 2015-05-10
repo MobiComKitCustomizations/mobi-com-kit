@@ -8,14 +8,15 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mobicomkit.api.MobiComKitConstants;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
+import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.uiwidgets.R;
-import com.mobicomkit.api.conversation.Message;
-import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
 import com.mobicomkit.uiwidgets.conversation.fragment.MobiComConversationFragment;
 import com.mobicomkit.uiwidgets.conversation.fragment.MobiComQuickConversationFragment;
 import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
+
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
 import net.mobitexter.mobiframework.json.GsonUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;

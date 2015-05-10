@@ -21,18 +21,18 @@ import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.mobicomkit.api.MobiComKitConstants;
-import com.mobicomkit.uiwidgets.R;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.conversation.Message;
-
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.uiwidgets.conversation.MobiComKitBroadcastReceiver;
-import com.mobicomkit.uiwidgets.conversation.fragment.MultimediaOptionFragment;
-import com.mobicomkit.uiwidgets.conversation.adapter.TitleNavigationAdapter;
-import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
+import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.uiwidgets.conversation.MessageCommunicator;
+import com.mobicomkit.uiwidgets.conversation.MobiComKitBroadcastReceiver;
+import com.mobicomkit.uiwidgets.conversation.adapter.TitleNavigationAdapter;
 import com.mobicomkit.uiwidgets.conversation.fragment.MobiComConversationFragment;
 import com.mobicomkit.uiwidgets.conversation.fragment.MobiComQuickConversationFragment;
-import com.mobicomkit.api.account.user.MobiComUserPreference;
+import com.mobicomkit.uiwidgets.conversation.fragment.MultimediaOptionFragment;
+import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
+
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
 import net.mobitexter.mobiframework.commons.core.utils.Support;
 import net.mobitexter.mobiframework.commons.core.utils.Utils;

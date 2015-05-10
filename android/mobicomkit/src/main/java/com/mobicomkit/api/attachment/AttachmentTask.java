@@ -21,14 +21,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import net.mobitexter.mobiframework.commons.core.utils.FileUtils;
-import net.mobitexter.mobiframework.commons.image.PhotoDecodeRunnable;
-
 import com.mobicomkit.api.conversation.Message;
 
-import java.lang.ref.WeakReference;
-
+import net.mobitexter.mobiframework.commons.core.utils.FileUtils;
+import net.mobitexter.mobiframework.commons.image.PhotoDecodeRunnable;
 import net.mobitexter.mobiframework.commons.image.PhotoDecodeRunnable.TaskRunnableDecodeMethods;
+
+import java.lang.ref.WeakReference;
 
 /**
  * This class manages PhotoDownloadRunnable and PhotoDownloadRunnable objects.  It does't perform

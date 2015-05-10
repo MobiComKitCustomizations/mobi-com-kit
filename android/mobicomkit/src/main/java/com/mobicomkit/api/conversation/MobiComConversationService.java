@@ -7,9 +7,9 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
-import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
+import com.mobicomkit.api.conversation.database.MessageDatabaseService;
+import com.mobicomkit.broadcast.BroadcastService;
 
 import net.mobitexter.mobiframework.json.AnnotationExclusionStrategy;
 import net.mobitexter.mobiframework.json.ArrayAdapterFactory;

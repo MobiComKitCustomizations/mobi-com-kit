@@ -9,10 +9,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.attachment.FileMeta;
 import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.database.MobiComDatabaseHelper;
-import com.mobicomkit.api.account.user.MobiComUserPreference;
 
 import net.mobitexter.mobiframework.commons.core.utils.DBUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;

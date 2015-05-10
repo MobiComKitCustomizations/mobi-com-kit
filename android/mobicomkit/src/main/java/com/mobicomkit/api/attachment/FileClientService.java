@@ -7,11 +7,11 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Log;
 
+import com.mobicomkit.api.HttpRequestUtils;
 import com.mobicomkit.api.MobiComKitClientService;
 import com.mobicomkit.api.MobiComKitServer;
 
 import net.mobitexter.mobiframework.commons.core.utils.FileUtils;
-import com.mobicomkit.api.HttpRequestUtils;
 import net.mobitexter.mobiframework.commons.image.ImageUtils;
 
 import org.apache.http.HttpEntity;

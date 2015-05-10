@@ -16,14 +16,15 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.api.conversation.Message;
-import com.mobicomkit.uiwidgets.conversation.ConversationListView;
 import com.mobicomkit.api.conversation.MobiComConversationService;
 import com.mobicomkit.api.conversation.database.MessageDatabaseService;
-import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
+import com.mobicomkit.broadcast.BroadcastService;
+import com.mobicomkit.uiwidgets.R;
+import com.mobicomkit.uiwidgets.conversation.ConversationListView;
 import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
 import com.mobicomkit.uiwidgets.conversation.adapter.ConversationAdapter;
+import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 import com.shamanland.fab.FloatingActionButton;
 
 import net.mobitexter.mobiframework.commons.core.utils.Utils;
@@ -33,7 +34,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.mobicomkit.uiwidgets.R;
 
 /**
  * Created by devashish on 10/2/15.

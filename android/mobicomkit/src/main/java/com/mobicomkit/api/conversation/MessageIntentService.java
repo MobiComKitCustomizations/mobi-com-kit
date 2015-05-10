@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.mobicomkit.api.MobiComKitConstants;
-import com.mobicomkit.api.conversation.Message;
-import com.mobicomkit.api.conversation.MessageClientService;
-import com.mobicomkit.api.conversation.MobiComMessageService;
-import com.mobicomkit.api.conversation.schedule.MessageSenderTimerTask;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
+import com.mobicomkit.api.conversation.schedule.MessageSenderTimerTask;
 
 import net.mobitexter.mobiframework.json.GsonUtils;
 

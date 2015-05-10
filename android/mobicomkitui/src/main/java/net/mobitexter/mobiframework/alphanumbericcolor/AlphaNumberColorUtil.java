@@ -2,9 +2,6 @@ package net.mobitexter.mobiframework.alphanumbericcolor;
 
 import com.mobicomkit.uiwidgets.R;
 
-import java.util.Map;
-
-
 import java.util.HashMap;
 import java.util.Map;
 

@@ -4,8 +4,6 @@ package com.mobicomkit.uiwidgets.conversation.adapter;
  * Created by devashish on 23/2/14.
  */
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -19,6 +17,8 @@ import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.uiwidgets.conversation.activity.SpinnerNavItem;
 
 import net.mobitexter.mobiframework.people.contact.Contact;
+
+import java.util.ArrayList;
 
 public class TitleNavigationAdapter extends BaseAdapter {
 

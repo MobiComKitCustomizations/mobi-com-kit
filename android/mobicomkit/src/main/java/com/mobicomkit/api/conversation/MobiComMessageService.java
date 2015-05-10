@@ -8,11 +8,11 @@ import android.widget.Toast;
 
 import com.mobicomkit.GeneralConstants;
 import com.mobicomkit.api.MobiComKitConstants;
-import com.mobicomkit.broadcast.BroadcastService;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 import com.mobicomkit.api.conversation.selfdestruct.DisappearingMessageTask;
+import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.sync.SyncMessageFeed;
-import com.mobicomkit.api.account.user.MobiComUserPreference;
 
 import net.mobitexter.mobiframework.commons.core.utils.Support;
 import net.mobitexter.mobiframework.json.GsonUtils;

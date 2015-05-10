@@ -4,10 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
-
+import com.mobicomkit.api.HttpRequestUtils;
 import com.mobicomkit.api.MobiComKitClientService;
 import com.mobicomkit.api.MobiComKitServer;
-import com.mobicomkit.api.HttpRequestUtils;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.account.user.User;
 

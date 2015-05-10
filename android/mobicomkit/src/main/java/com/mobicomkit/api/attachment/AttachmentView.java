@@ -27,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-
 import com.mobicomkit.api.MobiComKitServer;
 import com.mobicomkit.api.conversation.Message;
 

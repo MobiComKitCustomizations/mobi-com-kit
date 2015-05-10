@@ -46,27 +46,25 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.mobicomkit.api.MobiComKitConstants;
-import com.mobicomkit.api.conversation.Message;
-
-
-import com.mobicomkit.broadcast.BroadcastService;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.attachment.FileMeta;
-import com.mobicomkit.uiwidgets.conversation.ConversationListView;
+import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.api.conversation.MobiComConversationService;
-import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
-import com.mobicomkit.uiwidgets.conversation.adapter.ConversationAdapter;
-import com.mobicomkit.uiwidgets.conversation.activity.SpinnerNavItem;
-import com.mobicomkit.uiwidgets.conversation.adapter.TitleNavigationAdapter;
 import com.mobicomkit.api.conversation.database.MessageDatabaseService;
-import com.mobicomkit.uiwidgets.schedule.ConversationScheduler;
-import com.mobicomkit.uiwidgets.schedule.ScheduledTimeHolder;
 import com.mobicomkit.api.conversation.selfdestruct.DisappearingMessageTask;
-import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
+import com.mobicomkit.broadcast.BroadcastService;
+import com.mobicomkit.uiwidgets.R;
+import com.mobicomkit.uiwidgets.conversation.ConversationListView;
 import com.mobicomkit.uiwidgets.conversation.DeleteConversationAsyncTask;
 import com.mobicomkit.uiwidgets.conversation.MessageCommunicator;
-import com.mobicomkit.api.account.user.MobiComUserPreference;
+import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
+import com.mobicomkit.uiwidgets.conversation.activity.SpinnerNavItem;
+import com.mobicomkit.uiwidgets.conversation.adapter.ConversationAdapter;
+import com.mobicomkit.uiwidgets.conversation.adapter.TitleNavigationAdapter;
+import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
+import com.mobicomkit.uiwidgets.schedule.ConversationScheduler;
+import com.mobicomkit.uiwidgets.schedule.ScheduledTimeHolder;
 
 import net.mobitexter.mobicom.FileUtils;
 import net.mobitexter.mobiframework.commons.core.utils.Support;
@@ -76,7 +74,6 @@ import net.mobitexter.mobiframework.file.FilePathFinder;
 import net.mobitexter.mobiframework.json.GsonUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;
 import net.mobitexter.mobiframework.people.group.Group;
-import com.mobicomkit.uiwidgets.R;
 
 import java.util.ArrayList;
 import java.util.Date;

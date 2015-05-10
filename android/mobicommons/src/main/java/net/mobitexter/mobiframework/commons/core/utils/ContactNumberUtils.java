@@ -6,9 +6,6 @@ import android.text.TextUtils;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author devashish

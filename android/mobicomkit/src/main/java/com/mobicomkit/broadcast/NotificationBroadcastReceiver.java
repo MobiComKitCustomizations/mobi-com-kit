@@ -7,12 +7,11 @@ import android.os.Bundle;
 import android.support.v4.app.RemoteInput;
 import android.text.TextUtils;
 
-
 import com.mobicomkit.api.MobiComKitConstants;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
+import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.api.conversation.MessageIntentService;
 import com.mobicomkit.api.notification.WearableNotificationWithVoice;
-import com.mobicomkit.api.conversation.Message;
-import com.mobicomkit.api.account.user.MobiComUserPreference;
 
 import net.mobitexter.mobiframework.json.GsonUtils;
 

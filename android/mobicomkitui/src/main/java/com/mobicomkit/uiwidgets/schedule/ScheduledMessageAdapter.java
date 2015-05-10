@@ -16,16 +16,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mobicomkit.api.conversation.Message;
+import com.mobicomkit.uiwidgets.R;
+
+import net.mobitexter.mobiframework.commons.image.ImageLoader;
 import net.mobitexter.mobiframework.commons.image.ImageUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;
 import net.mobitexter.mobiframework.people.contact.ContactUtils;
-import net.mobitexter.mobiframework.commons.image.ImageLoader;
-
-import com.mobicomkit.uiwidgets.R;
-import com.mobicomkit.api.conversation.Message;
 
 import java.text.DateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 
 public class ScheduledMessageAdapter extends ArrayAdapter<Message> {
