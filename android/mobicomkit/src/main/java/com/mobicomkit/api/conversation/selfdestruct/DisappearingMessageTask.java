@@ -16,10 +16,10 @@ public class DisappearingMessageTask extends TimerTask {
     private MobiComConversationService conversationService;
     private Message message;
 
-    public DisappearingMessageTask(Context context, MobiComConversationService conversationService, Message sms) {
+    public DisappearingMessageTask(Context context, MobiComConversationService conversationService, Message message) {
         this.context = context;
         this.conversationService = conversationService;
-        this.message = sms;
+        this.message = message;
     }
 
     @Override

@@ -141,7 +141,6 @@ public class MobiComMessageService {
         }
     }
 
-
     public synchronized void syncMessagesWithServer(String syncMessage) {
         Toast.makeText(context, syncMessage, Toast.LENGTH_LONG).show();
         new Thread(new Runnable() {
@@ -222,7 +221,6 @@ public class MobiComMessageService {
     public void updateDeliveryStatus(String key) {
         //Todo: Check if this is possible? In case the delivery report reaches before the sms is reached, then wait for the sms.
         Log.i(TAG, "Got the delivery report for key: " + key);
-        Uri uri = map.get(key);
         String keyParts[] = key.split((","));
         Message message = messageDatabaseService.getMessage(keyParts[0]);
         if (message != null) {
