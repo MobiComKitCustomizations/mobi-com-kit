@@ -61,6 +61,10 @@ public class Contact {
         this.contactNumbers = contactNumbers;
     }
 
+    public Contact(String userId) {
+        this.userId = userId;
+    }
+
     public void processContactNumbers(Context context) {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         String countryCode = telephonyManager.getSimCountryIso().toUpperCase();

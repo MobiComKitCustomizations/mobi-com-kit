@@ -978,11 +978,11 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
         protected Long doInBackground(Void... voids) {
             if (initial) {
                 messageList.clear();
-                nextSmsList = conversationService.getMessageList(1L, null, contact, group);
+                nextSmsList = conversationService.getMessages(1L, null, contact, group);
             } else if (firstVisibleItem == 1 && loadMore && !messageList.isEmpty()) {
                 loadMore = false;
                 Long endTime = messageList.get(0).getCreatedAtTime();
-                nextSmsList = conversationService.getMessageList(null, endTime, contact, group);
+                nextSmsList = conversationService.getMessages(null, endTime, contact, group);
             }
 
             return 0L;
