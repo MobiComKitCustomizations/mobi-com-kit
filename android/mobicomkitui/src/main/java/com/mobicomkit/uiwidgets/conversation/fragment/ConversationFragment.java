@@ -14,7 +14,7 @@ import com.mobicomkit.uiwidgets.MobiComKitApplication;
 import com.mobicomkit.uiwidgets.R;
 
 import com.mobicomkit.client.ui.MessageIntentService;
-import com.mobicomkit.communication.message.conversation.MobiComConversationService;
+import com.mobicomkit.api.conversation.MobiComConversationService;
 
 import net.mobitexter.mobiframework.commons.core.utils.LocationUtils;
 

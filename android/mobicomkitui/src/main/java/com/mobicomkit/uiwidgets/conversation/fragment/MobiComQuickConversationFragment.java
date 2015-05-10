@@ -18,10 +18,10 @@ import android.widget.TextView;
 
 import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.communication.message.Message;
-import com.mobicomkit.communication.message.conversation.ConversationListView;
-import com.mobicomkit.communication.message.conversation.MobiComConversationService;
-import com.mobicomkit.communication.message.database.MessageDatabaseService;
-import com.mobicomkit.instruction.InstructionUtil;
+import com.mobicomkit.uiwidgets.conversation.ConversationListView;
+import com.mobicomkit.api.conversation.MobiComConversationService;
+import com.mobicomkit.api.conversation.database.MessageDatabaseService;
+import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
 import com.mobicomkit.uiwidgets.conversation.adapter.ConversationAdapter;
 import com.shamanland.fab.FloatingActionButton;

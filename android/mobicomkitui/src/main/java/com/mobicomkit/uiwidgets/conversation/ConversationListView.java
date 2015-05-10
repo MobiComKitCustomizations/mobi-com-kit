@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message.conversation;
+package com.mobicomkit.uiwidgets.conversation;
 
 import android.content.Context;
 import android.util.AttributeSet;

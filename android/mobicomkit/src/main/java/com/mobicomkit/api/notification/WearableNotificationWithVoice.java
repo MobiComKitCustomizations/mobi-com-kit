@@ -1,4 +1,4 @@
-package com.mobicomkit.notification;
+package com.mobicomkit.api.notification;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -16,6 +16,7 @@ import android.support.v4.app.RemoteInput;
  */
 public class WearableNotificationWithVoice {
 
+    public static final String EXTRA_VOICE_REPLY = "extra_voice_reply";
     Class<?> notificationHandler;
     Context mContext;
     int actionIconResId;
@@ -24,8 +25,6 @@ public class WearableNotificationWithVoice {
     int actionTitleId;
     int notificationId;
     PendingIntent pendingIntent;
-
-    public static final String EXTRA_VOICE_REPLY = "extra_voice_reply";
 
     /**
      *

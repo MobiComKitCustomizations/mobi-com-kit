@@ -1,4 +1,4 @@
-package com.mobicomkit.register;
+package com.mobicomkit.api.account.register;
 
 /**
  * @author devashish
@@ -27,12 +27,12 @@ public class RegistrationResponse {
         this.deviceKeyString = deviceKeyString;
     }
 
-    public void setSuUserKeyString(String suUserKeyString) {
-        this.suUserKeyString = suUserKeyString;
-    }
-
     public String getSuUserKeyString() {
         return suUserKeyString;
+    }
+
+    public void setSuUserKeyString(String suUserKeyString) {
+        this.suUserKeyString = suUserKeyString;
     }
 
     public String getContactNumber() {

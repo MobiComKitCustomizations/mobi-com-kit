@@ -16,7 +16,7 @@ import android.widget.ProgressBar;
 
 import com.mobicomkit.MobiComKitConstants;
 import com.mobicomkit.uiwidgets.R;
-import com.mobicomkit.attachment.AttachmentView;
+import com.mobicomkit.api.attachment.AttachmentView;
 import com.mobicomkit.communication.message.Message;
 
 import net.mobitexter.mobicom.FileUtils;

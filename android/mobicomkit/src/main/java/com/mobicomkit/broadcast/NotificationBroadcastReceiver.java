@@ -10,9 +10,9 @@ import android.text.TextUtils;
 
 import com.mobicomkit.MobiComKitConstants;
 import com.mobicomkit.client.ui.MessageIntentService;
-import com.mobicomkit.notification.WearableNotificationWithVoice;
+import com.mobicomkit.api.notification.WearableNotificationWithVoice;
 import com.mobicomkit.communication.message.Message;
-import com.mobicomkit.user.MobiComUserPreference;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
 
 import net.mobitexter.mobiframework.json.GsonUtils;
 

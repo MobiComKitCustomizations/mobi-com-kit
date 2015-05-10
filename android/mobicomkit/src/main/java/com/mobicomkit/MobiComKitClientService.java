@@ -3,7 +3,7 @@ package com.mobicomkit;
 import android.content.Context;
 import android.util.Base64;
 
-import com.mobicomkit.user.MobiComUserPreference;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
 
 import org.apache.http.auth.UsernamePasswordCredentials;
 

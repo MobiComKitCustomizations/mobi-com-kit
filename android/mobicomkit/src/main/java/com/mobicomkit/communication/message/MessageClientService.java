@@ -11,13 +11,14 @@ import com.google.gson.JsonParser;
 import com.mobicomkit.HttpRequestUtils;
 import com.mobicomkit.MobiComKitClientService;
 import com.mobicomkit.MobiComKitServer;
-import com.mobicomkit.attachment.FileClientService;
+import com.mobicomkit.api.attachment.FileClientService;
+import com.mobicomkit.api.attachment.FileMeta;
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.communication.message.database.MessageDatabaseService;
+import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 import com.mobicomkit.communication.message.schedule.ScheduledMessageUtil;
 import com.mobicomkit.sync.SmsSyncRequest;
 import com.mobicomkit.sync.SyncMessageFeed;
-import com.mobicomkit.user.MobiComUserPreference;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
 
 import net.mobitexter.mobiframework.json.AnnotationExclusionStrategy;
 import net.mobitexter.mobiframework.json.ArrayAdapterFactory;
@@ -36,15 +37,13 @@ import java.util.UUID;
  */
 public class MessageClientService extends MobiComKitClientService {
 
-    private static final String TAG = "MessageClientService";
-
     public static final int SMS_SYNC_BATCH_SIZE = 5;
-
     public static final String DEVICE_KEY = "deviceKeyString";
     public static final String LAST_SYNC_KEY = "lastSyncTime";
+    public static final String FILE_META = "fileMeta";
+    private static final String TAG = "MessageClientService";
     public static List<Message> recentProcessedMessage = new ArrayList<Message>();
     public static List<Message> recentMessageSentToServer = new ArrayList<Message>();
-    public static final String FILE_META = "fileMeta";
     private Context context;
     private MessageDatabaseService messageDatabaseService;
 
@@ -52,6 +51,31 @@ public class MessageClientService extends MobiComKitClientService {
         super(context);
         this.context = context;
         this.messageDatabaseService = new MessageDatabaseService(context);
+    }
+
+    public static String updateDeliveryStatus(Message message, String contactNumber, String countryCode) {
+        try {
+            String argString = "?smsKeyString=" + message.getKeyString() + "&contactNumber=" + URLEncoder.encode(contactNumber, "UTF-8") + "&deviceKeyString=" + message.getDeviceKeyString()
+                    + "&countryCode=" + countryCode;
+            String URL = MobiComKitServer.UPDATE_DELIVERY_FLAG_URL + argString;
+            return HttpRequestUtils.getStringFromUrl(URL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void updateDeliveryStatus(String messageKeyString, String receiverNumber) {
+        try {
+            //Note: messageKeyString comes as null for the welcome message as it is inserted directly.
+            if (TextUtils.isEmpty(messageKeyString)) {
+                return;
+            }
+            HttpRequestUtils.getStringFromUrl(MobiComKitServer.MTEXT_DELIVERY_URL + "smsKeyString=" + messageKeyString
+                    + "&contactNumber=" + URLEncoder.encode(receiverNumber, "UTF-8"));
+        } catch (Exception ex) {
+            Log.e(TAG, "Exception while updating delivery report for MT message", ex);
+        }
     }
 
     public void syncPendingMessages() {
@@ -210,31 +234,6 @@ public class MessageClientService extends MobiComKitClientService {
     public String syncMessages(SmsSyncRequest smsSyncRequest) throws Exception {
         String data = GsonUtils.getJsonFromObject(smsSyncRequest, SmsSyncRequest.class);
         return HttpRequestUtils.postData(credentials, MobiComKitServer.SYNC_SMS_URL, "application/json", null, data);
-    }
-
-    public static String updateDeliveryStatus(Message message, String contactNumber, String countryCode) {
-        try {
-            String argString = "?smsKeyString=" + message.getKeyString() + "&contactNumber=" + URLEncoder.encode(contactNumber, "UTF-8") + "&deviceKeyString=" + message.getDeviceKeyString()
-                    + "&countryCode=" + countryCode;
-            String URL = MobiComKitServer.UPDATE_DELIVERY_FLAG_URL + argString;
-            return HttpRequestUtils.getStringFromUrl(URL);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static void updateDeliveryStatus(String messageKeyString, String receiverNumber) {
-        try {
-            //Note: messageKeyString comes as null for the welcome message as it is inserted directly.
-            if (TextUtils.isEmpty(messageKeyString)) {
-                return;
-            }
-            HttpRequestUtils.getStringFromUrl(MobiComKitServer.MTEXT_DELIVERY_URL + "smsKeyString=" + messageKeyString
-                    + "&contactNumber=" + URLEncoder.encode(receiverNumber, "UTF-8"));
-        } catch (Exception ex) {
-            Log.e(TAG, "Exception while updating delivery report for MT message", ex);
-        }
     }
 
     public String sendMessage(Message message) {

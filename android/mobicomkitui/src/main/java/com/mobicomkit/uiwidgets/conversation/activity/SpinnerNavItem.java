@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message.conversation;
+package com.mobicomkit.uiwidgets.conversation.activity;
 
 import net.mobitexter.mobiframework.people.contact.Contact;
 

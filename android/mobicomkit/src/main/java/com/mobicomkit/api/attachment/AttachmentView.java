@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mobicomkit.attachment;
+package com.mobicomkit.api.attachment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -59,17 +59,7 @@ public class AttachmentView extends ImageView {
     private int mHideShowResId = -1;
     private ProgressBar proressBar;
     private RelativeLayout downloadProgressLayout;
-
-    public Message getMessage() {
-        return message;
-    }
-
-    public void setMessage(Message message) {
-        this.message = message;
-    }
-
     private Message message;
-
     // The Thread that will be used to download the file for this attachmentView
     // will be used to cancle it ,once the user will require it
     private AttachmentTask mDownloadThread;
@@ -108,6 +98,13 @@ public class AttachmentView extends ImageView {
 
     }
 
+    public Message getMessage() {
+        return message;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
+    }
 
     /*
      * This callback is invoked when the system attaches the ImageView to a Window. The callback
@@ -203,14 +200,13 @@ public class AttachmentView extends ImageView {
         return message.getFileMetas().get(0).getContentType();
     }
 
-    public void setProressBar(ProgressBar proressBar) {
-        this.proressBar = proressBar;
-    }
-
     public ProgressBar getProressBar() {
         return proressBar;
     }
 
+    public void setProressBar(ProgressBar proressBar) {
+        this.proressBar = proressBar;
+    }
 
     public RelativeLayout getDownloadProgressLayout() {
         return downloadProgressLayout;

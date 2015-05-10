@@ -9,7 +9,7 @@ import com.mobicomkit.communication.message.Message;
 import com.mobicomkit.communication.message.MessageClientService;
 import com.mobicomkit.communication.message.MobiComMessageService;
 import com.mobicomkit.timer.MessageSenderTimerTask;
-import com.mobicomkit.user.MobiComUserPreference;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
 
 import net.mobitexter.mobiframework.json.GsonUtils;
 
@@ -22,9 +22,8 @@ import java.util.Timer;
  */
 public class MessageIntentService extends IntentService {
 
-    private static final String TAG = "MessageIntentService";
     public static final String UPLOAD_CANCEL = "cancel_upload";
-
+    private static final String TAG = "MessageIntentService";
     private Map<String, Thread> runningTaskMap = new HashMap<String, Thread>();
 
     public MessageIntentService() {
@@ -50,6 +49,10 @@ public class MessageIntentService extends IntentService {
         if(message.hasAttachment()){
             runningTaskMap.put(getMapKey(message),thread);
         }
+    }
+
+    private String getMapKey(Message message) {
+        return message.getFilePaths().get(0)+message.getContactIds();
     }
 
     private class MessegeSender implements Runnable {
@@ -83,10 +86,6 @@ public class MessageIntentService extends IntentService {
                 e.printStackTrace();
             }
         }
-    }
-
-    private String getMapKey(Message message) {
-        return message.getFilePaths().get(0)+message.getContactIds();
     }
 
 }

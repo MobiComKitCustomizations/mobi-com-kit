@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message;
+package com.mobicomkit.api.attachment;
 
 /**
  * Created by adarsh on 4/10/14.

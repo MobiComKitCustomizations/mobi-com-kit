@@ -1,4 +1,4 @@
-package com.mobicomkit.attachment;
+package com.mobicomkit.api.attachment;
 
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.mobicomkit.MobiComKitClientService;
 import com.mobicomkit.MobiComKitServer;
-import com.mobicomkit.communication.message.FileMeta;
+
 import net.mobitexter.mobiframework.commons.core.utils.FileUtils;
 import com.mobicomkit.HttpRequestUtils;
 import net.mobitexter.mobiframework.commons.image.ImageUtils;
@@ -38,14 +38,13 @@ import java.util.Date;
  */
 public class FileClientService extends MobiComKitClientService {
 
-    private static final String TAG = "FileClientService";
-
     //Todo: Make the base folder configurable using either strings.xml or properties file
     public static final String MOBI_TEXTER_IMAGES_FOLDER = "/MobiCom/image";
     public static final String MOBI_TEXTER_VIDEOS_FOLDER = "/MobiCom/video";
     public static final String MOBI_TEXTER_OTHER_FILES_FOLDER = "/MobiCom/other";
     public static final String MOBI_TEXTER_THUMBNAIL_SUFIX = "/Thumbnail";
     public static final String IMAGE_DIR = "image";
+    private static final String TAG = "FileClientService";
 
     public FileClientService(Context context) {
         super(context);
@@ -93,6 +92,10 @@ public class FileClientService extends MobiComKitClientService {
         return filePath.getAbsolutePath();
     }
 
+    public static File getFilePath(String fileName, Context context, String contentType) {
+        return getFilePath(fileName, context, contentType, false);
+    }
+
     public Bitmap loadThumbnailImage(Context context, FileMeta fileMeta, int reqWidth, int reqHeight) {
         try {
             Bitmap attachedImage=null;
@@ -135,10 +138,6 @@ public class FileClientService extends MobiComKitClientService {
         }
 
         return null;
-    }
-
-    public static File getFilePath(String fileName, Context context, String contentType) {
-        return getFilePath(fileName, context, contentType, false);
     }
 
     public String uploadBlobImage(String path) throws UnsupportedEncodingException, AuthenticationException {

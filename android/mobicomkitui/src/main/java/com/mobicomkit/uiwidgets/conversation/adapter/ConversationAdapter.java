@@ -28,16 +28,16 @@ import android.widget.Toast;
 
 import com.mobicomkit.MobiComKitConstants;
 
-import com.mobicomkit.attachment.AttachmentManager;
-import com.mobicomkit.attachment.AttachmentView;
-import com.mobicomkit.attachment.FileClientService;
-import com.mobicomkit.communication.message.FileMeta;
+import com.mobicomkit.api.attachment.AttachmentManager;
+import com.mobicomkit.api.attachment.AttachmentView;
+import com.mobicomkit.api.attachment.FileClientService;
+import com.mobicomkit.api.attachment.FileMeta;
 import com.mobicomkit.communication.message.Message;
-import com.mobicomkit.communication.message.database.MessageDatabaseService;
-import com.mobicomkit.instruction.InstructionUtil;
+import com.mobicomkit.api.conversation.database.MessageDatabaseService;
+import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 import com.mobicomkit.uiwidgets.conversation.activity.FullScreenImageActivity;
 import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
-import com.mobicomkit.user.MobiComUserPreference;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
 import net.mobitexter.mobiframework.alphanumbericcolor.AlphaNumberColorUtil;
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
 import net.mobitexter.mobiframework.commons.core.utils.DateUtils;

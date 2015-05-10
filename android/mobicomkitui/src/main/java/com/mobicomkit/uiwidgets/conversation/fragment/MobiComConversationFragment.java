@@ -52,21 +52,21 @@ import com.mobicomkit.communication.message.Message;
 
 
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.communication.message.FileMeta;
-import com.mobicomkit.communication.message.conversation.ConversationListView;
-import com.mobicomkit.communication.message.conversation.MobiComConversationService;
+import com.mobicomkit.api.attachment.FileMeta;
+import com.mobicomkit.uiwidgets.conversation.ConversationListView;
+import com.mobicomkit.api.conversation.MobiComConversationService;
 import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
 import com.mobicomkit.uiwidgets.conversation.adapter.ConversationAdapter;
-import com.mobicomkit.communication.message.conversation.SpinnerNavItem;
+import com.mobicomkit.uiwidgets.conversation.activity.SpinnerNavItem;
 import com.mobicomkit.uiwidgets.conversation.adapter.TitleNavigationAdapter;
-import com.mobicomkit.communication.message.database.MessageDatabaseService;
+import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 import com.mobicomkit.uiwidgets.schedule.ConversationScheduler;
 import com.mobicomkit.communication.message.schedule.ScheduledTimeHolder;
 import com.mobicomkit.communication.message.selfdestruct.DisappearingMessageTask;
-import com.mobicomkit.instruction.InstructionUtil;
+import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 import com.mobicomkit.uiwidgets.conversation.DeleteConversationAsyncTask;
 import com.mobicomkit.uiwidgets.conversation.MessageCommunicator;
-import com.mobicomkit.user.MobiComUserPreference;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
 
 import net.mobitexter.mobicom.FileUtils;
 import net.mobitexter.mobiframework.commons.core.utils.Support;

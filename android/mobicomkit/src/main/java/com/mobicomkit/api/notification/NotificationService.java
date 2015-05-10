@@ -1,4 +1,4 @@
-package com.mobicomkit.notification;
+package com.mobicomkit.api.notification;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -49,6 +49,37 @@ public class NotificationService {
 
     }
 
+    public static void notifyUserForMT(Context context, String contactNumber) {
+       /* NotificationManager notificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+        intent.putExtra("contactNumber", contactNumber);
+        intent.setAction(String.valueOf(R.string.launch_mobitexter_app));
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) (System.currentTimeMillis() & 0xfffffff), intent, 0);
+
+        Contact contact = ContactUtils.getContact(context, contactNumber);
+        if (contact.getContactId() == 0) {
+            return;
+        }
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
+                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                        .setPriority(NotificationCompat.PRIORITY_MIN)
+                        .setWhen(System.currentTimeMillis())
+                        .setContentTitle(contact.getFullName() != null ? contact.getFullName() : contact.getContactNumber())
+                        .setContentText((contact.getFullName() != null ? contact.getFullName() : contact.getContactNumber()) + " joined MobiTexter")
+                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+
+        mBuilder.setContentIntent(pendingIntent);
+        Notification notification = mBuilder.build();
+        notificationManager.notify(NOTIFICATION_ID, notification);*/
+    }
+
     public void notifyUser(Contact contact, Message sms) {
        if (BaseMobiComActivity.mobiTexterBroadcastReceiverActivated &&
                 (BaseMobiComActivity.currentOpenedContactNumber == null ||
@@ -97,37 +128,6 @@ public class NotificationService {
         }catch (RuntimeException e){
             e.printStackTrace();
         }
-    }
-
-    public static void notifyUserForMT(Context context, String contactNumber) {
-       /* NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
-        intent.putExtra("contactNumber", contactNumber);
-        intent.setAction(String.valueOf(R.string.launch_mobitexter_app));
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) (System.currentTimeMillis() & 0xfffffff), intent, 0);
-
-        Contact contact = ContactUtils.getContact(context, contactNumber);
-        if (contact.getContactId() == 0) {
-            return;
-        }
-
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_launcher)
-                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
-                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                        .setPriority(NotificationCompat.PRIORITY_MIN)
-                        .setWhen(System.currentTimeMillis())
-                        .setContentTitle(contact.getFullName() != null ? contact.getFullName() : contact.getContactNumber())
-                        .setContentText((contact.getFullName() != null ? contact.getFullName() : contact.getContactNumber()) + " joined MobiTexter")
-                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-
-        mBuilder.setContentIntent(pendingIntent);
-        Notification notification = mBuilder.build();
-        notificationManager.notify(NOTIFICATION_ID, notification);*/
     }
 
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mobicomkit.attachment;
+package com.mobicomkit.api.attachment;
 
 
 import android.content.Context;
@@ -42,6 +42,16 @@ public class AttachmentTask implements
         AttachmentDownloader.TaskRunnableDownloadMethods, TaskRunnableDecodeMethods {
 
     /*
+     * An object that contains the ThreadPool singleton.
+     */
+    private static AttachmentManager sPhotoManager;
+    /*
+     * Field containing the Thread this task is running on.
+     */
+    Thread mThreadThis;
+    // A buffer for containing the bytes that make up the image
+    byte[] mImageBuffer;
+    /*
      * Creates a weak reference to the ImageView that this Task will populate.
      * The weak reference prevents memory leaks and crashes, because it
      * automatically tracks the "state" of the variable it backs. If the
@@ -53,45 +63,24 @@ public class AttachmentTask implements
      * ensures that the reference is more transitory in nature.
      */
     private WeakReference<AttachmentView> mImageWeakRef;
-
     // The image's URL
     private String mImageURL;
-
     // The width and height of the decoded image
     private int mTargetHeight;
     private int mTargetWidth;
-
     // Is the cache enabled for this transaction?
     private boolean mCacheEnabled;
-
     private Context context;
-
-    /*
-     * Field containing the Thread this task is running on.
-     */
-    Thread mThreadThis;
-
     /*
      * Fields containing references to the two runnable objects that handle downloading and
      * decoding of the image.
      */
     private Runnable mDownloadRunnable;
     private Runnable mDecodeRunnable;
-
-    // A buffer for containing the bytes that make up the image
-    byte[] mImageBuffer;
-
     // The decoded image
     private Bitmap mDecodedImage;
-
     // The Thread on which this task is currently running.
     private Thread mCurrentThread;
-
-    /*
-     * An object that contains the ThreadPool singleton.
-     */
-    private static AttachmentManager sPhotoManager;
-
     private Message message;
 
     /**
@@ -212,6 +201,12 @@ public class AttachmentTask implements
         return mDecodedImage;
     }
 
+    // Implements ImageCoderRunnable.setImage(). Sets the Bitmap for the current image.
+    @Override
+    public void setImage(Bitmap decodedImage) {
+        mDecodedImage = decodedImage;
+    }
+
     // Returns the instance that downloaded the image
     Runnable getHTTPDownloadRunnable() {
         return mDownloadRunnable;
@@ -250,12 +245,6 @@ public class AttachmentTask implements
         synchronized(sPhotoManager) {
             mCurrentThread = thread;
         }
-    }
-
-    // Implements ImageCoderRunnable.setImage(). Sets the Bitmap for the current image.
-    @Override
-    public void setImage(Bitmap decodedImage) {
-        mDecodedImage = decodedImage;
     }
 
     @Override

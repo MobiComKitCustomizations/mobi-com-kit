@@ -1,4 +1,4 @@
-package com.mobicomkit.user;
+package com.mobicomkit.api.account.user;
 
 import android.content.Context;
 import android.util.Log;
@@ -28,6 +28,19 @@ public class UserClientService extends MobiComKitClientService {
         super(context);
     }
 
+    public static String updateTimezone(String osuUserKeyString) {
+        //Note: This can be used if user decides to change the timezone
+        String response = null;
+        try {
+            response = HttpRequestUtils.getStringFromUrl(MobiComKitServer.TIMEZONE_UPDATAE_URL + "?suUserKeyString=" + osuUserKeyString +
+                    "&timeZone=" + URLEncoder.encode(TimeZone.getDefault().getID(), "UTF-8"));
+            Log.i(TAG, "Response from sendDeviceTimezoneToServer : " + response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
     public boolean sendVerificationCodeToServer(String verificationCode) {
         try {
             String response = HttpRequestUtils.getResponse(credentials, MobiComKitServer.VERIFICATION_CODE_CONTACT_NUMBER_URL + "?verificationCode=" + verificationCode, "application/json", "application/json");
@@ -48,19 +61,6 @@ public class UserClientService extends MobiComKitClientService {
                 Log.i(TAG, "Version update response: " + response);
             }
         }).start();
-    }
-
-    public static String updateTimezone(String osuUserKeyString) {
-        //Note: This can be used if user decides to change the timezone
-        String response = null;
-        try {
-            response = HttpRequestUtils.getStringFromUrl(MobiComKitServer.TIMEZONE_UPDATAE_URL + "?suUserKeyString=" + osuUserKeyString +
-                    "&timeZone=" + URLEncoder.encode(TimeZone.getDefault().getID(), "UTF-8"));
-            Log.i(TAG, "Response from sendDeviceTimezoneToServer : " + response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response;
     }
 
     public String updatePhoneNumber(String contactNumber) throws UnsupportedEncodingException {

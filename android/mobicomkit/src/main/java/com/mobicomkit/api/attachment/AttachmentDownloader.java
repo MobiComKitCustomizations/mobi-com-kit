@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package com.mobicomkit.attachment;
+package com.mobicomkit.api.attachment;
 
 import android.content.Context;
 import android.util.Log;
 
 import com.mobicomkit.MobiComKitClientService;
 import com.mobicomkit.MobiComKitServer;
-import com.mobicomkit.communication.message.FileMeta;
 import com.mobicomkit.communication.message.Message;
-import com.mobicomkit.communication.message.database.MessageDatabaseService;
+import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,57 +44,19 @@ import java.util.ArrayList;
  */
 class AttachmentDownloader implements Runnable {
 
-    private static final String TAG = "AttachmentDownloader";
-
-    // Sets the size for each read action (bytes)
-    //Aman testing
-    private static final int READ_SIZE = 1024 * 1;
-
-    // Sets a tag for this class
-    @SuppressWarnings("unused")
-    private static final String LOG_TAG = "PhotoDownloadRunnable";
-    
     // Constants for indicating the state of the download
     static final int HTTP_STATE_FAILED = -1;
     static final int HTTP_STATE_STARTED = 0;
     static final int HTTP_STATE_COMPLETED = 1;
-    
+    private static final String TAG = "AttachmentDownloader";
+    // Sets the size for each read action (bytes)
+    //Aman testing
+    private static final int READ_SIZE = 1024 * 1;
+    // Sets a tag for this class
+    @SuppressWarnings("unused")
+    private static final String LOG_TAG = "PhotoDownloadRunnable";
     // Defines a field that contains the calling object of type PhotoTask.
     final TaskRunnableDownloadMethods mPhotoTask;
-    
-    /**
-     *
-     * An interface that defines methods that PhotoTask implements. An instance of
-     * PhotoTask passes itself to an PhotoDownloadRunnable instance through the
-     * PhotoDownloadRunnable constructor, after which the two instances can access each other's
-     * variables.
-     */
-    interface TaskRunnableDownloadMethods {
-        
-        /**
-         * Sets the Thread that this instance is running on
-         * @param currentThread the current Thread
-         */
-        void setDownloadThread(Thread currentThread);
-
-        /**
-         * Defines the actions for each state of the PhotoTask instance.
-         * @param state The current state of the task
-         */
-        void handleDownloadState(int state);
-        
-        /**
-         * Gets the URL for the image being downloaded
-         * @return The image URL
-         */
-        String getImageURL();
-
-        Message getMessage();
-
-        Context getContext();
-
-        String getContentType();
-    }
     
     /**
      * This constructor creates an instance of PhotoDownloadRunnable and stores in it a reference
@@ -119,7 +80,7 @@ class AttachmentDownloader implements Runnable {
          * can interrupt the Thread.
          */
         mPhotoTask.setDownloadThread(Thread.currentThread());
-        
+
         // Moves the current Thread into the background
         android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
 
@@ -132,10 +93,10 @@ class AttachmentDownloader implements Runnable {
             // Before continuing, checks to see that the Thread hasn't been
             // interrupted
             if (Thread.interrupted()) {
-                
+
                 throw new InterruptedException();
             }
-            
+
             // If there's no for this image
             if (mPhotoTask.getMessage()!=null && !mPhotoTask.getMessage().isAttachmentDownloaded()) {
 
@@ -160,10 +121,10 @@ class AttachmentDownloader implements Runnable {
         } catch (InterruptedException e1) {
 
         // Does nothing
-        
+
         // In all cases, handle the results
         } finally {
-            
+
             // If the byteBuffer is null, reports that the download failed.
             if (mPhotoTask.getMessage()!=null && !mPhotoTask.getMessage().isAttachmentDownloaded()) {
                 mPhotoTask.handleDownloadState(HTTP_STATE_FAILED);
@@ -175,15 +136,15 @@ class AttachmentDownloader implements Runnable {
              * object and returns the current thread. Locking keeps all references to Thread
              * objects the same until the reference to the current Thread is deleted.
              */
-            
+
             // Sets the reference to the current Thread to null, releasing its storage
             mPhotoTask.setDownloadThread(null);
-            
+
             // Clears the Thread's interrupt flag
             Thread.interrupted();
         }
     }
-
+    
     public void loadAttachmentImage(Message message, Context context) {
         try {
             InputStream inputStream = null;
@@ -237,6 +198,40 @@ class AttachmentDownloader implements Runnable {
             Log.e(TAG, "Exception fetching file from server");
         }
 
+    }
+
+    /**
+     *
+     * An interface that defines methods that PhotoTask implements. An instance of
+     * PhotoTask passes itself to an PhotoDownloadRunnable instance through the
+     * PhotoDownloadRunnable constructor, after which the two instances can access each other's
+     * variables.
+     */
+    interface TaskRunnableDownloadMethods {
+
+        /**
+         * Sets the Thread that this instance is running on
+         * @param currentThread the current Thread
+         */
+        void setDownloadThread(Thread currentThread);
+
+        /**
+         * Defines the actions for each state of the PhotoTask instance.
+         * @param state The current state of the task
+         */
+        void handleDownloadState(int state);
+
+        /**
+         * Gets the URL for the image being downloaded
+         * @return The image URL
+         */
+        String getImageURL();
+
+        Message getMessage();
+
+        Context getContext();
+
+        String getContentType();
     }
 }
 

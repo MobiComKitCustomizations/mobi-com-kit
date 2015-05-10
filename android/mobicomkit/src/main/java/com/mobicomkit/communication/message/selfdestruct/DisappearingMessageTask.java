@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.communication.message.Message;
-import com.mobicomkit.communication.message.conversation.MobiComConversationService;
+import com.mobicomkit.api.conversation.MobiComConversationService;
 
 import java.util.TimerTask;
 

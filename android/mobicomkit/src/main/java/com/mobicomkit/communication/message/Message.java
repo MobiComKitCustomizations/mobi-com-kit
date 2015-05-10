@@ -5,7 +5,8 @@ import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
-import com.mobicomkit.user.MobiComUserPreference;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
+import com.mobicomkit.api.attachment.FileMeta;
 
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
 import net.mobitexter.mobiframework.people.contact.ContactUtils;
@@ -45,15 +46,6 @@ public class Message {
     private Long messageId;
 
     private boolean read = false;
-
-    public boolean isAttDownloadInProgress() {
-        return attDownloadInProgress;
-    }
-
-    public void setAttDownloadInProgress(boolean attDownloadInProgress) {
-        this.attDownloadInProgress = attDownloadInProgress;
-    }
-
     private boolean attDownloadInProgress;
 
     public Message() {
@@ -84,12 +76,20 @@ public class Message {
         this.setRead(message.isRead());
     }
 
-    public void setRead(boolean read) {
-        this.read = read;
+    public boolean isAttDownloadInProgress() {
+        return attDownloadInProgress;
+    }
+
+    public void setAttDownloadInProgress(boolean attDownloadInProgress) {
+        this.attDownloadInProgress = attDownloadInProgress;
     }
 
     public boolean isRead() {
         return read || isTypeOutbox() || getScheduledAt() != null;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
     }
 
     public boolean isSelfDestruct() {
@@ -140,43 +140,13 @@ public class Message {
         return TextUtils.isEmpty(getKeyString()) && isSentToServer();
     }
 
-    public static enum Source {
-
-        DEVICE_NATIVE_APP(Short.valueOf("0")), WEB(Short.valueOf("1")), MT_MOBILE_APP(Short.valueOf("2")), API(Short.valueOf("3"));
-        private Short value;
-
-        private Source(Short c) {
-            value = c;
-        }
-
-        public Short getValue() {
-            return value;
-        }
-    };
-
-    public static enum MessageType {
-
-        INBOX(Short.valueOf("0")), OUTBOX(Short.valueOf("1")), DRAFT(Short.valueOf("2")),
-        OUTBOX_SENT_FROM_DEVICE(Short.valueOf("3")), MT_INBOX(Short.valueOf("4")),
-        MT_OUTBOX(Short.valueOf("5")), CALL_INCOMING(Short.valueOf("6")), CALL_OUTGOING(Short.valueOf("7"));
-        private Short value;
-
-        private MessageType(Short c) {
-            value = c;
-        }
-
-        public Short getValue() {
-            return value;
-        }
-    };
-
-    public String getKeyString() {
+        public String getKeyString() {
         return keyString;
-    }
+    };
 
-    public void setKeyString(String keyString) {
+        public void setKeyString(String keyString) {
         this.keyString = keyString;
-    }
+    };
 
     public Long getCreatedAtTime() {
         return createdAtTime;
@@ -186,28 +156,28 @@ public class Message {
         this.createdAtTime = createdAtTime;
     }
 
-    public void setTo(String to) {
-        this.to = to;
-    }
-
     public String getTo() {
         return to;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setTo(String to) {
+        this.to = to;
     }
 
     public String getMessage() {
         return message == null ? "" : message;
     }
 
-    public void setSent(boolean sent) {
-        this.sent = sent;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public boolean isSent() {
         return sent;
+    }
+
+    public void setSent(boolean sent) {
+        this.sent = sent;
     }
 
     public Boolean getDelivered() {
@@ -218,12 +188,12 @@ public class Message {
         this.delivered = delivered;
     }
 
-    public void setStoreOnDevice(boolean storeOnDevice) {
-        this.storeOnDevice = storeOnDevice;
-    }
-
     public boolean isStoreOnDevice() {
         return storeOnDevice;
+    }
+
+    public void setStoreOnDevice(boolean storeOnDevice) {
+        this.storeOnDevice = storeOnDevice;
     }
 
     public String getDeviceKeyString() {
@@ -242,12 +212,12 @@ public class Message {
         this.suUserKeyString = suUserKeyString;
     }
 
-    public void setType(Short type) {
-        this.type = type;
-    }
-
     public Short getType() {
         return type;
+    }
+
+    public void setType(Short type) {
+        this.type = type;
     }
 
     public void processContactIds(Context context) {
@@ -261,12 +231,12 @@ public class Message {
         }
     }
 
-    public void setContactIds(String contactIds) {
-        this.contactIds = contactIds;
-    }
-
     public String getContactIds() {
         return contactIds;
+    }
+
+    public void setContactIds(String contactIds) {
+        this.contactIds = contactIds;
     }
 
     public Long getBroadcastGroupId() {
@@ -277,12 +247,12 @@ public class Message {
         this.broadcastGroupId = broadcastGroupId;
     }
 
-    public void setSendToDevice(boolean sendToDevice) {
-        this.sendToDevice = sendToDevice;
-    }
-
     public boolean isSendToDevice() {
         return sendToDevice;
+    }
+
+    public void setSendToDevice(boolean sendToDevice) {
+        this.sendToDevice = sendToDevice;
     }
 
     public Long getScheduledAt() {
@@ -464,5 +434,35 @@ public class Message {
                 ", filePaths=" + filePaths +
                 ", fileMetas=" + fileMetas +
                 '}';
+    }
+
+public static enum Source {
+
+        DEVICE_NATIVE_APP(Short.valueOf("0")), WEB(Short.valueOf("1")), MT_MOBILE_APP(Short.valueOf("2")), API(Short.valueOf("3"));
+        private Short value;
+
+        private Source(Short c) {
+            value = c;
+        }
+
+        public Short getValue() {
+            return value;
+        }
+    }
+
+public static enum MessageType {
+
+        INBOX(Short.valueOf("0")), OUTBOX(Short.valueOf("1")), DRAFT(Short.valueOf("2")),
+        OUTBOX_SENT_FROM_DEVICE(Short.valueOf("3")), MT_INBOX(Short.valueOf("4")),
+        MT_OUTBOX(Short.valueOf("5")), CALL_INCOMING(Short.valueOf("6")), CALL_OUTGOING(Short.valueOf("7"));
+        private Short value;
+
+        private MessageType(Short c) {
+            value = c;
+        }
+
+        public Short getValue() {
+            return value;
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message.conversation;
+package com.mobicomkit.api.conversation;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -10,8 +10,8 @@ import com.google.gson.JsonParser;
 import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.communication.message.Message;
 import com.mobicomkit.communication.message.MessageClientService;
-import com.mobicomkit.communication.message.database.MessageDatabaseService;
-import com.mobicomkit.user.MobiComUserPreference;
+import com.mobicomkit.api.conversation.database.MessageDatabaseService;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
 
 import net.mobitexter.mobiframework.json.AnnotationExclusionStrategy;
 import net.mobitexter.mobiframework.json.ArrayAdapterFactory;

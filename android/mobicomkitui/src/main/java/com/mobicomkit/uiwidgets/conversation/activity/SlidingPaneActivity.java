@@ -20,18 +20,17 @@ import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.client.ui.MessageIntentService;
 import com.mobicomkit.communication.message.Message;
 import com.mobicomkit.communication.message.MobiComMessageService;
-import com.mobicomkit.instruction.InstructionUtil;
+import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 import com.mobicomkit.uiwidgets.MobiComKitApplication;
 import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.uiwidgets.conversation.MobiComKitBroadcastReceiver;
 import com.mobicomkit.uiwidgets.conversation.fragment.ConversationFragment;
 import com.mobicomkit.uiwidgets.conversation.fragment.QuickConversationFragment;
-import com.mobicomkit.user.MobiComUserPreference;
-import com.mobicomkit.user.UserClientService;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
+import com.mobicomkit.api.account.user.UserClientService;
 
 import net.mobitexter.mobiframework.commons.core.utils.Support;
 import net.mobitexter.mobiframework.people.activity.MobiComKitPeopleActivity;
-import net.mobitexter.mobiframework.people.contact.Contact;
 
 
 /**

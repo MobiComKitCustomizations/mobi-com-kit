@@ -9,7 +9,7 @@ import android.util.Log;
 import com.mobicomkit.MobiComKitConstants;
 import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.communication.message.Message;
-import com.mobicomkit.notification.NotificationService;
+import com.mobicomkit.api.notification.NotificationService;
 
 import net.mobitexter.mobiframework.json.GsonUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;

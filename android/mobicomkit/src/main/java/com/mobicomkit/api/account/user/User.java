@@ -1,4 +1,4 @@
-package com.mobicomkit.user;
+package com.mobicomkit.api.account.user;
 
 import java.io.Serializable;
 

@@ -34,7 +34,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.mobicomkit.uiwidgets.R;
-import com.mobicomkit.instruction.InstructionUtil;
+import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 
 import net.mobitexter.mobiframework.commons.core.utils.Utils;
 import net.mobitexter.mobiframework.commons.image.ImageLoader;

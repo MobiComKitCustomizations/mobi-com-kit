@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mobicomkit.attachment;
+package com.mobicomkit.api.attachment;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -59,18 +59,16 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings("unused")
 public class AttachmentManager {
 
-    private static final String TAG = "AttachmentManager";
     /*
      * Status indicators
      */
     static final int DOWNLOAD_FAILED = -1;
     static final int DECODE_FAILED = -2;
-
     static final int DOWNLOAD_STARTED = 1;
     static final int DOWNLOAD_COMPLETE = 2;
     static final int DECODE_STARTED = 3;
     static final int TASK_COMPLETE = 4;
-
+    private static final String TAG = "AttachmentManager";
     // Sets the size of the storage that's used to cache images
     private static final int IMAGE_CACHE_SIZE = 1024 * 1024 * 4;
 
@@ -93,39 +91,10 @@ public class AttachmentManager {
      * available in current Android implementations.
      */
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
-
-    public final List<String> attachmentInProgress;
-    /*
-     * Creates a cache of byte arrays indexed by image URLs. As new items are added to the
-     * cache, the oldest items are ejected and subject to garbage collection.
-     */
-    private final LruCache<String, Bitmap> mPhotoCache;
-
-    // A queue of Runnables for the image download pool
-    private final BlockingQueue<Runnable> mDownloadWorkQueue;
-
-    // A queue of Runnables for the image decoding pool
-    private final BlockingQueue<Runnable> mDecodeWorkQueue;
-
-    // A queue of PhotoManager tasks. Tasks are handed to a ThreadPool.
-    private final Queue<AttachmentTask> mPhotoTaskWorkQueue;
-
-    // A managed pool of background download threads
-    private final ThreadPoolExecutor mDownloadThreadPool;
-
-    // A managed pool of background decoder threads
-    private final ThreadPoolExecutor mDecodeThreadPool;
-
-    // An object that manages Messages in a Thread
-    private Handler mHandler;
-
     // A single instance of PhotoManager, used to implement the singleton pattern
     private static AttachmentManager sInstance = null;
-
-    //taking reference for future use ::
-
+    public final List<String> attachmentInProgress;
     public final List<AttachmentTask> attachmentTaskList;
-
     // A static block that sets class fields
     static {
 
@@ -135,6 +104,25 @@ public class AttachmentManager {
         // Creates a single static instance of PhotoManager
         sInstance = new AttachmentManager();
     }
+    /*
+     * Creates a cache of byte arrays indexed by image URLs. As new items are added to the
+     * cache, the oldest items are ejected and subject to garbage collection.
+     */
+    private final LruCache<String, Bitmap> mPhotoCache;
+    // A queue of Runnables for the image download pool
+    private final BlockingQueue<Runnable> mDownloadWorkQueue;
+    // A queue of Runnables for the image decoding pool
+    private final BlockingQueue<Runnable> mDecodeWorkQueue;
+    // A queue of PhotoManager tasks. Tasks are handed to a ThreadPool.
+    private final Queue<AttachmentTask> mPhotoTaskWorkQueue;
+    // A managed pool of background download threads
+    private final ThreadPoolExecutor mDownloadThreadPool;
+
+    //taking reference for future use ::
+    // A managed pool of background decoder threads
+    private final ThreadPoolExecutor mDecodeThreadPool;
+    // An object that manages Messages in a Thread
+    private Handler mHandler;
 
     /**
      * Constructs the work queues and thread pools used to download and decode images.
@@ -302,54 +290,6 @@ public class AttachmentManager {
     }
 
     /**
-     * Handles state messages for a particular task object
-     *
-     * @param photoTask A task object
-     * @param state     The state of the task
-     */
-    @SuppressLint("HandlerLeak")
-    public void handleState(AttachmentTask photoTask, int state) {
-        switch (state) {
-
-            // The task finished downloading and decoding the image
-            case TASK_COMPLETE:
-
-                // Puts the image into cache
-                if (photoTask.isCacheEnabled()) {
-                    // If the task is set to cache the results, put the buffer
-                    // that was
-                    // successfully decoded into the cache
-                    mPhotoCache.put(photoTask.getImageURL(), photoTask.getImage());
-                }
-                // Gets a Message object, stores the state in it, and sends it to the Handler
-                Message completeMessage = mHandler.obtainMessage(state, photoTask);
-                completeMessage.sendToTarget();
-                break;
-
-            // The task finished downloading the image
-            case DOWNLOAD_COMPLETE:
-                /*
-                 * If it is a image than decodes the image, by queuing the decoder object to run in the decoder
-                 *
-                 */
-                if (photoTask.getPhotoView() != null && photoTask.getContentType() != null && photoTask.getContentType().contains("image")) {
-                    mDecodeThreadPool.execute(photoTask.getPhotoDecodeRunnable());
-                } else {
-                    //We need not to cache the Data here ..as we have nothing to load
-                    // ...directly sending TASK complete message is enough
-                    mHandler.obtainMessage(TASK_COMPLETE, photoTask).sendToTarget();
-                    BroadcastService.sendMessageUpdateBroadcast(photoTask.getContext(), BroadcastService.INTENT_ACTIONS.MESSAGE_ATTACHMENT_DOWNLOAD_DONE.toString(), photoTask.getMessage());
-                }
-
-                // In all other cases, pass along the message without any other action.
-            default:
-                mHandler.obtainMessage(state, photoTask).sendToTarget();
-                break;
-        }
-
-    }
-
-    /**
      * Cancels all Threads in the ThreadPool
      */
     public static void cancelAll() {
@@ -443,7 +383,7 @@ public class AttachmentManager {
 
         // If image is already downloaded ...just pass-message as download complete
         if (!downloadTask.getMessage().isAttachmentDownloaded()) {
-            
+
             /*
              * "Executes" the tasks' download Runnable in order to download the image. If no
              * Threads are available in the thread pool, the Runnable waits in the queue.
@@ -457,7 +397,7 @@ public class AttachmentManager {
 
             // The image was cached, so no download is required.
         } else {
-            
+
             /*
              * Signals that the download is "complete", because the byte array already contains the
              * undecoded image. The decoding starts.
@@ -468,21 +408,6 @@ public class AttachmentManager {
 
         // Returns a task object, either newly-created or one from the task pool
         return downloadTask;
-    }
-
-    /**
-     * Recycles tasks by calling their internal recycle() method and then putting them back into
-     * the task queue.
-     *
-     * @param downloadTask The task to recycle
-     */
-    void recycleTask(AttachmentTask downloadTask) {
-
-        // Frees up memory in the task
-        downloadTask.recycle();
-
-        // Puts the task object back into the queue for re-use.
-        mPhotoTaskWorkQueue.offer(downloadTask);
     }
 
     public static AttachmentTask getBGThreadForAttachment(String messageKeyString) {
@@ -498,6 +423,69 @@ public class AttachmentManager {
         }
         Log.i(TAG, "Not found the thread for: " + messageKeyString);
         return null;
+    }
+
+    /**
+     * Handles state messages for a particular task object
+     *
+     * @param photoTask A task object
+     * @param state     The state of the task
+     */
+    @SuppressLint("HandlerLeak")
+    public void handleState(AttachmentTask photoTask, int state) {
+        switch (state) {
+
+            // The task finished downloading and decoding the image
+            case TASK_COMPLETE:
+
+                // Puts the image into cache
+                if (photoTask.isCacheEnabled()) {
+                    // If the task is set to cache the results, put the buffer
+                    // that was
+                    // successfully decoded into the cache
+                    mPhotoCache.put(photoTask.getImageURL(), photoTask.getImage());
+                }
+                // Gets a Message object, stores the state in it, and sends it to the Handler
+                Message completeMessage = mHandler.obtainMessage(state, photoTask);
+                completeMessage.sendToTarget();
+                break;
+
+            // The task finished downloading the image
+            case DOWNLOAD_COMPLETE:
+                /*
+                 * If it is a image than decodes the image, by queuing the decoder object to run in the decoder
+                 *
+                 */
+                if (photoTask.getPhotoView() != null && photoTask.getContentType() != null && photoTask.getContentType().contains("image")) {
+                    mDecodeThreadPool.execute(photoTask.getPhotoDecodeRunnable());
+                } else {
+                    //We need not to cache the Data here ..as we have nothing to load
+                    // ...directly sending TASK complete message is enough
+                    mHandler.obtainMessage(TASK_COMPLETE, photoTask).sendToTarget();
+                    BroadcastService.sendMessageUpdateBroadcast(photoTask.getContext(), BroadcastService.INTENT_ACTIONS.MESSAGE_ATTACHMENT_DOWNLOAD_DONE.toString(), photoTask.getMessage());
+                }
+
+                // In all other cases, pass along the message without any other action.
+            default:
+                mHandler.obtainMessage(state, photoTask).sendToTarget();
+                break;
+        }
+
+    }
+
+    /**
+     * Recycles tasks by calling their internal recycle() method and then putting them back into
+     * the task queue.
+     *
+     * @param downloadTask The task to recycle
+     */
+    void recycleTask(AttachmentTask downloadTask) {
+
+        // Frees up memory in the task
+        downloadTask.recycle();
+
+        // Puts the task object back into the queue for re-use.
+        mPhotoTaskWorkQueue.offer(downloadTask);
     }
 
 }

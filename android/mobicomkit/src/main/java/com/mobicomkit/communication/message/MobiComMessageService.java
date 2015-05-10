@@ -9,11 +9,11 @@ import android.widget.Toast;
 import com.mobicomkit.GeneralConstants;
 import com.mobicomkit.MobiComKitConstants;
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.communication.message.conversation.MobiComConversationService;
-import com.mobicomkit.communication.message.database.MessageDatabaseService;
+import com.mobicomkit.api.conversation.MobiComConversationService;
+import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 import com.mobicomkit.communication.message.selfdestruct.DisappearingMessageTask;
 import com.mobicomkit.sync.SyncMessageFeed;
-import com.mobicomkit.user.MobiComUserPreference;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
 
 import net.mobitexter.mobiframework.commons.core.utils.Support;
 import net.mobitexter.mobiframework.json.GsonUtils;
@@ -37,15 +37,14 @@ import java.util.Timer;
  */
 public class MobiComMessageService {
 
-    private static final String TAG = "MobiComMessageService";
-
     public static final long DELAY = 60000L;
+    private static final String TAG = "MobiComMessageService";
     public static Map<String, Uri> map = new HashMap<String, Uri>();
+    public static Map<String, Message> mtMessages = new LinkedHashMap<String, Message>();
     protected Context context;
     protected MessageDatabaseService messageDatabaseService;
     protected MessageClientService messageClientService;
     protected Class messageIntentServiceClass;
-    public static Map<String, Message> mtMessages = new LinkedHashMap<String, Message>();
 
     public MobiComMessageService(Context context, Class messageIntentServiceClass) {
         this.context = context;

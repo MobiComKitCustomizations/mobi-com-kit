@@ -1,4 +1,4 @@
-package com.mobicomkit.user;
+package com.mobicomkit.api.account.user;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,11 +14,8 @@ import java.util.Date;
 
 public class MobiComUserPreference {
 
-    private Context context;
-    private String countryCode;
+    private static final String USER_ID = "userId";
     public static MobiComUserPreference userpref;
-    public SharedPreferences sharedPreferences;
-
     //Constants for preferneces ..
     private static String device_registration_id="device_registration_id";
     private static String device_key_string="device_key_string";
@@ -28,7 +25,6 @@ public class MobiComUserPreference {
     private static String last_message_stat_sync_time="last_message_stat_sync_time";
     private static String sent_sms_sync_pref_key="sent_sms_sync_pref_key";
     private static String email="email";
-    private static final String USER_ID = "userId";
     private static String email_verified="email_verified";
     private static String user_key_string="user_key_string";
     private static String stop_service="stop_service";
@@ -42,6 +38,9 @@ public class MobiComUserPreference {
     private static String call_history_display_within_messages_pref_key="call_history_display_within_messages_pref_key";
     private static String mobitexter_contact_sync_key="mobitexter_contact_sync_key";
     private static String last_sms_sync_time="last_sms_sync_time";
+    public SharedPreferences sharedPreferences;
+    private Context context;
+    private String countryCode;
 
 
 
@@ -71,20 +70,20 @@ public class MobiComUserPreference {
         return !TextUtils.isEmpty(getDeviceKeyString());
     }
 
-    public void setDeviceRegistrationId(String deviceRegistrationId) {
-        sharedPreferences.edit().putString(device_registration_id, deviceRegistrationId).commit();
-    }
-
     public String getDeviceRegistrationId() {
         return sharedPreferences.getString(device_registration_id, null);
     }
 
-    public void setDeviceKeyString(String deviceKeyString) {
-        sharedPreferences.edit().putString(device_key_string, deviceKeyString).commit();
+    public void setDeviceRegistrationId(String deviceRegistrationId) {
+        sharedPreferences.edit().putString(device_registration_id, deviceRegistrationId).commit();
     }
 
     public String getDeviceKeyString() {
         return sharedPreferences.getString(device_key_string, null);
+    }
+
+    public void setDeviceKeyString(String deviceKeyString) {
+        sharedPreferences.edit().putString(device_key_string, deviceKeyString).commit();
     }
 
     public long getLastOutboxSyncTime() {
@@ -93,10 +92,6 @@ public class MobiComUserPreference {
 
     public void setLastOutboxSyncTime(long lastOutboxSyncTime) {
         sharedPreferences.edit().putLong(last_outbox_sync_time, lastOutboxSyncTime).commit();
-    }
-
-    public void setLastSyncTime(String lastSyncTime) {
-        sharedPreferences.edit().putString(last_sms_sync_time, lastSyncTime).commit();
     }
 
     public boolean isReportEnable() {
@@ -111,6 +106,10 @@ public class MobiComUserPreference {
         return sharedPreferences.getString(last_sms_sync_time, "0");
     }
 
+    public void setLastSyncTime(String lastSyncTime) {
+        sharedPreferences.edit().putString(last_sms_sync_time, lastSyncTime).commit();
+    }
+
     public long getLastInboxSyncTime() {
         return sharedPreferences.getLong(last_inbox_sync_time, 0L);
     }
@@ -119,12 +118,12 @@ public class MobiComUserPreference {
         sharedPreferences.edit().putLong(last_inbox_sync_time, lastInboxSyncTime).commit();
     }
 
-    public void setLastMessageStatSyncTime(long lastMessageStatSyncTime) {
-        sharedPreferences.edit().putLong(last_message_stat_sync_time, lastMessageStatSyncTime).commit();
-    }
-
     public Long getLastMessageStatSyncTime() {
         return sharedPreferences.getLong(last_message_stat_sync_time, 0);
+    }
+
+    public void setLastMessageStatSyncTime(long lastMessageStatSyncTime) {
+        sharedPreferences.edit().putLong(last_message_stat_sync_time, lastMessageStatSyncTime).commit();
     }
 
     public boolean isSentSmsSyncFlag() {
@@ -135,16 +134,12 @@ public class MobiComUserPreference {
         sharedPreferences.edit().putBoolean(sent_sms_sync_pref_key, sentSmsSyncFlag).commit();
     }
 
-    public void setEmailIdValue(String emailIdValue) {
-        sharedPreferences.edit().putString(email, emailIdValue).commit();
-    }
-
     public String getEmailIdValue() {
         return sharedPreferences.getString(email, null);
     }
 
-    public void setUserId(String userId) {
-        sharedPreferences.edit().putString(USER_ID, userId).commit();
+    public void setEmailIdValue(String emailIdValue) {
+        sharedPreferences.edit().putString(email, emailIdValue).commit();
     }
 
     public String getUserId() {
@@ -155,36 +150,40 @@ public class MobiComUserPreference {
         return userId;
     }
 
-    public void setEmailVerified(boolean emailVerified) {
-        sharedPreferences.edit().putBoolean(email_verified, emailVerified).commit();
+    public void setUserId(String userId) {
+        sharedPreferences.edit().putString(USER_ID, userId).commit();
     }
 
     public boolean isEmailVerified() {
         return sharedPreferences.getBoolean(email_verified, true);
     }
 
-    public void setSuUserKeyString(String suUserKeyString) {
-        sharedPreferences.edit().putString(user_key_string, suUserKeyString).commit();
+    public void setEmailVerified(boolean emailVerified) {
+        sharedPreferences.edit().putBoolean(email_verified, emailVerified).commit();
     }
 
     public String getSuUserKeyString() {
         return sharedPreferences.getString(user_key_string, null);
     }
 
-    public void setStopServiceFlag(Boolean stopServiceFlag) {
-        sharedPreferences.edit().putBoolean(stop_service, stopServiceFlag).commit();
+    public void setSuUserKeyString(String suUserKeyString) {
+        sharedPreferences.edit().putString(user_key_string, suUserKeyString).commit();
     }
 
     public boolean isStopServiceFlag() {
         return sharedPreferences.getBoolean(stop_service, false);
     }
 
-    public void setPatchAvailable(Boolean patchAvailable) {
-        sharedPreferences.edit().putBoolean(patch_available, patchAvailable).commit();
+    public void setStopServiceFlag(Boolean stopServiceFlag) {
+        sharedPreferences.edit().putBoolean(stop_service, stopServiceFlag).commit();
     }
 
     public boolean isPatchAvailable() {
         return sharedPreferences.getBoolean(patch_available, false);
+    }
+
+    public void setPatchAvailable(Boolean patchAvailable) {
+        sharedPreferences.edit().putBoolean(patch_available, patchAvailable).commit();
     }
 
     public boolean isWebHookEnable(){
@@ -213,12 +212,12 @@ public class MobiComUserPreference {
 //        return updateRegFlag;
 //    }
 
-    public void setUpdateRegFlag(boolean updateRegFlag) {
-        sharedPreferences.edit().putBoolean(update_push_registration, updateRegFlag).commit();
-    }
-
     public boolean isUpdateRegFlag() {
         return sharedPreferences.getBoolean(update_push_registration, false);
+    }
+
+    public void setUpdateRegFlag(boolean updateRegFlag) {
+        sharedPreferences.edit().putBoolean(update_push_registration, updateRegFlag).commit();
     }
 
     public String getCountryCode() {
@@ -276,13 +275,13 @@ public class MobiComUserPreference {
         }
     }
 
+    public boolean isMobiTexterContactSyncCompleted() {
+        return sharedPreferences.getBoolean(mobitexter_contact_sync_key, false);
+    }
+
     public void setMobiTexterContactSyncCompleted(boolean status) {
         sharedPreferences.edit().
         putBoolean(mobitexter_contact_sync_key, status).commit();
-    }
-
-    public boolean isMobiTexterContactSyncCompleted() {
-        return sharedPreferences.getBoolean(mobitexter_contact_sync_key, false);
     }
 
     @Override

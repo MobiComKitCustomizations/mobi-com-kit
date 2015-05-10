@@ -1,4 +1,4 @@
-package com.mobicomkit.notification;
+package com.mobicomkit.api.notification;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +12,8 @@ import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.client.ui.MessageIntentService;
 import com.mobicomkit.communication.message.MessageDeleteContent;
 import com.mobicomkit.communication.message.MobiComMessageService;
-import com.mobicomkit.communication.message.conversation.MobiComConversationService;
-import com.mobicomkit.communication.message.database.MessageDatabaseService;
+import com.mobicomkit.api.conversation.MobiComConversationService;
+import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 import com.mobicomkit.contact.ContactService;
 import com.mobicomkit.people.ContactContent;
 

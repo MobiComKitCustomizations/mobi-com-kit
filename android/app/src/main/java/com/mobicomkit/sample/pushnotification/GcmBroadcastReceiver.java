@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.mobicomkit.notification.MobiComPushReceiver;
+import com.mobicomkit.api.notification.MobiComPushReceiver;
 
 public class GcmBroadcastReceiver extends BroadcastReceiver {
 

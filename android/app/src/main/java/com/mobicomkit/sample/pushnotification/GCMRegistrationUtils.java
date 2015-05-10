@@ -9,17 +9,17 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.mobicomkit.user.MobiComUserPreference;
-import com.mobicomkit.user.RegisterUserClientService;
+import com.mobicomkit.api.account.user.MobiComUserPreference;
+import com.mobicomkit.api.account.register.RegisterUserClientService;
 
 import java.io.IOException;
 
 public class GCMRegistrationUtils extends Handler {
 
 	private static final String GCM_SENDER_ID = "195932243324";
-	private final Activity mActivity;
 	private static final String TAG = "GCMRegistrationUtils";
 	private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+	private final Activity mActivity;
 
 	public GCMRegistrationUtils(Activity activity) {
 		super();
