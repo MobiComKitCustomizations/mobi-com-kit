@@ -1,4 +1,4 @@
-package com.mobicomkit;
+package com.mobicomkit.api;
 
 /**
  * Created by devashish on 12/3/15.

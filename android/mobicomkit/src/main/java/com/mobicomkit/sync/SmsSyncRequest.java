@@ -1,6 +1,6 @@
 package com.mobicomkit.sync;
 
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.conversation.Message;
 
 import java.util.List;
 

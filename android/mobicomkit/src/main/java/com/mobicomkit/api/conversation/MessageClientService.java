@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message;
+package com.mobicomkit.api.conversation;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -8,14 +8,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.mobicomkit.HttpRequestUtils;
-import com.mobicomkit.MobiComKitClientService;
-import com.mobicomkit.MobiComKitServer;
+import com.mobicomkit.api.HttpRequestUtils;
+import com.mobicomkit.api.MobiComKitClientService;
+import com.mobicomkit.api.MobiComKitServer;
 import com.mobicomkit.api.attachment.FileClientService;
 import com.mobicomkit.api.attachment.FileMeta;
 import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.api.conversation.database.MessageDatabaseService;
-import com.mobicomkit.communication.message.schedule.ScheduledMessageUtil;
+import com.mobicomkit.api.conversation.schedule.ScheduledMessageUtil;
 import com.mobicomkit.sync.SmsSyncRequest;
 import com.mobicomkit.sync.SyncMessageFeed;
 import com.mobicomkit.api.account.user.MobiComUserPreference;

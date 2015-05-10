@@ -1,6 +1,6 @@
-package com.mobicomkit.communication.message.stat;
+package com.mobicomkit.api.conversation.stat;
 
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.conversation.Message;
 
 import java.io.Serializable;
 

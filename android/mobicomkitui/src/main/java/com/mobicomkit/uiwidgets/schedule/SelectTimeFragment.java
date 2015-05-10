@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.mobicomkit.uiwidgets.R;
-import com.mobicomkit.communication.message.schedule.ScheduledTimeHolder;
 
 import java.util.Calendar;
 

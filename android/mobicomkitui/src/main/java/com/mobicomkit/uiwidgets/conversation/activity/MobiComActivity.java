@@ -20,9 +20,9 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import com.mobicomkit.MobiComKitConstants;
+import com.mobicomkit.api.MobiComKitConstants;
 import com.mobicomkit.uiwidgets.R;
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.conversation.Message;
 
 import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.uiwidgets.conversation.MobiComKitBroadcastReceiver;

@@ -47,8 +47,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.mobicomkit.MobiComKitConstants;
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.MobiComKitConstants;
+import com.mobicomkit.api.conversation.Message;
 
 
 import com.mobicomkit.broadcast.BroadcastService;
@@ -61,8 +61,8 @@ import com.mobicomkit.uiwidgets.conversation.activity.SpinnerNavItem;
 import com.mobicomkit.uiwidgets.conversation.adapter.TitleNavigationAdapter;
 import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 import com.mobicomkit.uiwidgets.schedule.ConversationScheduler;
-import com.mobicomkit.communication.message.schedule.ScheduledTimeHolder;
-import com.mobicomkit.communication.message.selfdestruct.DisappearingMessageTask;
+import com.mobicomkit.uiwidgets.schedule.ScheduledTimeHolder;
+import com.mobicomkit.api.conversation.selfdestruct.DisappearingMessageTask;
 import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 import com.mobicomkit.uiwidgets.conversation.DeleteConversationAsyncTask;
 import com.mobicomkit.uiwidgets.conversation.MessageCommunicator;

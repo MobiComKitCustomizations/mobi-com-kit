@@ -9,13 +9,12 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.client.ui.MessageIntentService;
-import com.mobicomkit.communication.message.MessageDeleteContent;
-import com.mobicomkit.communication.message.MobiComMessageService;
+import com.mobicomkit.api.conversation.MessageIntentService;
+import com.mobicomkit.api.conversation.MobiComMessageService;
 import com.mobicomkit.api.conversation.MobiComConversationService;
 import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 import com.mobicomkit.contact.ContactService;
-import com.mobicomkit.people.ContactContent;
+import com.mobicomkit.api.people.ContactContent;
 
 
 import java.util.ArrayList;
@@ -129,7 +128,7 @@ public class MobiComPushReceiver  {
 
     private static void processDeleteSingleMessageRequest(Context context, String deletedSmsKeyString, String contactNumber) {
         MobiComConversationService conversationService = new MobiComConversationService(context);
-        contactNumber = conversationService.deleteMessageFromDevice(new MessageDatabaseService(context).getSms(deletedSmsKeyString), contactNumber);
+        contactNumber = conversationService.deleteMessageFromDevice(deletedSmsKeyString, contactNumber);
         BroadcastService.sendMessageDeleteBroadcast(context, BroadcastService.INTENT_ACTIONS.DELETE_MESSAGE.toString(), deletedSmsKeyString, contactNumber);
     }
 

@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message.schedule;
+package com.mobicomkit.uiwidgets.schedule;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -9,11 +9,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 
-
 import java.util.Calendar;
-
-
-
 
 public class SelectDateFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     private View scheduledDateView;

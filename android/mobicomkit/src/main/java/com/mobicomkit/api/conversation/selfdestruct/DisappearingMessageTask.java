@@ -1,10 +1,10 @@
-package com.mobicomkit.communication.message.selfdestruct;
+package com.mobicomkit.api.conversation.selfdestruct;
 
 import android.content.Context;
 import android.util.Log;
 
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.api.conversation.MobiComConversationService;
 
 import java.util.TimerTask;

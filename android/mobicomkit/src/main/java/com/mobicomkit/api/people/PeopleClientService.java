@@ -1,10 +1,10 @@
-package com.mobicomkit.people;
+package com.mobicomkit.api.people;
 
 import android.content.Context;
 
-import com.mobicomkit.MobiComKitClientService;
-import com.mobicomkit.MobiComKitServer;
-import com.mobicomkit.HttpRequestUtils;
+import com.mobicomkit.api.MobiComKitClientService;
+import com.mobicomkit.api.MobiComKitServer;
+import com.mobicomkit.api.HttpRequestUtils;
 import net.mobitexter.mobiframework.json.GsonUtils;
 
 /**

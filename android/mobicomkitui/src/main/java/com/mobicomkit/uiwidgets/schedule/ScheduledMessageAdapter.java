@@ -22,7 +22,7 @@ import net.mobitexter.mobiframework.people.contact.ContactUtils;
 import net.mobitexter.mobiframework.commons.image.ImageLoader;
 
 import com.mobicomkit.uiwidgets.R;
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.conversation.Message;
 
 import java.text.DateFormat;
 import java.util.*;

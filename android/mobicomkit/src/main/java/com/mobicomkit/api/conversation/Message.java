@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message;
+package com.mobicomkit.api.conversation;
 
 import android.content.Context;
 import android.telephony.PhoneNumberUtils;

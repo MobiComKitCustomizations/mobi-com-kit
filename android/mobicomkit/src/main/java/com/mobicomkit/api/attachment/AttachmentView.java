@@ -28,8 +28,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 
-import com.mobicomkit.MobiComKitServer;
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.MobiComKitServer;
+import com.mobicomkit.api.conversation.Message;
 
 /**
  * This class extends the standard Android ImageView View class with some features

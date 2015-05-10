@@ -14,10 +14,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
-import com.mobicomkit.MobiComKitConstants;
+import com.mobicomkit.api.MobiComKitConstants;
 import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.api.attachment.AttachmentView;
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.conversation.Message;
 
 import net.mobitexter.mobicom.FileUtils;
 import net.mobitexter.mobiframework.json.GsonUtils;

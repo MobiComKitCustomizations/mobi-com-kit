@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message.schedule;
+package com.mobicomkit.uiwidgets.schedule;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

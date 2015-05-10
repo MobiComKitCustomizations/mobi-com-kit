@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message;
+package com.mobicomkit.api.notification;
 
 import java.util.List;
 

@@ -26,13 +26,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mobicomkit.MobiComKitConstants;
+import com.mobicomkit.api.MobiComKitConstants;
 
 import com.mobicomkit.api.attachment.AttachmentManager;
 import com.mobicomkit.api.attachment.AttachmentView;
 import com.mobicomkit.api.attachment.FileClientService;
 import com.mobicomkit.api.attachment.FileMeta;
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 import com.mobicomkit.uiwidgets.conversation.activity.FullScreenImageActivity;

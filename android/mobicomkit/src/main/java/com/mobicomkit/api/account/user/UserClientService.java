@@ -3,9 +3,9 @@ package com.mobicomkit.api.account.user;
 import android.content.Context;
 import android.util.Log;
 
-import com.mobicomkit.MobiComKitClientService;
-import com.mobicomkit.MobiComKitServer;
-import com.mobicomkit.HttpRequestUtils;
+import com.mobicomkit.api.MobiComKitClientService;
+import com.mobicomkit.api.MobiComKitServer;
+import com.mobicomkit.api.HttpRequestUtils;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;

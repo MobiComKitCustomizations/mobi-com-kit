@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.mobicomkit.MobiComKitConstants;
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.MobiComKitConstants;
+import com.mobicomkit.api.conversation.Message;
 
 import net.mobitexter.mobiframework.json.GsonUtils;
 

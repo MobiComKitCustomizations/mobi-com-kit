@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.uiwidgets.conversation.ConversationListView;
 import com.mobicomkit.api.conversation.MobiComConversationService;
 import com.mobicomkit.api.conversation.database.MessageDatabaseService;

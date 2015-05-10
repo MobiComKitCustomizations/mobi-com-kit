@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message;
+package com.mobicomkit.api.conversation;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,11 +7,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.mobicomkit.GeneralConstants;
-import com.mobicomkit.MobiComKitConstants;
+import com.mobicomkit.api.MobiComKitConstants;
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.api.conversation.MobiComConversationService;
 import com.mobicomkit.api.conversation.database.MessageDatabaseService;
-import com.mobicomkit.communication.message.selfdestruct.DisappearingMessageTask;
+import com.mobicomkit.api.conversation.selfdestruct.DisappearingMessageTask;
 import com.mobicomkit.sync.SyncMessageFeed;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 
@@ -225,7 +224,7 @@ public class MobiComMessageService {
         Log.i(TAG, "Got the delivery report for key: " + key);
         Uri uri = map.get(key);
         String keyParts[] = key.split((","));
-        Message message = messageDatabaseService.getSms(keyParts[0]);
+        Message message = messageDatabaseService.getMessage(keyParts[0]);
         if (message != null) {
             message.setDelivered(Boolean.TRUE);
             //Todo: Server need to send the contactNumber of the receiver in case of group messaging and update

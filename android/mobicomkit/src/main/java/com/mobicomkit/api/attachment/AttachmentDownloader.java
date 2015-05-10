@@ -19,9 +19,9 @@ package com.mobicomkit.api.attachment;
 import android.content.Context;
 import android.util.Log;
 
-import com.mobicomkit.MobiComKitClientService;
-import com.mobicomkit.MobiComKitServer;
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.MobiComKitClientService;
+import com.mobicomkit.api.MobiComKitServer;
+import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 
 import java.io.File;

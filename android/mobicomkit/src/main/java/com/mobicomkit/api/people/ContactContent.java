@@ -1,4 +1,4 @@
-package com.mobicomkit.people;
+package com.mobicomkit.api.people;
 
 /**
  *

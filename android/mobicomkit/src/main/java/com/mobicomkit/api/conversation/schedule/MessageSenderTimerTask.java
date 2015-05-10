@@ -1,9 +1,9 @@
-package com.mobicomkit.timer;
+package com.mobicomkit.api.conversation.schedule;
 
 import android.util.Log;
 
-import com.mobicomkit.communication.message.Message;
-import com.mobicomkit.communication.message.MobiComMessageService;
+import com.mobicomkit.api.conversation.Message;
+import com.mobicomkit.api.conversation.MobiComMessageService;
 
 import java.util.TimerTask;
 

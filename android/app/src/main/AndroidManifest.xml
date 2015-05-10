@@ -95,7 +95,7 @@
         </activity>
 
         <service
-            android:name="com.mobicomkit.client.ui.MessageIntentService"
+            android:name="com.mobicomkit.api.conversation.MessageIntentService"
             android:exported="false" />
 
         <activity

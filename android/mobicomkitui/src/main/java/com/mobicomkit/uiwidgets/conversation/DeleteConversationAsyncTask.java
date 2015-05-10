@@ -2,7 +2,7 @@ package com.mobicomkit.uiwidgets.conversation;
 
 import android.os.AsyncTask;
 
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.api.conversation.MobiComConversationService;
 import net.mobitexter.mobiframework.people.contact.Contact;
 

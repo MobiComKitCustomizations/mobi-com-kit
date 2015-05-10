@@ -4,7 +4,7 @@ package com.mobicomkit.sync;
  * Created by devashish on 15/1/15.
  */
 
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.conversation.Message;
 
 import java.io.Serializable;
 import java.util.List;

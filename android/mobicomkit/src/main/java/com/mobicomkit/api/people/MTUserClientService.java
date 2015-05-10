@@ -1,13 +1,13 @@
-package com.mobicomkit.people;
+package com.mobicomkit.api.people;
 
 import android.content.Context;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
 
-import com.mobicomkit.MobiComKitClientService;
-import com.mobicomkit.MobiComKitServer;
-import com.mobicomkit.HttpRequestUtils;
+import com.mobicomkit.api.MobiComKitClientService;
+import com.mobicomkit.api.MobiComKitServer;
+import com.mobicomkit.api.HttpRequestUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

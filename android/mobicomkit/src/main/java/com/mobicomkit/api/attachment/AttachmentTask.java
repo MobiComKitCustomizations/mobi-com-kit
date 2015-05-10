@@ -24,7 +24,7 @@ import android.util.Log;
 import net.mobitexter.mobiframework.commons.core.utils.FileUtils;
 import net.mobitexter.mobiframework.commons.image.PhotoDecodeRunnable;
 
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.conversation.Message;
 
 import java.lang.ref.WeakReference;
 

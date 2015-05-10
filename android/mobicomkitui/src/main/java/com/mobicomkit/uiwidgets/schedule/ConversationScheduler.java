@@ -13,8 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mobicomkit.uiwidgets.R;
-import com.mobicomkit.communication.message.schedule.ScheduledTimeHolder;
-import com.mobicomkit.communication.message.schedule.SelectDateFragment;
 
 import net.mobitexter.mobiframework.commons.core.utils.DateUtils;
 

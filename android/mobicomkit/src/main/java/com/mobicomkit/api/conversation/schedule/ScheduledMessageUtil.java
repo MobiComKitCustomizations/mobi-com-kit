@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message.schedule;
+package com.mobicomkit.api.conversation.schedule;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.database.MobiComDatabaseHelper;
 
 /**

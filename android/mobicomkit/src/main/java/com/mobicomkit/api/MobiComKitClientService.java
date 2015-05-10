@@ -1,4 +1,4 @@
-package com.mobicomkit;
+package com.mobicomkit.api;
 
 import android.content.Context;
 import android.util.Base64;

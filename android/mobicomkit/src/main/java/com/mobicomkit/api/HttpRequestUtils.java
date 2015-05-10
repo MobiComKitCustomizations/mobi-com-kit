@@ -1,4 +1,4 @@
-package com.mobicomkit;
+package com.mobicomkit.api;
 
 import android.text.TextUtils;
 import android.util.Log;

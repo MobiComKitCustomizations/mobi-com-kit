@@ -8,8 +8,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import com.mobicomkit.broadcast.BroadcastService;
-import com.mobicomkit.communication.message.Message;
-import com.mobicomkit.communication.message.MessageClientService;
 import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 
@@ -158,6 +156,10 @@ public class MobiComConversationService {
             }).start();
         }
         BroadcastService.sendConversationDeleteBroadcast(context, BroadcastService.INTENT_ACTIONS.DELETE_CONVERSATION.toString(), contact.getContactNumber());
+    }
+
+    public String deleteMessageFromDevice(String keyString, String contactNumber) {
+        return deleteMessageFromDevice(messageDatabaseService.getMessage(keyString), contactNumber);
     }
 
 //    public void addFileMetaDetails(String responseString, Message message) {

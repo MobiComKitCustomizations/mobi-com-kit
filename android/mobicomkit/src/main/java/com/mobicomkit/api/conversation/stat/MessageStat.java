@@ -1,4 +1,4 @@
-package com.mobicomkit.communication.message.stat;
+package com.mobicomkit.api.conversation.stat;
 
 import com.google.gson.annotations.SerializedName;
 

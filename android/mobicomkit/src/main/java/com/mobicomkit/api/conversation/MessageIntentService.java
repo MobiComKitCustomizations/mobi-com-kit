@@ -1,14 +1,14 @@
-package com.mobicomkit.client.ui;
+package com.mobicomkit.api.conversation;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.mobicomkit.MobiComKitConstants;
-import com.mobicomkit.communication.message.Message;
-import com.mobicomkit.communication.message.MessageClientService;
-import com.mobicomkit.communication.message.MobiComMessageService;
-import com.mobicomkit.timer.MessageSenderTimerTask;
+import com.mobicomkit.api.MobiComKitConstants;
+import com.mobicomkit.api.conversation.Message;
+import com.mobicomkit.api.conversation.MessageClientService;
+import com.mobicomkit.api.conversation.MobiComMessageService;
+import com.mobicomkit.api.conversation.schedule.MessageSenderTimerTask;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 
 import net.mobitexter.mobiframework.json.GsonUtils;

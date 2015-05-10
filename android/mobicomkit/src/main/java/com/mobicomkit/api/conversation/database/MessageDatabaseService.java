@@ -10,7 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mobicomkit.api.attachment.FileMeta;
-import com.mobicomkit.communication.message.Message;
+import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.database.MobiComDatabaseHelper;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 
@@ -30,18 +30,10 @@ import java.util.List;
  */
 public class MessageDatabaseService {
 
-    private static final String TAG = "SmsDatabaseService";
+    private static final String TAG = "MessageDatabaseService";
 
     private static final String MIN_CREATED_AT_KEY = "net.mobitexter.sms.createdAt.min";
     private static final String MAX_CREATED_AT_KEY = "net.mobitexter.sms.createdAt.max";
-    /**
-     * Return the Top n sms From the inbox in a Arraylist
-     *
-     * @param noOfSms
-     * @param type
-     * @return
-     */
-
     public static List<Message> recentlyAddedMessage = new ArrayList<Message>();
     Context context = null;
     private MobiComUserPreference userPreferences;
@@ -186,7 +178,7 @@ public class MessageDatabaseService {
         return createdAt;
     }
 
-    public Message getSms(String contactNumber, String message) {
+    public Message getMessage(String contactNumber, String message) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String structuredNameWhere = "";
         List<String> structuredNameParamsList = new ArrayList<String>();
@@ -208,7 +200,7 @@ public class MessageDatabaseService {
         return message1;
     }
 
-    public Message getSms(String keyString) {
+    public Message getMessage(String keyString) {
         if (TextUtils.isEmpty(keyString)) {
             return null;
         }
