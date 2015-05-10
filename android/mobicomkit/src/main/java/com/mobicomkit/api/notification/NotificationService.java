@@ -7,14 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
-import android.telephony.PhoneNumberUtils;
 
-import com.mobicomkit.MobiComKitClientService;
-import com.mobicomkit.MobiComKitConstants;
-
+import com.mobicomkit.api.MobiComKitClientService;
+import com.mobicomkit.api.MobiComKitConstants;
+import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.broadcast.NotificationBroadcastReceiver;
-import com.mobicomkit.communication.message.Message;
-
 
 import net.mobitexter.mobiframework.json.GsonUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;
