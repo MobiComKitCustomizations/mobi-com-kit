@@ -145,6 +145,10 @@ public class MessageClientService extends MobiComKitClientService {
         messageDatabaseService.updateMessageSyncStatus(message, keyString);
     }
 
+    public void sendMessageToServer(Message message) throws Exception {
+        sendMessageToServer(message, null);
+    }
+
     public void sendMessageToServer(Message message, Class intentClass) throws Exception {
         processMessage(message);
         if (message.getScheduledAt() != null && message.getScheduledAt() != 0 && intentClass != null) {

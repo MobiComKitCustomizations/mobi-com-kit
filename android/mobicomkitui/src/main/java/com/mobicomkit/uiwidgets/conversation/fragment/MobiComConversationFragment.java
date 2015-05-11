@@ -891,10 +891,11 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
                 Intent intent = new Intent(getActivity(), messageIntentClass);
                 intent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, GsonUtils.getJsonFromObject(messageToResend, Message.class));
                 getActivity().startService(intent);
+                break;
             case 3:
-                String smsKeyString = message.getKeyString();
+                String messageKeyString = message.getKeyString();
                 new DeleteConversationAsyncTask(conversationService, message, contact).execute();
-                deleteMessageFromDeviceList(smsKeyString);
+                deleteMessageFromDeviceList(messageKeyString);
                 break;
         }
         return true;

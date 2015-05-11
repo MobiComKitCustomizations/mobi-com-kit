@@ -191,7 +191,7 @@ public class MobiComMessageService {
             }
 
             try {
-                messageClientService.sendMessageToServer(mTextMessageReceived, null);
+                messageClientService.sendMessageToServer(mTextMessageReceived);
             } catch (Exception ex) {
                 Log.i(TAG, "Received Sms error " + ex.getMessage());
             }

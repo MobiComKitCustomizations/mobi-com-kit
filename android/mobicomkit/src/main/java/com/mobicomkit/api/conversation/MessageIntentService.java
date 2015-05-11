@@ -29,12 +29,12 @@ public class MessageIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        if(intent.getStringExtra(UPLOAD_CANCEL)!=null) {
+        if (intent.getStringExtra(UPLOAD_CANCEL) != null) {
             //TODO: not completed yet ....
             Thread thread = runningTaskMap.get(intent.getStringExtra(UPLOAD_CANCEL));
-            if(thread!=null){
+            if (thread != null) {
                 thread.interrupt();
-            }else {
+            } else {
                 Log.w(TAG, "Thread not found..." + runningTaskMap);
             }
             return;
@@ -43,13 +43,13 @@ public class MessageIntentService extends IntentService {
         Thread thread = new Thread(new MessegeSender(message));
         thread.start();
 
-        if(message.hasAttachment()){
-            runningTaskMap.put(getMapKey(message),thread);
+        if (message.hasAttachment()) {
+            runningTaskMap.put(getMapKey(message), thread);
         }
     }
 
     private String getMapKey(Message message) {
-        return message.getFilePaths().get(0)+message.getContactIds();
+        return message.getFilePaths().get(0) + message.getContactIds();
     }
 
     private class MessegeSender implements Runnable {
@@ -62,8 +62,8 @@ public class MessageIntentService extends IntentService {
         @Override
         public void run() {
             try {
-                new MessageClientService(MessageIntentService.this).sendMessageToServer(message, null);
-                if ( message.hasAttachment() && !message.isAttachmentUploadInProgress() ){
+                new MessageClientService(MessageIntentService.this).sendMessageToServer(message);
+                if (message.hasAttachment() && !message.isAttachmentUploadInProgress()) {
                     runningTaskMap.remove(getMapKey(message));
                 }
                 int groupSmsDelayInSec = MobiComUserPreference.getInstance(MessageIntentService.this).getGroupSmsDelayInSec();
