@@ -10,7 +10,7 @@ import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.uiwidgets.conversation.adapter.ConversationAdapter;
 
 public class QuickConversationFragment extends MobiComQuickConversationFragment {
-;
+
     public QuickConversationFragment() {
 
     }
