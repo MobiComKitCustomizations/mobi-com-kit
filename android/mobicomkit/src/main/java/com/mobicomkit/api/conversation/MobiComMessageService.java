@@ -54,7 +54,7 @@ public class MobiComMessageService {
         this.messageIntentServiceClass = messageIntentServiceClass;
     }
 
-    public void processMessage(final Message messageToProcess, String tofield) {
+    public Message processMessage(final Message messageToProcess, String tofield) {
         Message message = prepareMessage(messageToProcess, tofield);
 
         if (message.getType().equals(Message.MessageType.MT_INBOX.getValue())) {
@@ -62,12 +62,13 @@ public class MobiComMessageService {
             //TODO: in case of isStoreOn device is false ..have to handle fall back
         } else if (message.getType().equals(Message.MessageType.MT_OUTBOX.getValue())) {
             Uri uri = null;
-            Log.i(TAG, "Sending mt message");
+            Log.i(TAG, "Got mt outbox message");
             String mapKey = message.getKeyString() + "," + message.getContactIds();
             map.put(mapKey, uri);
             mtMessages.put(mapKey, message);
         }
         Log.i(TAG, "Sending message: " + message);
+        return message;
     }
 
     public Message prepareMessage(Message messageToProcess, String tofield) {

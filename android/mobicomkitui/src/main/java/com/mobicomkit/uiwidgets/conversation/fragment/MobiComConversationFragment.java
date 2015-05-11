@@ -85,8 +85,9 @@ import java.util.Timer;
  */
 abstract public class MobiComConversationFragment extends Fragment implements View.OnClickListener {
 
+    private static final String TAG = "MobiComConversation";
+    //Todo: Increase the file size limit
     public static final int MAX_ALLOWED_FILE_SIZE = 5 * 1024 * 1024;
-    private static final String TAG = "MobiComConversationFragment";
     public FrameLayout emoticonsFrameLayout;
     protected String title = "Conversations";
     protected DownloadConversation downloadConversation;
@@ -97,7 +98,6 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
     protected boolean loadMore = true;
     protected Contact contact;
     protected Group group;
-    protected Short contactMTAppVersionCode;
     protected EditText messageEditText;
     protected ImageButton sendButton;
     protected ImageButton attachButton;
@@ -149,7 +149,7 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
         mediaUploadProgressBar = (ProgressBar) attachmentLayout.findViewById(R.id.media_upload_progress_bar);
         emoticonsFrameLayout = (FrameLayout) list.findViewById(R.id.emojicons_frame_layout);
         emoticonsBtn = (ImageButton) list.findViewById(R.id.emoticons_btn);
-        if(emojiIconHandler==null && emoticonsBtn!=null){
+        if (emojiIconHandler == null && emoticonsBtn != null) {
             emoticonsBtn.setVisibility(View.GONE);
         }
         spinnerLayout = inflater.inflate(R.layout.mobicom_message_list_header_footer, null);
@@ -211,7 +211,7 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-               // EmojiconHandler.addEmojis(getActivity(), messageEditText.getText(), Utils.dpToPx(30));
+                // EmojiconHandler.addEmojis(getActivity(), messageEditText.getText(), Utils.dpToPx(30));
                 //TODO: write code to emoticons .....
 
             }
@@ -474,10 +474,10 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
 
         if (contact != null) {
             conversationAdapter = new ConversationAdapter(getActivity(),
-                    R.layout.mobicom_message_row_view, messageList, contact, false, messageIntentClass,emojiIconHandler);
+                    R.layout.mobicom_message_row_view, messageList, contact, false, messageIntentClass, emojiIconHandler);
         } else if (group != null) {
             conversationAdapter = new ConversationAdapter(getActivity(),
-                    R.layout.mobicom_message_row_view, messageList, group, messageIntentClass,emojiIconHandler);
+                    R.layout.mobicom_message_row_view, messageList, group, messageIntentClass, emojiIconHandler);
         }
 
         listView.setAdapter(conversationAdapter);
