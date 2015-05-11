@@ -28,10 +28,10 @@ public class MTNotificationBroadcastReceiver extends BroadcastReceiver {
         
         String action = intent.getAction();
         Message message = null;
-        String smsXmlString = intent.getStringExtra(MobiComKitConstants.MESSAGE_JSON_INTENT);
-        Log.i(TAG, "Received broadcast, action: " + action + ", sms: " + message);
-        if (!TextUtils.isEmpty(smsXmlString)) {
-            message = (Message) GsonUtils.getObjectFromJson(smsXmlString, Message.class);
+        String messageJson = intent.getStringExtra(MobiComKitConstants.MESSAGE_JSON_INTENT);
+        Log.i(TAG, "Received broadcast, action: " + action + ", message: " + message);
+        if (!TextUtils.isEmpty(messageJson)) {
+            message = (Message) GsonUtils.getObjectFromJson(messageJson, Message.class);
         }
         NotificationService notificationService =
                 new NotificationService(R.drawable.ic_launcher,context,R.string.wearable_action_label,R.string.wearable_action_title,R.drawable.ic_action_send);

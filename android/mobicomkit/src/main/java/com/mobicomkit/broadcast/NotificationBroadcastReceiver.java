@@ -11,6 +11,7 @@ import com.mobicomkit.api.MobiComKitConstants;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.api.conversation.MessageIntentService;
+import com.mobicomkit.api.conversation.MobiComConversationService;
 import com.mobicomkit.api.notification.WearableNotificationWithVoice;
 
 import net.mobitexter.mobiframework.json.GsonUtils;
@@ -27,11 +28,8 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         String actionName = intent.getAction();
-
         String messageJson = intent.getStringExtra(MobiComKitConstants.MESSAGE_JSON_INTENT);
-        Intent newIntent;
         if (actionName.equals(LAUNCH_MOBITEXTER)) {
             String messageText = getMessageText(intent) == null ? null : getMessageText(intent).toString();
             if (!TextUtils.isEmpty(messageText)) {
@@ -45,19 +43,17 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                 replyMessage.setDeviceKeyString(MobiComUserPreference.getInstance(context).getDeviceKeyString());
                 replyMessage.setSource(Message.Source.MT_MOBILE_APP.getValue());
 
-                newIntent = new Intent(context, MessageIntentService.class);
-                newIntent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, GsonUtils.getJsonFromObject(replyMessage, Message.class));
-                context.startService(newIntent);
+                new MobiComConversationService(context).sendMessage(replyMessage, MessageIntentService.class);
                 return;
             }
             //TODO: get activity name in intent...
-            newIntent = new Intent(context,getActivityToOpen("com.mobicomkit.client.ui.activity.SlidingPaneActivity") );
-            newIntent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, messageJson);
-            newIntent.putExtra("sms_body", "text");
-            newIntent.setType("vnd.android-dir/mms-sms");
-            newIntent.setAction(NotificationBroadcastReceiver.LAUNCH_MOBITEXTER);
-            newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(newIntent);
+            Intent launcherIntent = new Intent(context,getActivityToOpen("com.mobicomkit.uiwidgets.conversation.activity.SlidingPaneActivity") );
+            launcherIntent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, messageJson);
+            launcherIntent.putExtra("sms_body", "text");
+            launcherIntent.setType("vnd.android-dir/mms-sms");
+            launcherIntent.setAction(NotificationBroadcastReceiver.LAUNCH_MOBITEXTER);
+            launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(launcherIntent);
         }
     }
 

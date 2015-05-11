@@ -33,6 +33,7 @@ import com.mobicomkit.api.attachment.AttachmentView;
 import com.mobicomkit.api.attachment.FileClientService;
 import com.mobicomkit.api.attachment.FileMeta;
 import com.mobicomkit.api.conversation.Message;
+import com.mobicomkit.api.conversation.MobiComConversationService;
 import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.uiwidgets.conversation.activity.FullScreenImageActivity;
@@ -92,6 +93,7 @@ public class ConversationAdapter extends ArrayAdapter<Message> {
     }
 
     private Class<?> messageIntentClass;
+    private MobiComConversationService conversationService;
 
     public ConversationAdapter(final Context context, int textViewResourceId, List<Message> messageList, Group group, Class messageIntentClass,EmojiconHandler emojiconHandler) {
         this(context, textViewResourceId, messageList, null, group, false, messageIntentClass,emojiconHandler);
@@ -112,6 +114,7 @@ public class ConversationAdapter extends ArrayAdapter<Message> {
         this.quick = quick;
         this.fileClientService = new FileClientService(context);
         this.messageDatabaseService = new MessageDatabaseService(context);
+        this.conversationService = new MobiComConversationService(context);
         contactImageLoader = new ImageLoader(getContext(), ImageUtils.getLargestScreenDimension((Activity) getContext())) {
             @Override
             protected Bitmap processBitmap(Object data) {
@@ -397,13 +400,10 @@ public class ConversationAdapter extends ArrayAdapter<Message> {
                         Toast.makeText(context, "Resending attachment....", Toast.LENGTH_LONG).show();
                         mediaUploadProgressBar.setVisibility(View.VISIBLE);
                         attachmentRetry.setVisibility(View.GONE);
-                        Intent intent = new Intent(context, messageIntentClass);
-                        String jsonString = GsonUtils.getJsonFromObject(message, Message.class);
-                        intent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, jsonString);
                         //updating Cancel Flag to smListItem....
-                        messageDatabaseService.updateCanceledFlag(message.getMessageId(), 0);
                         message.setCanceled(false);
-                        context.startService(intent);
+                        messageDatabaseService.updateCanceledFlag(message.getMessageId(), 0);
+                        conversationService.sendMessage(message, messageIntentClass);
                     }
                 });
                 attachmentDownloadProgressLayout.setOnClickListener(new View.OnClickListener() {

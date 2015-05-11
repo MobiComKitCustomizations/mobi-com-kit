@@ -41,6 +41,7 @@ public class MobiComMessageService {
     public static Map<String, Uri> map = new HashMap<String, Uri>();
     public static Map<String, Message> mtMessages = new LinkedHashMap<String, Message>();
     protected Context context;
+    protected MobiComConversationService conversationService;
     protected MessageDatabaseService messageDatabaseService;
     protected MessageClientService messageClientService;
     protected Class messageIntentServiceClass;
@@ -49,6 +50,7 @@ public class MobiComMessageService {
         this.context = context;
         this.messageDatabaseService = new MessageDatabaseService(context);
         this.messageClientService = new MessageClientService(context);
+        this.conversationService = new MobiComConversationService(context);
         this.messageIntentServiceClass = messageIntentServiceClass;
     }
 
@@ -213,9 +215,7 @@ public class MobiComMessageService {
         message.setType(Message.MessageType.MT_INBOX.getValue());
         message.setDeviceKeyString(userPreferences.getDeviceKeyString());
         message.setSource(Message.Source.MT_MOBILE_APP.getValue());
-        Intent intent = new Intent(context, messageIntentServiceClass);
-        intent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, GsonUtils.getJsonFromObject(message, Message.class));
-        context.startService(intent);
+        conversationService.sendMessage(message, messageIntentServiceClass);
     }
 
     public void updateDeliveryStatus(String key) {

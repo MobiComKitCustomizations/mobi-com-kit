@@ -41,9 +41,9 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         Message message = null;
-        String smsXmlString = intent.getStringExtra(MobiComKitConstants.MESSAGE_JSON_INTENT);
-        if (!TextUtils.isEmpty(smsXmlString)) {
-            message = (Message) GsonUtils.getObjectFromJson(smsXmlString, Message.class);
+        String messageJson = intent.getStringExtra(MobiComKitConstants.MESSAGE_JSON_INTENT);
+        if (!TextUtils.isEmpty(messageJson)) {
+            message = (Message) GsonUtils.getObjectFromJson(messageJson, Message.class);
         }
         Log.i(TAG, "Received broadcast, action: " + action + ", sms: " + message);
 

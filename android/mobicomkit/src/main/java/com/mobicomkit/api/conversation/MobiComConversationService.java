@@ -1,18 +1,21 @@
 package com.mobicomkit.api.conversation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
+import com.mobicomkit.api.MobiComKitConstants;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 import com.mobicomkit.broadcast.BroadcastService;
 
 import net.mobitexter.mobiframework.json.AnnotationExclusionStrategy;
 import net.mobitexter.mobiframework.json.ArrayAdapterFactory;
+import net.mobitexter.mobiframework.json.GsonUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;
 import net.mobitexter.mobiframework.people.group.Group;
 
@@ -34,6 +37,12 @@ public class MobiComConversationService {
         this.context = context;
         this.messageClientService = new MessageClientService(context);
         this.messageDatabaseService = new MessageDatabaseService(context);
+    }
+
+    public void sendMessage(Message message, Class messageIntentClass) {
+        Intent intent = new Intent(context, messageIntentClass);
+        intent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, GsonUtils.getJsonFromObject(message, Message.class));
+        context.startService(intent);
     }
 
     public List<Message> getLatestMessagesGroupByPeople() {

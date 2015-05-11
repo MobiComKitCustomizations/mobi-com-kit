@@ -703,9 +703,7 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
         messageToSend.setFileMetaKeyStrings(fileMetaKeyStrings);
         messageToSend.setFileMetas(fileMetas);
 
-        Intent intent = new Intent(getActivity(), messageIntentClass);
-        intent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, GsonUtils.getJsonFromObject(messageToSend, Message.class));
-        getActivity().startService(intent);
+        conversationService.sendMessage(messageToSend, messageIntentClass);
 
         if (selfDestructMessageSpinner != null) {
             selfDestructMessageSpinner.setSelection(0);
@@ -888,9 +886,7 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
             case 2:
                 Message messageToResend = new Message(message);
                 messageToResend.setCreatedAtTime(new Date().getTime());
-                Intent intent = new Intent(getActivity(), messageIntentClass);
-                intent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, GsonUtils.getJsonFromObject(messageToResend, Message.class));
-                getActivity().startService(intent);
+                conversationService.sendMessage(messageToResend, messageIntentClass);
                 break;
             case 3:
                 String messageKeyString = message.getKeyString();
