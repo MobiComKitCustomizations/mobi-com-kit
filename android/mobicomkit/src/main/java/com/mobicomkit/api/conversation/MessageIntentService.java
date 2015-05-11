@@ -7,6 +7,7 @@ import android.util.Log;
 import com.mobicomkit.api.MobiComKitConstants;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.conversation.schedule.MessageSenderTimerTask;
+import com.mobicomkit.api.conversation.schedule.ScheduleMessageService;
 
 import net.mobitexter.mobiframework.json.GsonUtils;
 
@@ -62,7 +63,7 @@ public class MessageIntentService extends IntentService {
         @Override
         public void run() {
             try {
-                new MessageClientService(MessageIntentService.this).sendMessageToServer(message);
+                new MessageClientService(MessageIntentService.this).sendMessageToServer(message, ScheduleMessageService.class);
                 if (message.hasAttachment() && !message.isAttachmentUploadInProgress()) {
                     runningTaskMap.remove(getMapKey(message));
                 }
