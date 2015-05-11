@@ -234,7 +234,7 @@ public class MobiComMessageService {
                 timer.schedule(new DisappearingMessageTask(context, new MobiComConversationService(context), message), message.getTimeToLive() * 60 * 1000);
             }
         } else {
-            Log.i(TAG, "Sms is not present in table, keyString: " + keyParts[0]);
+            Log.i(TAG, "Message is not present in table, keyString: " + keyParts[0]);
         }
         map.remove(key);
         mtMessages.remove(key);

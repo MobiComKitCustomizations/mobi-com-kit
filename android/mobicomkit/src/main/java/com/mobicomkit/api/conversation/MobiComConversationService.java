@@ -36,7 +36,11 @@ public class MobiComConversationService {
         this.messageDatabaseService = new MessageDatabaseService(context);
     }
 
-    public synchronized List<Message> getLatestMessagesGroupByPeople(long createdAt) {
+    public List<Message> getLatestMessagesGroupByPeople() {
+        return getLatestMessagesGroupByPeople(null);
+    }
+
+    public synchronized List<Message> getLatestMessagesGroupByPeople(Long createdAt) {
         boolean emptyTable = messageDatabaseService.isMessageTableEmpty();
 
         if (emptyTable) {
@@ -56,8 +60,7 @@ public class MobiComConversationService {
     }
 
     public List<Message> getMessages(String userId, Long startTime, Long endTime) {
-        Contact contact = new Contact(userId);
-        return getMessages(startTime, endTime, contact, null);
+        return getMessages(startTime, endTime, new Contact(userId), null);
     }
 
     public synchronized List<Message> getMessages(Long startTime, Long endTime, Contact contact, Group group) {

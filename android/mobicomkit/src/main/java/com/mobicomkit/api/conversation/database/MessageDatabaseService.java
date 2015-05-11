@@ -513,9 +513,9 @@ public class MessageDatabaseService {
         return messages;
     }
 
-    public List<Message> getMessages(long createdAt) {
+    public List<Message> getMessages(Long createdAt) {
         String createdAtClause = "";
-        if (createdAt > 0) {
+        if (createdAt != null && createdAt > 0) {
             createdAtClause = " and m1.createdAt < " + createdAt;
         }
 

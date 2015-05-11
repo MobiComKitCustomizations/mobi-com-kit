@@ -56,7 +56,7 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
     protected ConversationAdapter conversationAdapter = null;
 
     protected boolean loadMore = true;
-    private long minCreatedAtTime;
+    private Long minCreatedAtTime;
 
     public ConversationListView getListView() {
         return listView;
@@ -265,7 +265,7 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
     }
 
     public void downloadConversations(boolean showInstruction) {
-        minCreatedAtTime = 0;
+        minCreatedAtTime = null;
         new DownloadConversation(listView, true, 1, 0, 0, showInstruction).execute();
     }
 
@@ -303,18 +303,14 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
 
         protected Long doInBackground(Void... voids) {
             if (initial) {
-                nextMessageList = conversationService.getLatestMessagesGroupByPeople(0L);
+                nextMessageList = conversationService.getLatestMessagesGroupByPeople();
                 if (!nextMessageList.isEmpty()) {
                     minCreatedAtTime = nextMessageList.get(nextMessageList.size() - 1).getCreatedAtTime();
                 }
             } else if (!messageList.isEmpty()) {
                 listIndex = firstVisibleItem;
-                Long createdAt = messageList.isEmpty() ? 0L : messageList.get(messageList.size() -1).getCreatedAtTime();
-                if (minCreatedAtTime == 0) {
-                    minCreatedAtTime = createdAt;
-                } else {
-                    minCreatedAtTime = Math.min(minCreatedAtTime, createdAt);
-                }
+                Long createdAt = messageList.isEmpty() ? null : messageList.get(messageList.size() -1).getCreatedAtTime();
+                minCreatedAtTime = (minCreatedAtTime == null ? createdAt : Math.min(minCreatedAtTime, createdAt));
                 nextMessageList = conversationService.getLatestMessagesGroupByPeople(minCreatedAtTime);
             }
 
