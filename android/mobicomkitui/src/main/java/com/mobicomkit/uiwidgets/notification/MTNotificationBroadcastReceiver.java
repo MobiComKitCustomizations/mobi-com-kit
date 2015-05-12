@@ -27,19 +27,23 @@ public class MTNotificationBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         String action = intent.getAction();
-        Message message = null;
         String messageJson = intent.getStringExtra(MobiComKitConstants.MESSAGE_JSON_INTENT);
-        Log.i(TAG, "Received broadcast, action: " + action + ", message: " + message);
+        Log.i(TAG, "Received broadcast, action: " + action + ", message: " + messageJson);
         if (!TextUtils.isEmpty(messageJson)) {
-            message = (Message) GsonUtils.getObjectFromJson(messageJson, Message.class);
+            final Message message = (Message) GsonUtils.getObjectFromJson(messageJson, Message.class);
+            final NotificationService notificationService =
+                    new NotificationService(R.drawable.ic_launcher, context, R.string.wearable_action_label, R.string.wearable_action_title, R.drawable.ic_action_send);
+
+            Log.i(TAG, "Received broadcast, action: " + action + ", sms: " + message);
+            final Contact contact = ContactUtils.getContact(context, message.getContactIds());
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    notificationService.notifyUser(contact, message);
+                }
+            }).start();
+
         }
-        NotificationService notificationService =
-                new NotificationService(R.drawable.ic_launcher, context, R.string.wearable_action_label, R.string.wearable_action_title, R.drawable.ic_action_send);
-
-        Log.i(TAG, "Received broadcast, action: " + action + ", sms: " + message);
-        Contact contact = ContactUtils.getContact(context, message.getContactIds());
-
-        notificationService.notifyUser(contact, message);
 
     }
 }

@@ -123,7 +123,7 @@
 
         <receiver android:name="com.mobicomkit.broadcast.NotificationBroadcastReceiver">
             <intent-filter>
-                <action android:name="net.mobitexter.LAUNCH_APP" />
+                <action android:name="mobicom.LAUNCH_APP" />
             </intent-filter>
         </receiver>
 

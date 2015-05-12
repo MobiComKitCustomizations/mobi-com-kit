@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.RemoteInput;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.mobicomkit.api.MobiComKitConstants;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
@@ -24,13 +25,19 @@ import net.mobitexter.mobiframework.json.GsonUtils;
  */
 public class NotificationBroadcastReceiver extends BroadcastReceiver {
 
-    public static String LAUNCH_MOBITEXTER = "net.mobitexter.LAUNCH_APP";
+    public static String LAUNCH_APP = "mobicom.LAUNCH_APP";
+    public static String TAG = "NotificationBroadcastReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         String actionName = intent.getAction();
+
         String messageJson = intent.getStringExtra(MobiComKitConstants.MESSAGE_JSON_INTENT);
-        if (actionName.equals(LAUNCH_MOBITEXTER)) {
+        String activityToOpen = intent.getStringExtra(MobiComKitConstants.ACTIVITY_TO_OPEN);
+        Log.i(TAG, "got broadcast receiver.."+ messageJson + " , " + activityToOpen);
+        Intent newIntent;
+        if (actionName.equals(LAUNCH_APP)) {
             String messageText = getMessageText(intent) == null ? null : getMessageText(intent).toString();
             if (!TextUtils.isEmpty(messageText)) {
                 Message message = (Message) GsonUtils.getObjectFromJson(messageJson, Message.class);
@@ -43,17 +50,29 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                 replyMessage.setDeviceKeyString(MobiComUserPreference.getInstance(context).getDeviceKeyString());
                 replyMessage.setSource(Message.Source.MT_MOBILE_APP.getValue());
 
-                new MobiComConversationService(context).sendMessage(replyMessage, MessageIntentService.class);
+                newIntent = new Intent(context, MessageIntentService.class);
+                newIntent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, GsonUtils.getJsonFromObject(replyMessage, Message.class));
+                context.startService(newIntent);
                 return;
             }
             //TODO: get activity name in intent...
-            Intent launcherIntent = new Intent(context, getActivityToOpen("com.mobicomkit.uiwidgets.conversation.activity.SlidingPaneActivity"));
-            launcherIntent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, messageJson);
-            launcherIntent.putExtra("sms_body", "text");
-            launcherIntent.setType("vnd.android-dir/mms-sms");
-            launcherIntent.setAction(NotificationBroadcastReceiver.LAUNCH_MOBITEXTER);
-            launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(launcherIntent);
+            Class activity = null;
+            try {
+                activity = Class.forName(activityToOpen);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                Log.i(TAG, "not able to load class. Please,  ");
+            }
+            if (activity == null) {
+
+            }
+            newIntent = new Intent(context, activity);
+            newIntent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, messageJson);
+            newIntent.putExtra("sms_body", "text");
+            newIntent.setType("vnd.android-dir/mms-sms");
+            newIntent.setAction(NotificationBroadcastReceiver.LAUNCH_APP);
+            newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(newIntent);
         }
     }
 
@@ -61,19 +80,6 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
         Bundle remoteInput = RemoteInput.getResultsFromIntent(intent);
         if (remoteInput != null) {
             return remoteInput.getCharSequence(WearableNotificationWithVoice.EXTRA_VOICE_REPLY);
-        }
-        return null;
-    }
-
-    public Class getActivityToOpen(String StringClassname) {
-        if (StringClassname != null) {
-            try {
-                Class c = Class.forName(StringClassname);
-                return c;
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-
-            }
         }
         return null;
     }
