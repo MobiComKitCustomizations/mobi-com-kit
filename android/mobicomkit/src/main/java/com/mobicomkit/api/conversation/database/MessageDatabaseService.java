@@ -296,14 +296,14 @@ public class MessageDatabaseService {
         return empty;
     }
 
-    public synchronized void updateSmsFileMetas(long smsId, final Message sms) {
+    public synchronized void updateMessageFileMetas(long messageId, final Message message) {
         ContentValues values = new ContentValues();
-        values.put("keyString", sms.getKeyString());
-        if (sms.getFileMetaKeyStrings() != null && !sms.getFileMetaKeyStrings().isEmpty()) {
-            values.put("fileMetaKeyStrings", TextUtils.join(",", sms.getFileMetaKeyStrings()));
+        values.put("keyString", message.getKeyString());
+        if (message.getFileMetaKeyStrings() != null && !message.getFileMetaKeyStrings().isEmpty()) {
+            values.put("fileMetaKeyStrings", TextUtils.join(",", message.getFileMetaKeyStrings()));
         }
-        if (sms.getFileMetas() != null && !sms.getFileMetas().isEmpty()) {
-            FileMeta fileMeta = sms.getFileMetas().get(0);
+        if (message.getFileMetas() != null && !message.getFileMetas().isEmpty()) {
+            FileMeta fileMeta = message.getFileMetas().get(0);
             if (fileMeta != null) {
                 values.put("thumbnailUrl", fileMeta.getThumbnailUrl());
                 values.put("size", fileMeta.getSize());
@@ -313,7 +313,7 @@ public class MessageDatabaseService {
                 values.put("blobKeyString", fileMeta.getBlobKeyString());
             }
         }
-        dbHelper.getWritableDatabase().update("sms", values, "id=" + smsId, null);
+        dbHelper.getWritableDatabase().update("sms", values, "id=" + messageId, null);
         dbHelper.close();
     }
 
@@ -337,8 +337,7 @@ public class MessageDatabaseService {
                 singleMessage.setBroadcastGroupId(null);
                 singleMessage.setTo(tofield);
                 singleMessage.processContactIds(context);
-                long singleSmsId = createSingleMessage(singleMessage);
-                singleMessage.setMessageId(singleSmsId);
+                singleMessage.setMessageId(createSingleMessage(singleMessage));
             }
         }
 
@@ -441,14 +440,14 @@ public class MessageDatabaseService {
         dbHelper.close();
     }
 
-    public void updateMessageDeliveryReport(String smsKeyString, String contactNumber) {
+    public void updateMessageDeliveryReport(String messageKeyString, String contactNumber) {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("delivered", "1");
         if (TextUtils.isEmpty(contactNumber)) {
-            database.update("sms", values, "keyString='" + smsKeyString + "'", null);
+            database.update("sms", values, "keyString='" + messageKeyString + "'", null);
         } else {
-            database.update("sms", values, "keyString='" + smsKeyString + "' and contactNumbers='" + contactNumber + "'", null);
+            database.update("sms", values, "keyString='" + messageKeyString + "' and contactNumbers='" + contactNumber + "'", null);
         }
         dbHelper.close();
     }
@@ -519,28 +518,28 @@ public class MessageDatabaseService {
             createdAtClause = " and m1.createdAt < " + createdAt;
         }
 
-        String smsTypeClause = "";
-        String smsTypeJoinClause = "";
+        String messageTypeClause = "";
+        String messageTypeJoinClause = "";
         MobiComUserPreference userPreferences = MobiComUserPreference.getInstance(context);
         if (!userPreferences.isDisplayCallRecordEnable()) {
-            smsTypeClause = " and m1.type != " + Message.MessageType.CALL_INCOMING.getValue() + " and m1.type != " + Message.MessageType.CALL_OUTGOING.getValue();
-            smsTypeJoinClause = " and m1.type = m2.type";
+            messageTypeClause = " and m1.type != " + Message.MessageType.CALL_INCOMING.getValue() + " and m1.type != " + Message.MessageType.CALL_OUTGOING.getValue();
+            messageTypeJoinClause = " and m1.type = m2.type";
         }
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         /*final Cursor cursor = db.rawQuery("select * from sms where createdAt in " +
                 "(select max(createdAt) from sms group by contactNumbers) order by createdAt desc", null);*/
         final Cursor cursor = db.rawQuery("select m1.* from sms m1 left outer join sms m2 on (m1.createdAt < m2.createdAt"
-                + " and m1.contactNumbers like m2.contactNumbers " + smsTypeJoinClause + " ) where m2.createdAt is null " + createdAtClause + smsTypeClause
+                + " and m1.contactNumbers like m2.contactNumbers " + messageTypeJoinClause + " ) where m2.createdAt is null " + createdAtClause + messageTypeClause
                 + " order by m1.createdAt desc", null);
 
         /*final Cursor cursor = db.rawQuery("SELECT t1.* FROM sms t1" +
                 "  JOIN (SELECT contactNumbers, MAX(createdAt) createdAt FROM sms GROUP BY contactNumbers) t2" +
                 "  ON t1.contactNumbers = t2.contactNumbers AND t1.createdAt = t2.createdAt order by createdAt desc", null);*/
-        List<Message> smsList = getMessageList(cursor);
+        List<Message> messageList = getMessageList(cursor);
         cursor.close();
         dbHelper.close();
-        return smsList;
+        return messageList;
     }
 
     public String deleteMessage(Message message, String contactNumber) {

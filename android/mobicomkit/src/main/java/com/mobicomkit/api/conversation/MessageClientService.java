@@ -86,24 +86,24 @@ public class MessageClientService extends MobiComKitClientService {
         List<Message> pendingMessages = messageDatabaseService.getPendingMessages();
         Log.i(TAG, "Found " + pendingMessages.size() + " pending messages to sync.");
         for (Message message : pendingMessages) {
-            Log.i(TAG, "Syncing pending sms: " + message);
+            Log.i(TAG, "Syncing pending message: " + message);
             sendPendingMessageToServer(message, broadcast);
         }
     }
 
     public boolean syncMessagesWithServer(List<Message> messageList) {
         Log.i(TAG, "Total messages to sync: " + messageList.size());
-        List<Message> smsList = new ArrayList<Message>(messageList);
+        List<Message> messages = new ArrayList<Message>(messageList);
         do {
             try {
                 SmsSyncRequest smsSyncRequest = new SmsSyncRequest();
-                if (smsList.size() > SMS_SYNC_BATCH_SIZE) {
-                    List<Message> subList = new ArrayList(smsList.subList(0, SMS_SYNC_BATCH_SIZE));
+                if (messages.size() > SMS_SYNC_BATCH_SIZE) {
+                    List<Message> subList = new ArrayList(messages.subList(0, SMS_SYNC_BATCH_SIZE));
                     smsSyncRequest.setSmsList(subList);
-                    smsList.removeAll(subList);
+                    messages.removeAll(subList);
                 } else {
-                    smsSyncRequest.setSmsList(new ArrayList<Message>(smsList));
-                    smsList.clear();
+                    smsSyncRequest.setSmsList(new ArrayList<Message>(messages));
+                    messages.clear();
                 }
 
                 String response = syncMessages(smsSyncRequest);
@@ -127,7 +127,7 @@ public class MessageClientService extends MobiComKitClientService {
                 Log.e(TAG, "exception" + e);
                 return false;
             }
-        } while (smsList.size() > 0);
+        } while (messages.size() > 0);
         return true;
     }
 
@@ -170,18 +170,18 @@ public class MessageClientService extends MobiComKitClientService {
         message.processContactIds(context);
         BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString(), message);
 
-        long smsId = -1;
+        long messageId = -1;
 
         List<String> fileKeys = new ArrayList<String>();
         if (message.isUploadRequired()) {
 
-            smsId = messageDatabaseService.createMessage(message);
+            messageId = messageDatabaseService.createMessage(message);
 
             for (String filePath : message.getFilePaths()) {
                 try {
                     String fileMetaResponse = new FileClientService(context).uploadBlobImage(filePath);
                     if (fileMetaResponse == null) {
-                        messageDatabaseService.updateCanceledFlag(smsId, 1);
+                        messageDatabaseService.updateCanceledFlag(messageId, 1);
                         BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.UPLOAD_ATTACHMENT_FAILED.toString(), message);
                         return;
                     }
@@ -199,7 +199,7 @@ public class MessageClientService extends MobiComKitClientService {
                 } catch (Exception ex) {
                     Log.e(TAG, "Error uploading file to server: " + filePath);
                     recentMessageSentToServer.remove(message);
-                    messageDatabaseService.updateCanceledFlag(smsId, 1);
+                    messageDatabaseService.updateCanceledFlag(messageId, 1);
                     BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.UPLOAD_ATTACHMENT_FAILED.toString(), message);
                     return;
                 }
@@ -218,14 +218,14 @@ public class MessageClientService extends MobiComKitClientService {
         message.setKeyString(keyString);
 
         if (!TextUtils.isEmpty(keyString)) {
-            //Todo: Handle server sms add failure due to internet disconnect.
+            //Todo: Handle server message add failure due to internet disconnect.
         } else {
-            //Todo: If sms type mtext, tell user that internet is not working, else send update with db id.
+            //Todo: If message type is mtext, tell user that internet is not working, else send update with db id.
         }
         BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.MESSAGE_SYNC_ACK_FROM_SERVER.toString(), message);
 
-        if (smsId != -1) {
-            messageDatabaseService.updateSmsFileMetas(smsId, message);
+        if (messageId != -1) {
+            messageDatabaseService.updateMessageFileMetas(messageId, message);
         } else {
             messageDatabaseService.createMessage(message);
         }
