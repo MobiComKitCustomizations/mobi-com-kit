@@ -39,6 +39,10 @@ public class MobiComConversationService {
         this.messageDatabaseService = new MessageDatabaseService(context);
     }
 
+    public void sendMessage(Message message) {
+        sendMessage(message, MessageIntentService.class);
+    }
+
     public void sendMessage(Message message, Class messageIntentClass) {
         Intent intent = new Intent(context, messageIntentClass);
         intent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, GsonUtils.getJsonFromObject(message, Message.class));

@@ -46,7 +46,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mobicomkit.api.MobiComKitConstants;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.attachment.FileMeta;
 import com.mobicomkit.api.conversation.Message;
@@ -71,7 +70,6 @@ import net.mobitexter.mobiframework.commons.core.utils.Support;
 import net.mobitexter.mobiframework.commons.core.utils.Utils;
 import net.mobitexter.mobiframework.emoticon.EmojiconHandler;
 import net.mobitexter.mobiframework.file.FilePathFinder;
-import net.mobitexter.mobiframework.json.GsonUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;
 import net.mobitexter.mobiframework.people.group.Group;
 
@@ -85,9 +83,9 @@ import java.util.Timer;
  */
 abstract public class MobiComConversationFragment extends Fragment implements View.OnClickListener {
 
-    private static final String TAG = "MobiComConversation";
     //Todo: Increase the file size limit
     public static final int MAX_ALLOWED_FILE_SIZE = 5 * 1024 * 1024;
+    private static final String TAG = "MobiComConversation";
     public FrameLayout emoticonsFrameLayout;
     protected String title = "Conversations";
     protected DownloadConversation downloadConversation;
