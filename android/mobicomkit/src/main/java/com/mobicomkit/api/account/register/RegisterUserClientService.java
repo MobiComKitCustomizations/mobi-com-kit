@@ -10,6 +10,8 @@ import com.mobicomkit.api.MobiComKitServer;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.account.user.User;
 
+import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
+
 import java.util.TimeZone;
 
 /**
@@ -58,8 +60,7 @@ public class RegisterUserClientService extends MobiComKitClientService {
         MobiComUserPreference mobiComUserPreference = MobiComUserPreference.getInstance(context);
 
         user.setCountryCode(mobiComUserPreference.getCountryCode());
-        //ContactNumberUtils.getPhoneNumber(phoneNumber, countryCode);
-        user.setContactNumber(phoneNumber);
+        user.setContactNumber(ContactNumberUtils.getPhoneNumber(phoneNumber, mobiComUserPreference.getCountryCode()));
 
         return createAccount(user);
         /*
