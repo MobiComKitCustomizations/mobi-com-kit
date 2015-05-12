@@ -20,9 +20,10 @@ import java.util.Timer;
  */
 public class MessageIntentService extends IntentService {
 
-    public static final String UPLOAD_CANCEL = "cancel_upload";
     private static final String TAG = "MessageIntentService";
     private Map<String, Thread> runningTaskMap = new HashMap<String, Thread>();
+
+    public static final String UPLOAD_CANCEL = "cancel_upload";
 
     public MessageIntentService() {
         super("MessageIntentService");

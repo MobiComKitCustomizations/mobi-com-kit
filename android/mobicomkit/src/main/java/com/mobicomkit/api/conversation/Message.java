@@ -25,13 +25,13 @@ public class Message {
     private String suUserKeyString;
     private boolean sent;
     private Boolean delivered;
-    private Short type = MessageType.OUTBOX.getValue();
+    private Short type = MessageType.MT_OUTBOX.getValue();
     private boolean storeOnDevice;
     private String contactIds = "";
     private Long broadcastGroupId;
     private boolean sendToDevice;
     private Long scheduledAt;
-    private Short source = Source.DEVICE_NATIVE_APP.getValue();
+    private Short source = Source.MT_MOBILE_APP.getValue();
     private Integer timeToLive;
     private boolean sentToServer = true;
     private List<String> fileMetaKeyStrings;
@@ -50,6 +50,11 @@ public class Message {
 
     public Message() {
 
+    }
+
+    public Message(String to, String body) {
+        this.to = to;
+        this.message = body;
     }
 
     //copy constructor
@@ -230,7 +235,7 @@ public class Message {
             if (userPreferences.getCountryCode() != null) {
                 setContactIds(ContactNumberUtils.getPhoneNumber(getTo(), userPreferences.getCountryCode()));
             } else {
-                setContactIds(ContactUtils.getContactId(getTo(), context.getContentResolver()));
+                setContactIds(getTo());
             }
         }
     }
