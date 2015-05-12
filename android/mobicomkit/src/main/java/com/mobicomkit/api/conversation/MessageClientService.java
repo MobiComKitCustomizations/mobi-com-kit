@@ -289,6 +289,7 @@ public class MessageClientService extends MobiComKitClientService {
             HttpRequestUtils.getResponse(credentials, MobiComKitServer.MESSAGE_DELETE_URL + "?key=" + message.getKeyString() + contactNumberParameter, "text/plain", "text/plain");
         }
     }
+
     public String getMessages(Contact contact, Group group, Long startTime, Long endTime) throws UnsupportedEncodingException {
         String contactNumber = (contact != null ? contact.getFormattedContactNumber() : "");
         String params = "";

@@ -16,12 +16,12 @@ public class SelectDateFragment extends DialogFragment implements DatePickerDial
     private String[] monthNames = {"Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"};
     private TextView selectedDate;
 
-    public SelectDateFragment(){
+    public SelectDateFragment() {
 
     }
 
     public SelectDateFragment(TextView selectedDate) {
-        this.selectedDate= selectedDate;
+        this.selectedDate = selectedDate;
     }
 
     public void setScheduledDateView(View scheduledDateView) {
@@ -35,13 +35,13 @@ public class SelectDateFragment extends DialogFragment implements DatePickerDial
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Calendar calendar = Calendar.getInstance();
-        DatePickerDialog datePickerDialog =  new DatePickerDialog(getActivity(), this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this,
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH));
-        if(scheduledTimeHolder.getTimestamp() != null){
+        if (scheduledTimeHolder.getTimestamp() != null) {
             String scheduledDate = scheduledTimeHolder.getDate();
-            String []sd =  scheduledDate.split("-");
-            datePickerDialog.updateDate(Integer.parseInt(sd[2]),Integer.parseInt(sd[1]),Integer.parseInt(sd[0]));
+            String[] sd = scheduledDate.split("-");
+            datePickerDialog.updateDate(Integer.parseInt(sd[2]), Integer.parseInt(sd[1]), Integer.parseInt(sd[0]));
         }
         return datePickerDialog;
     }

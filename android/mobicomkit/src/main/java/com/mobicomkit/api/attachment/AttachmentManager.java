@@ -95,6 +95,7 @@ public class AttachmentManager {
     private static AttachmentManager sInstance = null;
     public final List<String> attachmentInProgress;
     public final List<AttachmentTask> attachmentTaskList;
+
     // A static block that sets class fields
     static {
 
@@ -104,6 +105,7 @@ public class AttachmentManager {
         // Creates a single static instance of PhotoManager
         sInstance = new AttachmentManager();
     }
+
     /*
      * Creates a cache of byte arrays indexed by image URLs. As new items are added to the
      * cache, the oldest items are ejected and subject to garbage collection.

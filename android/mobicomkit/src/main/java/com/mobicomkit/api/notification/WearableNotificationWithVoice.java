@@ -27,7 +27,6 @@ public class WearableNotificationWithVoice {
     PendingIntent pendingIntent;
 
     /**
-     *
      * @param notificationBuilder
      * @param actionTitleId
      * @param replyLabelResourceId
@@ -58,10 +57,11 @@ public class WearableNotificationWithVoice {
     /**
      * This method is just like a wrapper class method for usual notification class which add voice actions
      * for wearable devices
+     *
      * @throws RuntimeException
      */
-    public void sendNotification() throws RuntimeException{
-        if (pendingIntent ==null && notificationHandler ==null){
+    public void sendNotification() throws RuntimeException {
+        if (pendingIntent == null && notificationHandler == null) {
             throw new RuntimeException("Either pendingIntent or handler class requires.");
         }
         Action action = buildWearableAction();

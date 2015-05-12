@@ -1,7 +1,6 @@
 package com.mobicomkit.api.people;
 
 /**
- *
  * @author devashish
  */
 public class ContactContent {

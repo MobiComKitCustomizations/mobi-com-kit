@@ -19,10 +19,10 @@ public class InstructionUtil {
     public static final String SHARED_PREFERENCE_INSTRUCTION_KEY = "net.mobitexter.instruction";
 
     private final static Map<Integer, Toast> toastMap = new HashMap<Integer, Toast>();
-    private static final String info_message_sync="info_message_sync";
-    private static final String instruction_open_conversation_thread="instruction_open_conversation_thread";
-    private static final String instruction_go_back_to_recent_conversation_list="instruction_go_back_to_recent_conversation_list";
-    private static final String instruction_long_press_message="instruction_long_press_message";
+    private static final String info_message_sync = "info_message_sync";
+    private static final String instruction_open_conversation_thread = "instruction_open_conversation_thread";
+    private static final String instruction_go_back_to_recent_conversation_list = "instruction_go_back_to_recent_conversation_list";
+    private static final String instruction_long_press_message = "instruction_long_press_message";
     public static boolean enabled = true;
 
     public static void init(Context context) {
@@ -82,7 +82,7 @@ public class InstructionUtil {
     }
 
     public static void showInfo(final Context context, final int resId, String action) {
-       showInstruction(context, resId, 0, false, action);
+        showInstruction(context, resId, 0, false, action);
     }
 
     public static void hideInstruction(Context context, int resId) {

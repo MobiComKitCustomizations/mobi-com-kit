@@ -258,8 +258,8 @@ public class ContactUtils {
         String contactNumber = null;
         Cursor phoneCursor = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER}, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "="
-                + contactId, null, ContactsContract.CommonDataKinds.Phone.IS_SUPER_PRIMARY
-                + " DESC");
+                        + contactId, null, ContactsContract.CommonDataKinds.Phone.IS_SUPER_PRIMARY
+                        + " DESC");
         try {
             if (phoneCursor.getCount() > 0) {
                 phoneCursor.moveToNext();

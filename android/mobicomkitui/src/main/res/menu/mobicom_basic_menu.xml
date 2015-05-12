@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:mobitexter="http://schemas.android.com/apk/res-auto" >
+    xmlns:mobitexter="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:id="@+id/conversations"
-            android:orderInCategory="1"
-            android:icon="@drawable/ic_action_chat"
-            mobitexter:showAsAction="ifRoom"
-            android:showAsAction="ifRoom"
-            android:title="Conversations"/>
+        android:id="@+id/conversations"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_action_chat"
+        mobitexter:showAsAction="ifRoom"
+        android:showAsAction="ifRoom"
+        android:title="Conversations" />
 
     <item
-            android:id="@+id/start_new"
-            android:orderInCategory="2"
-            android:icon="@drawable/ic_action_add"
-            mobitexter:showAsAction="ifRoom|collapseActionView"
-            android:showAsAction="ifRoom|collapseActionView"
-            android:title="Start New"/>
+        android:id="@+id/start_new"
+        android:orderInCategory="2"
+        android:icon="@drawable/ic_action_add"
+        mobitexter:showAsAction="ifRoom|collapseActionView"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="Start New" />
 
     <item
-            android:id="@+id/dial"
-            android:orderInCategory="3"
-            android:icon="@drawable/ic_action_call"
-            mobitexter:showAsAction="ifRoom|collapseActionView"
-            android:showAsAction="ifRoom|collapseActionView"
-            android:title="Dial"/>
+        android:id="@+id/dial"
+        android:orderInCategory="3"
+        android:icon="@drawable/ic_action_call"
+        mobitexter:showAsAction="ifRoom|collapseActionView"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="Dial" />
 
     <item
-            android:id="@+id/refresh"
-            android:orderInCategory="4"
-            android:icon="@drawable/ic_action_time"
-            mobitexter:showAsAction="collapseActionView"
-            android:showAsAction="collapseActionView"
-            android:title="Refresh"/>
+        android:id="@+id/refresh"
+        android:orderInCategory="4"
+        android:icon="@drawable/ic_action_time"
+        mobitexter:showAsAction="collapseActionView"
+        android:showAsAction="collapseActionView"
+        android:title="Refresh" />
 
     <item
         android:id="@+id/deleteConversation"
@@ -41,24 +41,24 @@
         android:icon="@drawable/ic_action_edit"
         mobitexter:showAsAction="collapseActionView"
         android:showAsAction="collapseActionView"
-        android:title="@string/delete_conversation"/>
+        android:title="@string/delete_conversation" />
 
     <item
-            android:id="@+id/support"
-            android:orderInCategory="8"
-            android:icon="@drawable/ic_action_help"
-            mobitexter:showAsAction="collapseActionView"
-            android:showAsAction="collapseActionView"
-            android:title="Support"/>
+        android:id="@+id/support"
+        android:orderInCategory="8"
+        android:icon="@drawable/ic_action_help"
+        mobitexter:showAsAction="collapseActionView"
+        android:showAsAction="collapseActionView"
+        android:title="Support" />
 
     <item
-            android:id="@+id/shareOptions"
-            android:orderInCategory="10"
-            android:icon="@drawable/social_share"
-            mobitexter:showAsAction="collapseActionView"
-            android:showAsAction="collapseActionView"
-            android:actionProviderClass="android.support.v7.widget.ShareActionProvider"
-            android:title="@string/shareOptions"/>
+        android:id="@+id/shareOptions"
+        android:orderInCategory="10"
+        android:icon="@drawable/social_share"
+        mobitexter:showAsAction="collapseActionView"
+        android:showAsAction="collapseActionView"
+        android:actionProviderClass="android.support.v7.widget.ShareActionProvider"
+        android:title="@string/shareOptions" />
 
 
 </menu>

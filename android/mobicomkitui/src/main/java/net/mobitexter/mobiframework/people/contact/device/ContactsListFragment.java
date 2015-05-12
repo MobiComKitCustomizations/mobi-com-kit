@@ -366,7 +366,7 @@ public class ContactsListFragment extends ListFragment implements SearchListFrag
      *                  For Android 3.0 and later, provide the Contact.PHOTO_THUMBNAIL_URI value.
      * @param imageSize The desired target width and height of the output image in pixels.
      * @return A Bitmap containing the contact's image, resized to fit the provided image size. If
-     *         no thumbnail exists, returns null.
+     * no thumbnail exists, returns null.
      */
     private Bitmap loadContactPhotoThumbnail(String photoData, int imageSize) {
 
@@ -504,7 +504,8 @@ public class ContactsListFragment extends ListFragment implements SearchListFrag
         final static int PHOTO_THUMBNAIL_DATA = 3;
         final static int SORT_KEY = 4;
     }
-/**
+
+    /**
      * This is a subclass of CursorAdapter that supports binding Cursor columns to a view layout.
      * If those items are part of search results, the search string is marked by highlighting the
      * query text. An {@link android.widget.AlphabetIndexer} is used to allow quicker navigation up and down the
@@ -549,8 +550,8 @@ public class ContactsListFragment extends ListFragment implements SearchListFrag
          *
          * @param displayName The contact display name.
          * @return The starting position of the search string in the display name, 0-based. The
-         *         method returns -1 if the string is not found in the display name, or if the search
-         *         string is empty or null.
+         * method returns -1 if the string is not found in the display name, or if the search
+         * string is empty or null.
          */
         private int indexOfSearchQuery(String displayName) {
             if (!TextUtils.isEmpty(mSearchTerm)) {

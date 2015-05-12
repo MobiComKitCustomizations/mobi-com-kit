@@ -25,7 +25,7 @@ public class MTNotificationBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        
+
         String action = intent.getAction();
         Message message = null;
         String messageJson = intent.getStringExtra(MobiComKitConstants.MESSAGE_JSON_INTENT);
@@ -34,12 +34,12 @@ public class MTNotificationBroadcastReceiver extends BroadcastReceiver {
             message = (Message) GsonUtils.getObjectFromJson(messageJson, Message.class);
         }
         NotificationService notificationService =
-                new NotificationService(R.drawable.ic_launcher,context,R.string.wearable_action_label,R.string.wearable_action_title,R.drawable.ic_action_send);
+                new NotificationService(R.drawable.ic_launcher, context, R.string.wearable_action_label, R.string.wearable_action_title, R.drawable.ic_action_send);
 
         Log.i(TAG, "Received broadcast, action: " + action + ", sms: " + message);
         Contact contact = ContactUtils.getContact(context, message.getContactIds());
 
-        notificationService.notifyUser(contact,message);
+        notificationService.notifyUser(contact, message);
 
     }
 }

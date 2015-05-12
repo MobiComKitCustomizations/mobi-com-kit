@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mobitexter="http://schemas.android.com/apk/res-auto" >
+    xmlns:mobitexter="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/forward"
@@ -10,7 +10,7 @@
         mobitexter:showAsAction="always"
         android:showAsAction="always"
         android:actionProviderClass="android.support.v7.widget.ShareActionProvider"
-        android:title="@string/shareOptions"/>
+        android:title="@string/shareOptions" />
 
     <item
         android:id="@+id/shareOptions"
@@ -19,6 +19,6 @@
         mobitexter:showAsAction="always"
         android:showAsAction="always"
         android:actionProviderClass="android.support.v7.widget.ShareActionProvider"
-        android:title="@string/shareOptions"/>
+        android:title="@string/shareOptions" />
 
 </menu>

@@ -3,18 +3,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" android:gravity="center_vertical|center_horizontal">
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical|center_horizontal">
     <!-- simplified -->
     <ProgressBar
         android:id="@+id/spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity = "center_vertical|center_horizontal"
-        android:visibility="gone"
-        />
+        android:gravity="center_vertical|center_horizontal"
+        android:visibility="gone" />
 
     <TextView
-         android:id="@+id/noConversations"
+        android:id="@+id/noConversations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical|center_horizontal"
@@ -24,14 +24,14 @@
         android:text="@string/no_conversation" />
 
     <TextView
-            android:id="@+id/info_broadcast"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal"
-            android:visibility="gone"
-            android:paddingTop="10dp"
-            android:paddingBottom="4dp"
-            android:text="@string/info_broadcast_message" />
+        android:id="@+id/info_broadcast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:visibility="gone"
+        android:paddingTop="10dp"
+        android:paddingBottom="4dp"
+        android:text="@string/info_broadcast_message" />
 
     <Button
         android:id="@+id/start_new_conversation"

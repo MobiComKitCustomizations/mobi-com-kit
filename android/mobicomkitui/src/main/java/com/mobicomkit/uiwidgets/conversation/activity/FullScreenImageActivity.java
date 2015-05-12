@@ -93,7 +93,6 @@ public class FullScreenImageActivity extends ActionBarActivity {
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();

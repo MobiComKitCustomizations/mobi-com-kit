@@ -95,15 +95,15 @@ public class ConversationAdapter extends ArrayAdapter<Message> {
     private Class<?> messageIntentClass;
     private MobiComConversationService conversationService;
 
-    public ConversationAdapter(final Context context, int textViewResourceId, List<Message> messageList, Group group, Class messageIntentClass,EmojiconHandler emojiconHandler) {
-        this(context, textViewResourceId, messageList, null, group, false, messageIntentClass,emojiconHandler);
+    public ConversationAdapter(final Context context, int textViewResourceId, List<Message> messageList, Group group, Class messageIntentClass, EmojiconHandler emojiconHandler) {
+        this(context, textViewResourceId, messageList, null, group, false, messageIntentClass, emojiconHandler);
     }
 
-    public ConversationAdapter(final Context context, int textViewResourceId, List<Message> messageList, Contact contact, boolean quick, Class messageIntentClass,EmojiconHandler emojiconHandler) {
-        this(context, textViewResourceId, messageList, contact, null, quick, messageIntentClass,emojiconHandler);
+    public ConversationAdapter(final Context context, int textViewResourceId, List<Message> messageList, Contact contact, boolean quick, Class messageIntentClass, EmojiconHandler emojiconHandler) {
+        this(context, textViewResourceId, messageList, contact, null, quick, messageIntentClass, emojiconHandler);
     }
 
-    public ConversationAdapter(final Context context, int textViewResourceId, List<Message> messageList, Contact contact, Group group, boolean quick, Class messageIntentClass,EmojiconHandler emojiconHandler) {
+    public ConversationAdapter(final Context context, int textViewResourceId, List<Message> messageList, Contact contact, Group group, boolean quick, Class messageIntentClass, EmojiconHandler emojiconHandler) {
         super(context, textViewResourceId, messageList);
         this.messageIntentClass = messageIntentClass;
         this.context = context;
@@ -456,7 +456,7 @@ public class ConversationAdapter extends ArrayAdapter<Message> {
             String mimeType = "";
 
             if (messageTextView != null) {
-                messageTextView.setText(EmoticonUtils.getSmiledText(context, message.getMessage(),emojiconHandler));
+                messageTextView.setText(EmoticonUtils.getSmiledText(context, message.getMessage(), emojiconHandler));
                 if (quick && message.hasAttachment() && message.getFilePaths() != null &&
                         !message.getFilePaths().isEmpty()) {
                     //Todo: handle it for fileKeyStrings when filePaths is empty

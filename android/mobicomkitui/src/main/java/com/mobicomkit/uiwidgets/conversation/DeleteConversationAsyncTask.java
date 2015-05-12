@@ -8,8 +8,8 @@ import com.mobicomkit.api.conversation.MobiComConversationService;
 import net.mobitexter.mobiframework.people.contact.Contact;
 
 /**
-* Created by devashish on 9/2/15.
-*/
+ * Created by devashish on 9/2/15.
+ */
 public class DeleteConversationAsyncTask extends AsyncTask<Void, Integer, Long> {
 
     private Message message;

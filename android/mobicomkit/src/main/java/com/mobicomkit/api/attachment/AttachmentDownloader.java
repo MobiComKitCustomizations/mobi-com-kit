@@ -35,7 +35,7 @@ import java.util.ArrayList;
 /**
  * This task downloads bytes from a resource addressed by a URL.  When the task
  * has finished, it calls handleState to report its results.
- *
+ * <p/>
  * Objects of this class are instantiated and managed by instances of PhotoTask, which
  * implements the methods of TaskRunnableDecodeMethods. PhotoTask objects call
  * {@link #AttachmentDownloader(AttachmentDownloader.TaskRunnableDownloadMethods) PhotoDownloadRunnable()} with
@@ -57,7 +57,7 @@ class AttachmentDownloader implements Runnable {
     private static final String LOG_TAG = "PhotoDownloadRunnable";
     // Defines a field that contains the calling object of type PhotoTask.
     final TaskRunnableDownloadMethods mPhotoTask;
-    
+
     /**
      * This constructor creates an instance of PhotoDownloadRunnable and stores in it a reference
      * to the PhotoTask instance that instantiated it.
@@ -67,7 +67,7 @@ class AttachmentDownloader implements Runnable {
     AttachmentDownloader(TaskRunnableDownloadMethods photoTask) {
         mPhotoTask = photoTask;
     }
-    
+
     /*
      * Defines this object's task, which is a set of instructions designed to be run on a Thread.
      */
@@ -98,7 +98,7 @@ class AttachmentDownloader implements Runnable {
             }
 
             // If there's no for this image
-            if (mPhotoTask.getMessage()!=null && !mPhotoTask.getMessage().isAttachmentDownloaded()) {
+            if (mPhotoTask.getMessage() != null && !mPhotoTask.getMessage().isAttachmentDownloaded()) {
 
                 /*
                  * Calls the PhotoTask implementation of {@link #handleDownloadState} to
@@ -106,7 +106,7 @@ class AttachmentDownloader implements Runnable {
                  */
                 mPhotoTask.handleDownloadState(HTTP_STATE_STARTED);
                 // Downloads the image and catches IO errors
-                loadAttachmentImage(mPhotoTask.getMessage(),mPhotoTask.getContext());
+                loadAttachmentImage(mPhotoTask.getMessage(), mPhotoTask.getContext());
 
             }
 
@@ -117,16 +117,16 @@ class AttachmentDownloader implements Runnable {
              */
             mPhotoTask.handleDownloadState(HTTP_STATE_COMPLETED);
 
-        // Catches exceptions thrown in response to a queued interrupt
+            // Catches exceptions thrown in response to a queued interrupt
         } catch (InterruptedException e1) {
 
-        // Does nothing
+            // Does nothing
 
-        // In all cases, handle the results
+            // In all cases, handle the results
         } finally {
 
             // If the byteBuffer is null, reports that the download failed.
-            if (mPhotoTask.getMessage()!=null && !mPhotoTask.getMessage().isAttachmentDownloaded()) {
+            if (mPhotoTask.getMessage() != null && !mPhotoTask.getMessage().isAttachmentDownloaded()) {
                 mPhotoTask.handleDownloadState(HTTP_STATE_FAILED);
             }
 
@@ -144,11 +144,11 @@ class AttachmentDownloader implements Runnable {
             Thread.interrupted();
         }
     }
-    
+
     public void loadAttachmentImage(Message message, Context context) {
         try {
             InputStream inputStream = null;
-            FileMeta fileMeta =  message.getFileMetas().get(0);
+            FileMeta fileMeta = message.getFileMetas().get(0);
             String contentType = fileMeta.getContentType();
             String fileKey = fileMeta.getKeyString();
             HttpURLConnection connection = new MobiComKitClientService(context).openHttpConnection(MobiComKitServer.FILE_URL + fileKey);
@@ -162,17 +162,17 @@ class AttachmentDownloader implements Runnable {
             File file = FileClientService.getFilePath(fileMeta.getName(), context, contentType);
             OutputStream output = new FileOutputStream(file);
             byte data[] = new byte[1024];
-            int totalSize= fileMeta.getSize();
-            int progressCount=0;
+            int totalSize = fileMeta.getSize();
+            int progressCount = 0;
             int count = 0;
             while ((count = inputStream.read(data)) != -1) {
                 output.write(data, 0, count);
                 progressCount = progressCount + count;
                 android.os.Message msg = new android.os.Message();
-                int percentage = progressCount*100/totalSize;
+                int percentage = progressCount * 100 / totalSize;
                 //TODO: pecentage should be transfer via handler
                 //Message code 2 represents image is successfully downloaded....
-                if((percentage%10 ==0)){
+                if ((percentage % 10 == 0)) {
                     msg.what = 1;
                     msg.obj = this;
                 }
@@ -201,7 +201,6 @@ class AttachmentDownloader implements Runnable {
     }
 
     /**
-     *
      * An interface that defines methods that PhotoTask implements. An instance of
      * PhotoTask passes itself to an PhotoDownloadRunnable instance through the
      * PhotoDownloadRunnable constructor, after which the two instances can access each other's
@@ -211,18 +210,21 @@ class AttachmentDownloader implements Runnable {
 
         /**
          * Sets the Thread that this instance is running on
+         *
          * @param currentThread the current Thread
          */
         void setDownloadThread(Thread currentThread);
 
         /**
          * Defines the actions for each state of the PhotoTask instance.
+         *
          * @param state The current state of the task
          */
         void handleDownloadState(int state);
 
         /**
          * Gets the URL for the image being downloaded
+         *
          * @return The image URL
          */
         String getImageURL();

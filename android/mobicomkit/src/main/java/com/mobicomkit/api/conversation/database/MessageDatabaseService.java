@@ -459,7 +459,7 @@ public class MessageDatabaseService {
             values.put("keyString", keyString);
             values.put("sentToServer", "1");
             dbHelper.getWritableDatabase().update("sms", values, "id=" + message.getMessageId(), null);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
             dbHelper.close();

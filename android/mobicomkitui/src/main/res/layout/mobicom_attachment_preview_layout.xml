@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <com.mobicomkit.api.attachment.AttachmentView
         android:id="@+id/main_attachment_view"
         android:layout_width="fill_parent"
         android:layout_height="200dp"
         android:layout_centerInParent="true"
         android:scaleType="center"
-        android:visibility="gone">
-    </com.mobicomkit.api.attachment.AttachmentView>
+        android:visibility="gone"></com.mobicomkit.api.attachment.AttachmentView>
+
     <ImageView
         android:id="@+id/preview"
         android:layout_width="fill_parent"
@@ -86,6 +87,7 @@
             android:layout_centerVertical="true"
             android:visibility="visible" />
     </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/attachment_retry_layout"
         android:layout_width="wrap_content"
@@ -94,6 +96,7 @@
         android:background="@drawable/mobicom_attachment_download"
         android:orientation="horizontal"
         android:visibility="gone">
+
         <TextView
             android:id="@+id/attachment_retry_text"
             android:layout_width="wrap_content"

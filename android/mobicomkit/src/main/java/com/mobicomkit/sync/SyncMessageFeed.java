@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- *
  * @author devashish
  */
 public class SyncMessageFeed implements Serializable {

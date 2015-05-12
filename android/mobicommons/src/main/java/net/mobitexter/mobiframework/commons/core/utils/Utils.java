@@ -128,7 +128,7 @@ public class Utils {
         }
     }
 
-    public static boolean isNetworkAvailable(final Activity activity,final String errorMessage) {
+    public static boolean isNetworkAvailable(final Activity activity, final String errorMessage) {
         if (activity == null) {
             return true;
         }

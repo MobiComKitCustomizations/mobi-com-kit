@@ -21,7 +21,7 @@ public class FilePathFinder {
      * other file-based ContentProviders.
      *
      * @param context The context.
-     * @param uri The Uri to query.
+     * @param uri     The Uri to query.
      * @author paulburke
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
@@ -68,7 +68,7 @@ public class FilePathFinder {
                 }
 
                 final String selection = "_id=?";
-                final String[] selectionArgs = new String[] {
+                final String[] selectionArgs = new String[]{
                         split[1]
                 };
 
@@ -91,9 +91,9 @@ public class FilePathFinder {
      * Get the value of the data column for this Uri. This is useful for
      * MediaStore Uris, and other file-based ContentProviders.
      *
-     * @param context The context.
-     * @param uri The Uri to query.
-     * @param selection (Optional) Filter used in the query.
+     * @param context       The context.
+     * @param uri           The Uri to query.
+     * @param selection     (Optional) Filter used in the query.
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
@@ -146,15 +146,14 @@ public class FilePathFinder {
     }
 
     // Convert the image URI to the direct file system path of the image file
-    public String mf_szGetRealPathFromURI(final Context context, final Uri ac_Uri )
-    {
+    public String mf_szGetRealPathFromURI(final Context context, final Uri ac_Uri) {
         String result = "";
         boolean isok = false;
 
         Cursor cursor = null;
         try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(ac_Uri,  proj, null, null, null);
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(ac_Uri, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             result = cursor.getString(column_index);

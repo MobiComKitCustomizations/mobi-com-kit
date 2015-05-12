@@ -20,7 +20,7 @@ public class QuickConversationFragment extends MobiComQuickConversationFragment 
         super.onCreate(savedInstanceState);
         conversationService = new MobiComConversationService(getActivity());
         conversationAdapter = new ConversationAdapter(getActivity(),
-                R.layout.mobicom_message_row_view, messageList, null, true, MessageIntentService.class,null);
+                R.layout.mobicom_message_row_view, messageList, null, true, MessageIntentService.class, null);
     }
 
     @Override

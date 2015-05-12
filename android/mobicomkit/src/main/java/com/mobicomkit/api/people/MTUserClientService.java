@@ -21,7 +21,7 @@ public class MTUserClientService extends MobiComKitClientService {
         super(context);
     }
 
-    public ContactContent getContactContent( String contactNumber) {
+    public ContactContent getContactContent(String contactNumber) {
         String response = null;
         try {
             response = HttpRequestUtils.getResponse(credentials, MobiComKitServer.CHECK_FOR_MT_USER + "?requestSource=1&contactNumber=" + URLEncoder.encode(contactNumber, "UTF-8"), "text/plain", "application/json");

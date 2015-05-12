@@ -48,7 +48,7 @@
             android:textColor="@color/mobitexter_main_color"
             android:textSize="16dp" />
 
-        <include layout="@layout/mobicom_attachment_preview_layout"/>
+        <include layout="@layout/mobicom_attachment_preview_layout" />
 
         <TextView
             android:id="@+id/selfDestruct"

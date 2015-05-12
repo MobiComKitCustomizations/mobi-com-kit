@@ -140,13 +140,17 @@ public class Message {
         return TextUtils.isEmpty(getKeyString()) && isSentToServer();
     }
 
-        public String getKeyString() {
+    public String getKeyString() {
         return keyString;
-    };
+    }
 
-        public void setKeyString(String keyString) {
+    ;
+
+    public void setKeyString(String keyString) {
         this.keyString = keyString;
-    };
+    }
+
+    ;
 
     public Long getCreatedAtTime() {
         return createdAtTime;
@@ -436,7 +440,7 @@ public class Message {
                 '}';
     }
 
-public static enum Source {
+    public static enum Source {
 
         DEVICE_NATIVE_APP(Short.valueOf("0")), WEB(Short.valueOf("1")), MT_MOBILE_APP(Short.valueOf("2")), API(Short.valueOf("3"));
         private Short value;
@@ -450,7 +454,7 @@ public static enum Source {
         }
     }
 
-public static enum MessageType {
+    public static enum MessageType {
 
         INBOX(Short.valueOf("0")), OUTBOX(Short.valueOf("1")), DRAFT(Short.valueOf("2")),
         OUTBOX_SENT_FROM_DEVICE(Short.valueOf("3")), MT_INBOX(Short.valueOf("4")),

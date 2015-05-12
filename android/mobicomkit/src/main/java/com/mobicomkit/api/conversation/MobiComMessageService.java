@@ -1,13 +1,11 @@
 package com.mobicomkit.api.conversation;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.mobicomkit.GeneralConstants;
-import com.mobicomkit.api.MobiComKitConstants;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 import com.mobicomkit.api.conversation.selfdestruct.DisappearingMessageTask;
@@ -15,7 +13,6 @@ import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.sync.SyncMessageFeed;
 
 import net.mobitexter.mobiframework.commons.core.utils.Support;
-import net.mobitexter.mobiframework.json.GsonUtils;
 import net.mobitexter.mobiframework.people.contact.Contact;
 import net.mobitexter.mobiframework.people.contact.ContactUtils;
 import net.mobitexter.mobiframework.personalization.PersonalizedMessage;
@@ -101,7 +98,7 @@ public class MobiComMessageService {
         Contact contact = ContactUtils.getContact(context, message.getTo());
         BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString(), message);
         //Todo: use email if contact number is empty
-        BroadcastService.sendNotificationBroadcast(context,message);
+        BroadcastService.sendNotificationBroadcast(context, message);
         Log.i(TAG, "Updating delivery status: " + message.getPairedMessageKeyString() + ", " + userPreferences.getContactNumber());
         messageClientService.updateDeliveryStatus(message.getPairedMessageKeyString(), userPreferences.getContactNumber());
         return contact;

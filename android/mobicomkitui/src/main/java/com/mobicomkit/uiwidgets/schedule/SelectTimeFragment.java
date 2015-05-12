@@ -58,10 +58,10 @@ public class SelectTimeFragment extends DialogFragment implements TimePickerDial
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), mTimeSetListener, calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE), false);
-        if(scheduledTimeHolder.getTimestamp() != null){
+        if (scheduledTimeHolder.getTimestamp() != null) {
             String scheduledTime = scheduledTimeHolder.getTime();
-            String []st=scheduledTime.split(":");
-            timePickerDialog.updateTime(Integer.parseInt(st[0]),Integer.parseInt(st[1]));
+            String[] st = scheduledTime.split(":");
+            timePickerDialog.updateTime(Integer.parseInt(st[0]), Integer.parseInt(st[1]));
         }
         return timePickerDialog;
     }

@@ -150,14 +150,15 @@ public class AttachmentView extends ImageView {
             // After successfully downloading the image, this marks that it's available.
             mIsDrawn = true;
         }
-        if ( mDownloadThread == null ) {
-            mDownloadThread =  AttachmentManager.getBGThreadForAttachment(message.getKeyString());
-            if (mDownloadThread!=null)
+        if (mDownloadThread == null) {
+            mDownloadThread = AttachmentManager.getBGThreadForAttachment(message.getKeyString());
+            if (mDownloadThread != null)
                 mDownloadThread.setAttachementView(this);
         }
         // Always call the super method last
         super.onDraw(canvas);
     }
+
     @Override
     public void setImageBitmap(Bitmap paramBitmap) {
         super.setImageBitmap(paramBitmap);
@@ -215,7 +216,7 @@ public class AttachmentView extends ImageView {
         this.downloadProgressLayout = downloadProgressLayout;
     }
 
-    public void cancelDownload( ){
+    public void cancelDownload() {
         AttachmentManager.removeDownload(mDownloadThread);
         getDownloadProgressLayout().setVisibility(GONE);
     }

@@ -8,7 +8,6 @@ import com.mobicomkit.api.conversation.MessageIntentService;
 import com.mobicomkit.api.conversation.MobiComConversationService;
 import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 
-
 import java.util.Calendar;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class ScheduleMessageService extends IntentService {
         MessageDatabaseService messageDatabaseService = new MessageDatabaseService(getApplicationContext());
         MobiComConversationService conversationService = new MobiComConversationService(getApplicationContext());
         List<Message> messages = messageDatabaseService.getScheduledMessages(time);
-        for (Message message: messages) {
+        for (Message message : messages) {
             message.setScheduledAt(null);
             conversationService.sendMessage(message, MessageIntentService.class);
             //Todo: broadcast for scheduled message fragment.

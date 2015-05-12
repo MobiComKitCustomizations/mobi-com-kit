@@ -33,6 +33,7 @@ import java.util.List;
 
 public class ScheduledMessageAdapter extends ArrayAdapter<Message> {
     private ImageLoader mImageLoader;
+
     public ScheduledMessageAdapter(Context context, int textViewResourceId, List<Message> smsList) {
         super(context, textViewResourceId, smsList);
         mImageLoader = new ImageLoader(getContext(), ImageUtils.getLargestScreenDimension((Activity) getContext())) {

@@ -78,12 +78,12 @@ public class FileMeta {
         this.thumbnailUrl = thumbnailUrl;
     }
 
-    public String getSizeInReadableFormat(){
-        String value= "0 KB";
-        if ( size/1024 >= 1024){
-            value = String.valueOf ( Math.round(size /(1024*1024))) + " MB";
-        }else {
-            value = String.valueOf ( Math.round(size /1024)) + " KB";
+    public String getSizeInReadableFormat() {
+        String value = "0 KB";
+        if (size / 1024 >= 1024) {
+            value = String.valueOf(Math.round(size / (1024 * 1024))) + " MB";
+        } else {
+            value = String.valueOf(Math.round(size / 1024)) + " KB";
         }
         return value;
     }

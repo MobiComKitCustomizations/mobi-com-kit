@@ -160,7 +160,7 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
     public abstract void startContactActivityForResult(Message message, String messageContent);
 
     public void onQuickConversationFragmentItemClick(View view, Contact contact) {
-        TextView textView = (TextView)view.findViewById(R.id.unreadSmsCount);
+        TextView textView = (TextView) view.findViewById(R.id.unreadSmsCount);
         textView.setVisibility(View.GONE);
         openConversationFragment(contact);
     }
@@ -388,7 +388,7 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
     //TODO: need to figure it out if this Can be improve by listeners in individual fragments
     @Override
     public void onBackPressed() {
-        if (conversationFragment!=null && conversationFragment.emoticonsFrameLayout.getVisibility()==View.VISIBLE ){
+        if (conversationFragment != null && conversationFragment.emoticonsFrameLayout.getVisibility() == View.VISIBLE) {
             conversationFragment.emoticonsFrameLayout.setVisibility(View.GONE);
             return;
         }
@@ -407,7 +407,7 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
         return Uri.parse(path);
     }
 
-public SlidingPaneLayout getSlidingPaneLayout() {
+    public SlidingPaneLayout getSlidingPaneLayout() {
         return slidingPaneLayout;
     }
 
@@ -434,7 +434,7 @@ public SlidingPaneLayout getSlidingPaneLayout() {
         }
     }
 
-        public class SliderListener extends SlidingPaneLayout.SimplePanelSlideListener {
+    public class SliderListener extends SlidingPaneLayout.SimplePanelSlideListener {
 
         @Override
         public void onPanelOpened(View panel) {
@@ -450,4 +450,5 @@ public SlidingPaneLayout getSlidingPaneLayout() {
         public void onPanelSlide(View view, float v) {
         }
 
-    }}
+    }
+}

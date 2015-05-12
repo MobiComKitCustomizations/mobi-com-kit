@@ -74,7 +74,7 @@ public class FileClientService extends MobiComKitClientService {
         }
         // Create image name
         //String extention = "." + contentType.substring(contentType.indexOf("/") + 1);
-        filePath = new File(dir, fileName );
+        filePath = new File(dir, fileName);
         return filePath;
     }
 
@@ -98,28 +98,28 @@ public class FileClientService extends MobiComKitClientService {
 
     public Bitmap loadThumbnailImage(Context context, FileMeta fileMeta, int reqWidth, int reqHeight) {
         try {
-            Bitmap attachedImage=null;
-            String thumbnailUrl =  fileMeta.getThumbnailUrl();
+            Bitmap attachedImage = null;
+            String thumbnailUrl = fileMeta.getThumbnailUrl();
             String contentType = fileMeta.getContentType();
             final BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             String imageLocalPath = getFilePath(fileMeta.getName(), context, fileMeta.getContentType(), true).getAbsolutePath();
-            if(imageLocalPath!=null){
-                try{
-                    attachedImage =BitmapFactory.decodeFile(imageLocalPath);
-                }catch (Exception ex){
-                    Log.e(TAG, "File not found on local storage: " +  ex.getMessage());
+            if (imageLocalPath != null) {
+                try {
+                    attachedImage = BitmapFactory.decodeFile(imageLocalPath);
+                } catch (Exception ex) {
+                    Log.e(TAG, "File not found on local storage: " + ex.getMessage());
                 }
             }
-            if (attachedImage ==null){
+            if (attachedImage == null) {
                 HttpURLConnection connection = new MobiComKitClientService(context).openHttpConnection(thumbnailUrl);
-                if (connection.getResponseCode() == 200 ){
-                  // attachedImage = BitmapFactory.decodeStream(connection.getInputStream(),null,options);
+                if (connection.getResponseCode() == 200) {
+                    // attachedImage = BitmapFactory.decodeStream(connection.getInputStream(),null,options);
                     attachedImage = BitmapFactory.decodeStream(connection.getInputStream());
-                    imageLocalPath =  saveImageToInternalStorage(attachedImage, fileMeta.getName(), context, contentType);
+                    imageLocalPath = saveImageToInternalStorage(attachedImage, fileMeta.getName(), context, contentType);
 
-                }else {
-                    Log.w(TAG, "Download is failed response code is ...." +  connection.getResponseCode());
+                } else {
+                    Log.w(TAG, "Download is failed response code is ...." + connection.getResponseCode());
                 }
             }
             // Calculate inSampleSize

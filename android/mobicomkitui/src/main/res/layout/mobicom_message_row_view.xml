@@ -18,7 +18,7 @@
         android:textSize="32dp"
         android:visibility="gone" />
 
-    <ImageView 
+    <ImageView
         android:id="@+id/contactImage"
         android:layout_width="55dp"
         android:layout_height="55dp"
@@ -26,8 +26,7 @@
         android:layout_margin="4dp"
         android:layout_toRightOf="@+id/alphabeticImage"
         android:src="@drawable/ic_contact_picture_180_holo_light"
-        android:visibility="visible"
-       />
+        android:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/name_time"
@@ -52,7 +51,7 @@
             android:textColor="#6F6F6F"
             android:textIsSelectable="false"
             android:textSize="16dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/createdAtTime"
@@ -147,7 +146,7 @@
             android:textColor="@color/white"
             android:textSize="9sp"
             android:textStyle="bold"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </LinearLayout>
 

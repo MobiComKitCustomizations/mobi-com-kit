@@ -48,7 +48,7 @@ public class ScheduledTimeHolder {
         this.timestamp = timestamp;
     }
 
-    public void resetScheduledTimeHolder(){
+    public void resetScheduledTimeHolder() {
         this.date = null;
         this.time = null;
         this.timestamp = null;

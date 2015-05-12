@@ -244,7 +244,7 @@ public class Contact {
         return userId;
     }
 
-    public String getContactIds(){
+    public String getContactIds() {
         return TextUtils.isEmpty(getUserId()) ? getFormattedContactNumber() : getUserId();
     }
 }

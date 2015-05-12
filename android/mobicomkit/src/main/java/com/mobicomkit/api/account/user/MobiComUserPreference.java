@@ -11,37 +11,35 @@ import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
 import java.util.Date;
 
 
-
 public class MobiComUserPreference {
 
     private static final String USER_ID = "userId";
     public static MobiComUserPreference userpref;
     //Constants for preferneces ..
-    private static String device_registration_id="device_registration_id";
-    private static String device_key_string="device_key_string";
-    private static String last_outbox_sync_time="last_outbox_sync_time";
-    private static String delivery_report_pref_key="delivery_report_pref_key";
-    private static String last_inbox_sync_time="last_inbox_sync_time";
-    private static String last_message_stat_sync_time="last_message_stat_sync_time";
-    private static String sent_sms_sync_pref_key="sent_sms_sync_pref_key";
-    private static String email="email";
-    private static String email_verified="email_verified";
-    private static String user_key_string="user_key_string";
-    private static String stop_service="stop_service";
-    private static String patch_available="patch_available";
-    private static String webhook_enable_key="webhook_enable_key";
-    private static String group_sms_freq_key="group_sms_freq_key";
-    private static String update_push_registration="update_push_registration";
-    private static String verify_contact_number="verify_contact_number";
-    private static String received_sms_sync_pref_key="received_sms_sync_pref_key";
-    private static String phone_number_key="phone_number_key";
-    private static String call_history_display_within_messages_pref_key="call_history_display_within_messages_pref_key";
-    private static String mobitexter_contact_sync_key="mobitexter_contact_sync_key";
-    private static String last_sms_sync_time="last_sms_sync_time";
+    private static String device_registration_id = "device_registration_id";
+    private static String device_key_string = "device_key_string";
+    private static String last_outbox_sync_time = "last_outbox_sync_time";
+    private static String delivery_report_pref_key = "delivery_report_pref_key";
+    private static String last_inbox_sync_time = "last_inbox_sync_time";
+    private static String last_message_stat_sync_time = "last_message_stat_sync_time";
+    private static String sent_sms_sync_pref_key = "sent_sms_sync_pref_key";
+    private static String email = "email";
+    private static String email_verified = "email_verified";
+    private static String user_key_string = "user_key_string";
+    private static String stop_service = "stop_service";
+    private static String patch_available = "patch_available";
+    private static String webhook_enable_key = "webhook_enable_key";
+    private static String group_sms_freq_key = "group_sms_freq_key";
+    private static String update_push_registration = "update_push_registration";
+    private static String verify_contact_number = "verify_contact_number";
+    private static String received_sms_sync_pref_key = "received_sms_sync_pref_key";
+    private static String phone_number_key = "phone_number_key";
+    private static String call_history_display_within_messages_pref_key = "call_history_display_within_messages_pref_key";
+    private static String mobitexter_contact_sync_key = "mobitexter_contact_sync_key";
+    private static String last_sms_sync_time = "last_sms_sync_time";
     public SharedPreferences sharedPreferences;
     private Context context;
     private String countryCode;
-
 
 
     private MobiComUserPreference(Context context) {
@@ -98,8 +96,8 @@ public class MobiComUserPreference {
         return sharedPreferences.getBoolean(delivery_report_pref_key, false);
     }
 
-    public void setReportEnable(boolean  reportEnable) {
-        sharedPreferences.edit().putBoolean(delivery_report_pref_key,reportEnable).commit();
+    public void setReportEnable(boolean reportEnable) {
+        sharedPreferences.edit().putBoolean(delivery_report_pref_key, reportEnable).commit();
     }
 
     public String getLastSyncTime() {
@@ -186,21 +184,21 @@ public class MobiComUserPreference {
         sharedPreferences.edit().putBoolean(patch_available, patchAvailable).commit();
     }
 
-    public boolean isWebHookEnable(){
+    public boolean isWebHookEnable() {
         return sharedPreferences.getBoolean(webhook_enable_key, false);
     }
 
-    public void setWebHookEnable(boolean enable){
+    public void setWebHookEnable(boolean enable) {
         sharedPreferences.edit().putBoolean(webhook_enable_key, enable).commit();
     }
 
-    public int getGroupSmsDelayInSec(){
+    public int getGroupSmsDelayInSec() {
         return sharedPreferences.getInt(group_sms_freq_key, 0);
     }
 
     public void setDelayGroupSmsDelayTime(int delay) {
         sharedPreferences.edit().
-                putInt(group_sms_freq_key,delay).commit();
+                putInt(group_sms_freq_key, delay).commit();
     }
 
 
@@ -281,7 +279,7 @@ public class MobiComUserPreference {
 
     public void setMobiTexterContactSyncCompleted(boolean status) {
         sharedPreferences.edit().
-        putBoolean(mobitexter_contact_sync_key, status).commit();
+                putBoolean(mobitexter_contact_sync_key, status).commit();
     }
 
     @Override

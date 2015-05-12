@@ -47,7 +47,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                 return;
             }
             //TODO: get activity name in intent...
-            Intent launcherIntent = new Intent(context,getActivityToOpen("com.mobicomkit.uiwidgets.conversation.activity.SlidingPaneActivity") );
+            Intent launcherIntent = new Intent(context, getActivityToOpen("com.mobicomkit.uiwidgets.conversation.activity.SlidingPaneActivity"));
             launcherIntent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, messageJson);
             launcherIntent.putExtra("sms_body", "text");
             launcherIntent.setType("vnd.android-dir/mms-sms");
@@ -65,7 +65,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
         return null;
     }
 
-    public Class getActivityToOpen(String StringClassname ) {
+    public Class getActivityToOpen(String StringClassname) {
         if (StringClassname != null) {
             try {
                 Class c = Class.forName(StringClassname);

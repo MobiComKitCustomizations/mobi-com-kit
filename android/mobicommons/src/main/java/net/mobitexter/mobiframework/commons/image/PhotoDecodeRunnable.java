@@ -22,69 +22,72 @@ import android.util.Log;
 
 /**
  * This runnable decodes a byte array containing an image.
- *
+ * <p/>
  * Objects of this class are instantiated and managed by instances of PhotoTask, which
  * implements the methods {@link PhotoDecodeRunnable.TaskRunnableDecodeMethods}. PhotoTask objects call
  * {@link #PhotoDecodeRunnable(PhotoDecodeRunnable.TaskRunnableDecodeMethods) PhotoDecodeRunnable()} with
  * themselves as the argument. In effect, an PhotoTask object and a
  * PhotoDecodeRunnable object communicate through the fields of the PhotoTask.
- *
  */
 public class PhotoDecodeRunnable implements Runnable {
-    
+
     // Limits the number of times the decoder tries to process an image
     private static final int NUMBER_OF_DECODE_TRIES = 2;
 
     // Tells the Runnable to pause for a certain number of milliseconds
     private static final long SLEEP_TIME_MILLISECONDS = 250;
-    
+
     // Sets the log tag
     private static final String LOG_TAG = "PhotoDecodeRunnable";
-    
+
     // Constants for indicating the state of the decode
     public static final int DECODE_STATE_FAILED = -1;
     public static final int DECODE_STATE_STARTED = 0;
     public static final int DECODE_STATE_COMPLETED = 1;
-    
+
     // Defines a field that contains the calling object of type PhotoTask.
     final TaskRunnableDecodeMethods mPhotoTask;
-    
+
     /**
-    *
-    * An interface that defines methods that PhotoTask implements. An instance of
-    * PhotoTask passes itself to an PhotoDecodeRunnable instance through the
-    * PhotoDecodeRunnable constructor, after which the two instances can access each other's
-    * variables.
-    */
+     * An interface that defines methods that PhotoTask implements. An instance of
+     * PhotoTask passes itself to an PhotoDecodeRunnable instance through the
+     * PhotoDecodeRunnable constructor, after which the two instances can access each other's
+     * variables.
+     */
     public interface TaskRunnableDecodeMethods {
-        
+
         /**
          * Sets the Thread that this instance is running on
+         *
          * @param currentThread the current Thread
          */
         void setImageDecodeThread(Thread currentThread);
-        
+
 
         /**
          * Sets the actions for each state of the PhotoTask instance.
+         *
          * @param state The state being handled.
          */
         void handleDecodeState(int state);
-        
+
         /**
          * Returns the desired width of the image, based on the ImageView being created.
+         *
          * @return The target width
          */
         int getTargetWidth();
-        
+
         /**
          * Returns the desired height of the image, based on the ImageView being created.
+         *
          * @return The target height.
          */
         int getTargetHeight();
-        
+
         /**
          * Sets the Bitmap for the ImageView being displayed.
+         *
          * @param image
          */
         void setImage(Bitmap image);
@@ -101,7 +104,7 @@ public class PhotoDecodeRunnable implements Runnable {
     public PhotoDecodeRunnable(TaskRunnableDecodeMethods downloadTask) {
         mPhotoTask = downloadTask;
     }
-    
+
     /*
      * Defines this object's task, which is a set of instructions designed to be run on a Thread.
      */
@@ -119,8 +122,8 @@ public class PhotoDecodeRunnable implements Runnable {
          * to both PhotoDownloadRunnable and PhotoTask.
          */
         String imagePath = mPhotoTask.getLocalPath();
-        if(imagePath == null ){
-            Log.e(LOG_TAG,"@@@Image path is coming as null");
+        if (imagePath == null) {
+            Log.e(LOG_TAG, "@@@Image path is coming as null");
             mPhotoTask.handleDecodeState(DECODE_STATE_FAILED);
             return;
 
@@ -139,7 +142,7 @@ public class PhotoDecodeRunnable implements Runnable {
              * set the state of the download
              */
             mPhotoTask.handleDecodeState(DECODE_STATE_STARTED);
-    
+
             // Sets up options for creating a Bitmap object from the
             // downloaded image.
             BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
@@ -150,11 +153,11 @@ public class PhotoDecodeRunnable implements Runnable {
              */
             int targetWidth = mPhotoTask.getTargetWidth();
             int targetHeight = mPhotoTask.getTargetHeight();
-    
+
             // Before continuing, checks to see that the Thread hasn't
             // been interrupted
             if (Thread.interrupted()) {
-                
+
                 return;
             }
     
@@ -176,8 +179,8 @@ public class PhotoDecodeRunnable implements Runnable {
              * image is expanded or compressed from its actual size to
              * the size of the target ImageView
              */
-            int hScale = targetHeight==0 ? bitmapOptions.outHeight: bitmapOptions.outHeight / targetHeight;
-            int wScale = targetWidth==0 ? bitmapOptions.outWidth: bitmapOptions.outWidth / targetWidth;
+            int hScale = targetHeight == 0 ? bitmapOptions.outHeight : bitmapOptions.outHeight / targetHeight;
+            int wScale = targetWidth == 0 ? bitmapOptions.outWidth : bitmapOptions.outWidth / targetWidth;
     
             /*
              * Sets the sample size to be larger of the horizontal or
@@ -196,11 +199,11 @@ public class PhotoDecodeRunnable implements Runnable {
             if (sampleSize > 1) {
                 bitmapOptions.inSampleSize = sampleSize;
             }
-    
+
             if (Thread.interrupted()) {
                 return;
             }
-    
+
             // Second pass of decoding. If no bitmap is created, nothing
             // is set in the object.
             bitmapOptions.inJustDecodeBounds = false;
@@ -218,7 +221,7 @@ public class PhotoDecodeRunnable implements Runnable {
                     returnBitmap = BitmapFactory.decodeFile(
                             imagePath,
                             bitmapOptions
-                            );
+                    );
                     /*
                      * If the decode works, no Exception or Error has occurred.
                     break;
@@ -227,7 +230,7 @@ public class PhotoDecodeRunnable implements Runnable {
                      * If the decode fails, this block tries to get more memory.
                      */
                 } catch (Throwable e) {
-    
+
                     // Logs an error
                     Log.e(LOG_TAG, "Out of memory in decode stage. Throttling.");
     
@@ -237,10 +240,10 @@ public class PhotoDecodeRunnable implements Runnable {
                      * occur.
                      */
                     System.gc();
-    
+
                     if (Thread.interrupted()) {
                         return;
-    
+
                     }
                     /*
                      * Tries to pause the thread for 250 milliseconds,
@@ -260,28 +263,28 @@ public class PhotoDecodeRunnable implements Runnable {
         } finally {
             // If the decode failed, there's no bitmap.
             if (null == returnBitmap) {
-                
+
                 // Sends a failure status to the PhotoTask
                 mPhotoTask.handleDecodeState(DECODE_STATE_FAILED);
 
                 // Logs the error
                 Log.e(LOG_TAG, "Download failed in PhotoDecodeRunnable");
-    
+
             } else {
-                
+
                 // Sets the ImageView Bitmap
                 mPhotoTask.setImage(returnBitmap);
-                
+
                 // Reports a status of "completed"
                 mPhotoTask.handleDecodeState(DECODE_STATE_COMPLETED);
             }
-    
+
             // Sets the current Thread to null, releasing its storage
             mPhotoTask.setImageDecodeThread(null);
-            
+
             // Clears the Thread's interrupt flag
             Thread.interrupted();
-            
+
         }
 
     }

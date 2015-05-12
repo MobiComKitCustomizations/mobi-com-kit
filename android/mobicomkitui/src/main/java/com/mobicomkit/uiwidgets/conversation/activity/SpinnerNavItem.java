@@ -12,7 +12,7 @@ public class SpinnerNavItem {
     private Contact contact;
     private String contactNumber;
 
-    public SpinnerNavItem(Contact contact, String contactNumber, String type, int icon){
+    public SpinnerNavItem(Contact contact, String contactNumber, String type, int icon) {
         this.contact = contact;
         this.type = type;
         this.contactNumber = contactNumber;
@@ -27,11 +27,11 @@ public class SpinnerNavItem {
         this.contactNumber = contactNumber;
     }
 
-    public String getType(){
+    public String getType() {
         return this.type;
     }
 
-    public int getIcon(){
+    public int getIcon() {
         return this.icon;
     }
 

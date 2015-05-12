@@ -118,7 +118,7 @@ public class AttachmentTask implements
         // Gets the width and height of the provided ImageView
         mTargetWidth = photoView.getWidth();
         mTargetHeight = photoView.getHeight();
-        context =  photoView.getContext();
+        context = photoView.getContext();
 
     }
 
@@ -177,7 +177,7 @@ public class AttachmentTask implements
         //This is just an extra check yo avoid NPE ..but it should not come.
         if (message == null) {
             return null;
-        } else if (message.isAttachmentUploadInProgress()|| message.getFileMetas()==null) {
+        } else if (message.isAttachmentUploadInProgress() || message.getFileMetas() == null) {
             //This block is written to handle the case when image upload is in progreass
             String filePath = message.getFilePaths().get(0);
             final String mimeType = FileUtils.getMimeType(filePath);
@@ -218,7 +218,7 @@ public class AttachmentTask implements
 
     // Returns the ImageView that's being constructed.
     public AttachmentView getPhotoView() {
-        if ( null != mImageWeakRef ) {
+        if (null != mImageWeakRef) {
             return mImageWeakRef.get();
         }
         return null;
@@ -231,7 +231,7 @@ public class AttachmentTask implements
      * changed by processes outside of this app.
      */
     public Thread getCurrentThread() {
-        synchronized(sPhotoManager) {
+        synchronized (sPhotoManager) {
             return mCurrentThread;
         }
     }
@@ -241,15 +241,15 @@ public class AttachmentTask implements
      * notes for getCurrentThread()
      */
     public void setCurrentThread(Thread thread) {
-        synchronized(sPhotoManager) {
+        synchronized (sPhotoManager) {
             mCurrentThread = thread;
         }
     }
 
     @Override
     public String getLocalPath() {
-        if(getPhotoView()==null){
-            Log.e("AttachmentTask","@@@photoView ia coming as null.." + getMessage().getKeyString());
+        if (getPhotoView() == null) {
+            Log.e("AttachmentTask", "@@@photoView ia coming as null.." + getMessage().getKeyString());
             return null;
         }
         return getPhotoView().getLocalPath();
@@ -271,7 +271,7 @@ public class AttachmentTask implements
         int outState;
 
         // Converts the download state to the overall state
-        switch(state) {
+        switch (state) {
             case AttachmentDownloader.HTTP_STATE_COMPLETED:
                 outState = AttachmentManager.DOWNLOAD_COMPLETE;
                 sPhotoManager.attachmentInProgress.remove(getMessage().getKeyString());
@@ -312,7 +312,7 @@ public class AttachmentTask implements
         int outState;
 
         // Converts the decode state to the overall state.
-        switch(state) {
+        switch (state) {
             case PhotoDecodeRunnable.DECODE_STATE_COMPLETED:
                 outState = AttachmentManager.TASK_COMPLETE;
                 break;
@@ -328,7 +328,7 @@ public class AttachmentTask implements
         handleState(outState);
     }
 
-    public Message getMessageDetail(){
+    public Message getMessageDetail() {
         return null;
     }
 }

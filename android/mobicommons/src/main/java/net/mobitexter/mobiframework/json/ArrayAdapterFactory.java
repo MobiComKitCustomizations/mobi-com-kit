@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ArrayAdapterFactory implements TypeAdapterFactory {
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public <T> TypeAdapter<T> create(final Gson gson, final TypeToken<T> type) {
 

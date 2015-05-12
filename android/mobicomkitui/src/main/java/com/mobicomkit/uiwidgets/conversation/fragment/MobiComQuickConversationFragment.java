@@ -309,7 +309,7 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
                 }
             } else if (!messageList.isEmpty()) {
                 listIndex = firstVisibleItem;
-                Long createdAt = messageList.isEmpty() ? null : messageList.get(messageList.size() -1).getCreatedAtTime();
+                Long createdAt = messageList.isEmpty() ? null : messageList.get(messageList.size() - 1).getCreatedAtTime();
                 minCreatedAtTime = (minCreatedAtTime == null ? createdAt : Math.min(minCreatedAtTime, createdAt));
                 nextMessageList = conversationService.getLatestMessagesGroupByPeople(minCreatedAtTime);
             }
@@ -351,7 +351,7 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
             }
             spinner.setVisibility(View.GONE);
             String errorMessage = getResources().getString(R.string.internet_connection_not_available);
-            Utils.isNetworkAvailable(getActivity(),errorMessage);
+            Utils.isNetworkAvailable(getActivity(), errorMessage);
             loadMore = !nextMessageList.isEmpty();
 
             if (context != null && showInstruction) {

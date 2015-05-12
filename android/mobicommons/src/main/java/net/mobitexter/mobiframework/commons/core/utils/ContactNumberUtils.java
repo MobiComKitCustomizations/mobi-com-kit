@@ -7,7 +7,6 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
 /**
- *
  * @author devashish
  */
 public class ContactNumberUtils {
@@ -37,7 +36,7 @@ public class ContactNumberUtils {
         } catch (Exception ex) {
             try {
                 contactNumber = Long.parseLong(number);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 return number;
             }
         } finally {
