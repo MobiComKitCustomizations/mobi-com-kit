@@ -307,23 +307,27 @@ public class MessageClientService extends MobiComKitClientService {
     }
 
     public String deleteMessage(Message message) {
-        return HttpRequestUtils.getResponse(credentials, MobiComKitServer.MESSAGE_DELETE_URL + "?key=" + message.getKeyString(), "text/plain", "text/plain");
+        return deleteMessage(message.getKeyString());
     }
 
-    public void updateSmsDeliveryReport(final Message sms, final String contactNumber) throws Exception {
-        sms.setDelivered(Boolean.TRUE);
-        messageDatabaseService.updateMessageDeliveryReport(sms.getKeyString(), contactNumber);
+    public String deleteMessage(String keyString) {
+        return HttpRequestUtils.getResponse(credentials, MobiComKitServer.MESSAGE_DELETE_URL + "?key=" + keyString, "text/plain", "text/plain");
+    }
 
-        BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.MESSAGE_DELIVERY.toString(), sms);
+    public void updateMessageDeliveryReport(final Message message, final String contactNumber) throws Exception {
+        message.setDelivered(Boolean.TRUE);
+        messageDatabaseService.updateMessageDeliveryReport(message.getKeyString(), contactNumber);
+
+        BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.MESSAGE_DELIVERY.toString(), message);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                updateDeliveryStatus(sms, contactNumber, MobiComUserPreference.getInstance(context).getCountryCode());
+                updateDeliveryStatus(message, contactNumber, MobiComUserPreference.getInstance(context).getCountryCode());
             }
         }).start();
 
         if (MobiComUserPreference.getInstance(context).isWebHookEnable()) {
-            processWebHook(sms);
+            processWebHook(message);
         }
     }
 
