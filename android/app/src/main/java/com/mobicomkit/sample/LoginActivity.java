@@ -45,6 +45,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     // UI references.
     private AutoCompleteTextView mEmailView;
+    private EditText mPhoneNumberView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -58,6 +59,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
+        mPhoneNumberView = (EditText) findViewById(R.id.phoneNumber);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -109,11 +111,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
+        String phoneNumber = mPhoneNumberView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
-
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
@@ -141,7 +143,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password, phoneNumber);
             mAuthTask.execute((Void) null);
         }
     }
@@ -283,16 +285,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         private final String mEmail;
         private final String mPassword;
+        private final String mPhoneNumber;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, String phoneNumber) {
             mEmail = email;
             mPassword = password;
+            mPhoneNumber = phoneNumber;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                new RegisterUserClientService(LoginActivity.this).createAccount(mEmail, mEmail, "", "");
+                new RegisterUserClientService(LoginActivity.this).createAccount(mEmail, mEmail, mPhoneNumber, "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
