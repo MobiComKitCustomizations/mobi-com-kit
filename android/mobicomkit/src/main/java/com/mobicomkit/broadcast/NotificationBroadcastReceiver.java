@@ -12,7 +12,6 @@ import com.mobicomkit.api.MobiComKitConstants;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.api.conversation.MessageIntentService;
-import com.mobicomkit.api.conversation.MobiComConversationService;
 import com.mobicomkit.api.notification.WearableNotificationWithVoice;
 
 import net.mobitexter.mobiframework.json.GsonUtils;

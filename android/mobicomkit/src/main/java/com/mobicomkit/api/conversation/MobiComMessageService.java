@@ -132,7 +132,6 @@ public class MobiComMessageService {
                 }
 
                 MessageClientService.recentProcessedMessage.add(message);
-                BroadcastService.sendNotificationBroadcast(context,message);
                 BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString(), message);
                 messageDatabaseService.createMessage(message);
             }
