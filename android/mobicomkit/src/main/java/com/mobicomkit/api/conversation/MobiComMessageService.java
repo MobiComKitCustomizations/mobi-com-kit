@@ -99,8 +99,8 @@ public class MobiComMessageService {
         BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString(), message);
         //Todo: use email if contact number is empty
         BroadcastService.sendNotificationBroadcast(context, message);
-        Log.i(TAG, "Updating delivery status: " + message.getPairedMessageKeyString() + ", " + userPreferences.getContactNumber());
-        messageClientService.updateDeliveryStatus(message.getPairedMessageKeyString(), userPreferences.getContactNumber());
+        Log.i(TAG, "Updating delivery status: " + message.getPairedMessageKeyString() + ", " + userPreferences.getUserId() + ", " + userPreferences.getContactNumber());
+        messageClientService.updateDeliveryStatus(message.getPairedMessageKeyString(), userPreferences.getUserId(), userPreferences.getContactNumber());
         return contact;
     }
 
@@ -195,7 +195,7 @@ public class MobiComMessageService {
             } catch (Exception ex) {
                 Log.i(TAG, "Received Sms error " + ex.getMessage());
             }
-            messageClientService.updateDeliveryStatus(smsKeyString, receiverNumber);
+            messageClientService.updateDeliveryStatus(smsKeyString, null, receiverNumber);
         } catch (JSONException e) {
             e.printStackTrace();
             return;

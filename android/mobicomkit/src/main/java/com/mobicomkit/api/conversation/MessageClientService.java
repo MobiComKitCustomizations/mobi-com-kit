@@ -65,14 +65,14 @@ public class MessageClientService extends MobiComKitClientService {
         return null;
     }
 
-    public static void updateDeliveryStatus(String messageKeyString, String receiverNumber) {
+    public static void updateDeliveryStatus(String messageKeyString, String userId, String receiverNumber) {
         try {
             //Note: messageKeyString comes as null for the welcome message as it is inserted directly.
             if (TextUtils.isEmpty(messageKeyString)) {
                 return;
             }
             HttpRequestUtils.getStringFromUrl(MobiComKitServer.MTEXT_DELIVERY_URL + "smsKeyString=" + messageKeyString
-                    + "&contactNumber=" + URLEncoder.encode(receiverNumber, "UTF-8"));
+                    + "&userId=" + userId + "&contactNumber=" + URLEncoder.encode(receiverNumber, "UTF-8"));
         } catch (Exception ex) {
             Log.e(TAG, "Exception while updating delivery report for MT message", ex);
         }
