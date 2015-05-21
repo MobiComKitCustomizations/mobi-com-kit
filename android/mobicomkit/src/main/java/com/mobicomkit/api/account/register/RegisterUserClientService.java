@@ -63,20 +63,10 @@ public class RegisterUserClientService extends MobiComKitClientService {
         user.setContactNumber(ContactNumberUtils.getPhoneNumber(phoneNumber, mobiComUserPreference.getCountryCode()));
 
         return createAccount(user);
-        /*
-        user.setRegistrationId(registrationId);
-        String countryCode = usrpref.getCountryCode();
-        if (countryCode != null && !countryCode.equals("")) {
-            user.setCountryCode(countryCode);
-            user.setPrefContactAPI(Short.valueOf("1"));
-        } else {
-            user.setPrefContactAPI(Short.valueOf("0"));
-        }
-        if (!TextUtils.isEmpty(password)) {
-            user.setPassword(password);
-        }
-        user.setEmailVerified(usrpref.isEmailVerified());
-        user.setTimezone(TimeZone.getDefault().getID());
-        user.setRoleName(userType);*/
+    }
+
+    public void updatePushNotificationId(final String pushNotificationId) throws Exception {
+        MobiComUserPreference pref = MobiComUserPreference.getInstance(context);
+        createAccount(pref.getEmailIdValue(),pref.getEmailIdValue(), pref.getContactNumber(), pushNotificationId);
     }
 }

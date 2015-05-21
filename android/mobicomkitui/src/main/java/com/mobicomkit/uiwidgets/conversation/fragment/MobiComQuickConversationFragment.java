@@ -180,7 +180,6 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
                 checkForEmptyConversations();
             }
         });
-
     }
 
     public void removeConversation(final Contact contact) {
