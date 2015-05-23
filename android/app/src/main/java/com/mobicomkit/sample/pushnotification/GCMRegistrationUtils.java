@@ -30,11 +30,12 @@ public class GCMRegistrationUtils extends Handler {
 	public void handleMessage(final Message msg) {
 		super.handleMessage(msg);
 		if (msg.what == 1) {
+			final String pushnotificationId = msg.obj.toString();
 			new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        new RegisterUserClientService(mActivity).updatePushNotificationId(msg.obj.toString());
+                        new RegisterUserClientService(mActivity).updatePushNotificationId(pushnotificationId);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
