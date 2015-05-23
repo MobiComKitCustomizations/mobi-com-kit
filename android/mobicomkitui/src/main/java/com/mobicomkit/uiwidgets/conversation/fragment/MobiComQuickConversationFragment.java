@@ -213,10 +213,13 @@ abstract public class MobiComQuickConversationFragment extends Fragment {
     public void onPause() {
         super.onPause();
         listIndex = listView.getFirstVisiblePosition();
+        BroadcastService.currentUserId =null;
     }
 
     @Override
     public void onResume() {
+        //Assigning to avoid notification in case if quick conversation fragment is opened....
+        BroadcastService.currentUserId ="quick-conversation";
         super.onResume();
         if (listView != null) {
             if (listView.getCount() > listIndex) {
