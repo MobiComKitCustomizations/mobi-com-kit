@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -46,6 +47,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.azuga.framework.ui.UIService;
+import com.azuga.smartfleet.BaseFragment;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.attachment.FileMeta;
 import com.mobicomkit.api.conversation.Message;
@@ -61,6 +64,7 @@ import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
 import com.mobicomkit.uiwidgets.conversation.activity.SpinnerNavItem;
 import com.mobicomkit.uiwidgets.conversation.adapter.ConversationAdapter;
 import com.mobicomkit.uiwidgets.conversation.adapter.TitleNavigationAdapter;
+import com.mobicomkit.uiwidgets.conversation.fragment.MultimediaOptionFragment;
 import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 import com.mobicomkit.uiwidgets.schedule.ConversationScheduler;
 import com.mobicomkit.uiwidgets.schedule.ScheduledTimeHolder;
@@ -81,7 +85,7 @@ import java.util.Timer;
 /**
  * Created by devashish on 10/2/15.
  */
-abstract public class MobiComConversationFragment extends Fragment implements View.OnClickListener {
+public class MobiComConversationFragment extends BaseFragment implements View.OnClickListener {
 
     //Todo: Increase the file size limit
     public static final int MAX_ALLOWED_FILE_SIZE = 5 * 1024 * 1024;
@@ -411,7 +415,9 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
         });
     }
 
-    protected abstract void processMobiTexterUserCheck();
+    protected void processMobiTexterUserCheck() {
+
+    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view,
@@ -537,7 +543,9 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
 
     }
 
-    abstract public void attachLocation(Location mCurrentLocation);
+    public void attachLocation(Location mCurrentLocation) {
+
+    }
 
     public void updateDeliveryStatus(final Message message) {
         this.getActivity().runOnUiThread(new Runnable() {
@@ -794,15 +802,16 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
 
     public void updateTitle() {
         String title = null;
-        if (!((MobiComActivity) getActivity()).getSlidingPaneLayout().isOpen()) {
+       /*if (!((MobiComActivity) getActivity()).getSlidingPaneLayout().isOpen()) {
             if (contact != null) {
                 title = TextUtils.isEmpty(contact.getFullName()) ? contact.getContactNumber() : contact.getFullName();
             } else if (group != null) {
                 title = group.getName();
             }
-        }
+        }*/
         if (title != null) {
-            ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(title);
+            //((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(title);
+            UIService.getInstance().setTitle(title);
         }
     }
 
@@ -850,12 +859,12 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
             activity.setAdapter(adapter);
 
             // assigning the spinner navigation
-            ((ActionBarActivity) getActivity()).getSupportActionBar().setListNavigationCallbacks(adapter, activity);
+           /* ((ActionBarActivity) getActivity()).getSupportActionBar().setListNavigationCallbacks(adapter, activity);
             ((ActionBarActivity) getActivity()).getSupportActionBar().setNavigationMode(!activity.getSlidingPaneLayout().isOpen() ? ActionBar.NAVIGATION_MODE_LIST : ActionBar.NAVIGATION_MODE_STANDARD);
-            ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(activity.getSlidingPaneLayout().isOpen());
+            ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(activity.getSlidingPaneLayout().isOpen());*/
         } else {
-            ((ActionBarActivity) getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-            ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+           /* ((ActionBarActivity) getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+            ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true); */
         }
     }
 
@@ -905,7 +914,8 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
         } else if (group != null) {
             loadConversation(group);
         } else {
-            ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(title);
+            //((FragmentActivity) getActivity()).getSupportActionBar().setTitle(title);
+            UIService.getInstance().setTitle(title);
         }
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             public void onRefresh() {
@@ -913,6 +923,21 @@ abstract public class MobiComConversationFragment extends Fragment implements Vi
                 downloadConversation.execute();
             }
         });
+    }
+
+    @Override
+    public String getFlurryEventTag() {
+        return null;
+    }
+
+    @Override
+    protected String getFragmentDisplayName() {
+        return null;
+    }
+
+    @Override
+    public void refreshData() {
+
     }
 
     public void selfDestructMessage(Message sms) {

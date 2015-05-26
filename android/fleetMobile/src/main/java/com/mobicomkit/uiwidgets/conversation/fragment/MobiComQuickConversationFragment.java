@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.azuga.smartfleet.BaseFragment;
 import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.api.conversation.MessageIntentService;
 import com.mobicomkit.api.conversation.MobiComConversationService;
@@ -39,7 +40,7 @@ import java.util.Map;
 /**
  * Created by devashish on 10/2/15.
  */
-public class MobiComQuickConversationFragment extends Fragment {
+public class MobiComQuickConversationFragment extends BaseFragment {
 
     public static final String QUICK_CONVERSATION_EVENT = "quick_conversation";
     protected MobiComConversationService conversationService;
@@ -222,13 +223,10 @@ public class MobiComQuickConversationFragment extends Fragment {
     public void onPause() {
         super.onPause();
         listIndex = listView.getFirstVisiblePosition();
-        BroadcastService.currentUserId =null;
     }
 
     @Override
     public void onResume() {
-        //Assigning to avoid notification in case if quick conversation fragment is opened....
-        BroadcastService.currentUserId ="quick-conversation";
         super.onResume();
         if (listView != null) {
             if (listView.getCount() > listIndex) {
@@ -238,8 +236,25 @@ public class MobiComQuickConversationFragment extends Fragment {
             }
         }
         downloadConversations();
+        /*
+        Todo: set based on azuga code base.
         ((ActionBarActivity) getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);*/
+    }
+
+    @Override
+    public String getFlurryEventTag() {
+        return null;
+    }
+
+    @Override
+    protected String getFragmentDisplayName() {
+        return null;
+    }
+
+    @Override
+    public void refreshData() {
+
     }
 
     @Override

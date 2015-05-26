@@ -50,7 +50,9 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
         MobiComUserPreference userPreferences = MobiComUserPreference.getInstance(context);
         String formattedContactNumber = "";
         if (message != null && !conversationFragment.isBroadcastedToGroup(message.getBroadcastGroupId()) && !message.isSentToMany()) {
-            quickConversationFragment.addMessage(message);
+            /*Todo: update the quick conversation fragment on resume, commented because now it is not a sliding pane activity and
+            quickconversationfragment is not activity.
+            quickConversationFragment.addMessage(message);*/
             formattedContactNumber = ContactNumberUtils.getPhoneNumber(message.getTo(), userPreferences.getCountryCode());
         } else if (message != null && message.isSentToMany() && BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString().equals(intent.getAction())) {
             for (String toField : message.getTo().split(",")) {

@@ -65,7 +65,8 @@ public class SlidingPaneActivity extends MobiComActivity {
 
         setContentView(R.layout.sliding_pane);
 
-        mActionBar = getSupportActionBar();
+        //mActionBar = getSupportAgectionBar();
+
         slidingPaneLayout = (SlidingPaneLayout) findViewById(R.id.sliding_pane_layout);
 
         slidingPaneLayout.setPanelSlideListener(new SliderListener());

@@ -38,6 +38,7 @@ import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.uiwidgets.conversation.activity.FullScreenImageActivity;
 import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
+import com.mobicomkit.uiwidgets.conversation.activity.MobiComKitActivityInterface;
 import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 
 import net.mobitexter.mobiframework.alphanumbericcolor.AlphaNumberColorUtil;
@@ -275,7 +276,7 @@ public class ConversationAdapter extends ArrayAdapter<Message> {
             if (message.isCall()) {
                 deliveryStatus.setText("");
             } else if (message.getType().equals(Message.MessageType.MT_OUTBOX.getValue()) || message.getType().equals(Message.MessageType.MT_INBOX.getValue())) {
-                deliveryStatus.setText("via MT");
+                //deliveryStatus.setText("via MT");
             } else {
                 deliveryStatus.setText("via Carrier");
             }
@@ -489,7 +490,7 @@ public class ConversationAdapter extends ArrayAdapter<Message> {
                 @Override
                 public void onClick(View view) {
                     InstructionUtil.hideInstruction(context, R.string.instruction_open_conversation_thread);
-                    ((MobiComActivity) context).onQuickConversationFragmentItemClick(view, contactReceiver);
+                    ((MobiComKitActivityInterface) context).onQuickConversationFragmentItemClick(view, contactReceiver);
                 }
             });
         }

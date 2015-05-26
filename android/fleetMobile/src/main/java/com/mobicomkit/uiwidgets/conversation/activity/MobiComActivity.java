@@ -6,11 +6,12 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import com.azuga.framework.ui.UIService;
 import com.mobicomkit.api.MobiComKitConstants;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.conversation.Message;
@@ -27,10 +29,14 @@ import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.uiwidgets.conversation.MessageCommunicator;
 import com.mobicomkit.uiwidgets.conversation.MobiComKitBroadcastReceiver;
+import com.mobicomkit.uiwidgets.conversation.activity.MobiComKitActivityInterface;
+import com.mobicomkit.uiwidgets.conversation.activity.SpinnerNavItem;
 import com.mobicomkit.uiwidgets.conversation.adapter.TitleNavigationAdapter;
+import com.mobicomkit.uiwidgets.conversation.fragment.ConversationFragment;
 import com.mobicomkit.uiwidgets.conversation.fragment.MobiComConversationFragment;
 import com.mobicomkit.uiwidgets.conversation.fragment.MobiComQuickConversationFragment;
 import com.mobicomkit.uiwidgets.conversation.fragment.MultimediaOptionFragment;
+import com.mobicomkit.uiwidgets.conversation.fragment.QuickConversationFragment;
 import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
@@ -49,7 +55,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 
-abstract public class MobiComActivity extends ActionBarActivity implements ActionBar.OnNavigationListener,
+abstract public class MobiComActivity extends FragmentActivity implements ActionBar.OnNavigationListener,
         MessageCommunicator, MobiComKitActivityInterface {
 
     public static final int REQUEST_CODE_FULL_SCREEN_ACTION = 301;
@@ -76,13 +82,20 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
     protected TitleNavigationAdapter adapter;
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        quickConversationFragment = new QuickConversationFragment();
+        conversationFragment = new ConversationFragment();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         InstructionUtil.enabled = true;
         mobiTexterBroadcastReceiverActivated = Boolean.TRUE;
-        if (slidingPaneLayout.isOpen()) {
+        /*if (slidingPaneLayout.isOpen()) {
             mActionBar.setTitle(title);
-        }
+        }*/
         registerMobiTexterBroadcastReceiver();
     }
 
@@ -96,12 +109,12 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (!slidingPaneLayout.isOpen()) {
+        /*if (!slidingPaneLayout.isOpen()) {
             menu.removeItem(R.id.start_new);
         } else {
             menu.removeItem(R.id.dial);
             menu.removeItem(R.id.deleteConversation);
-        }
+        }*/
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -124,7 +137,8 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-
+        System.out.println("####requestCode: " + requestCode);
+        System.out.println("####resultCode: " + resultCode);
         if ((requestCode == MultimediaOptionFragment.REQUEST_CODE_ATTACH_PHOTO ||
                 requestCode == MultimediaOptionFragment.REQUEST_CODE_TAKE_PHOTO)
                 && resultCode == RESULT_OK) {
@@ -159,7 +173,6 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
 
     public abstract void startContactActivityForResult(Message message, String messageContent);
 
-    @Override
     public void onQuickConversationFragmentItemClick(View view, Contact contact) {
         TextView textView = (TextView) view.findViewById(R.id.unreadSmsCount);
         textView.setVisibility(View.GONE);
@@ -167,14 +180,15 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
     }
 
     public void openConversationFragment(Contact contact) {
-        slidingPaneLayout.closePane();
+        /*slidingPaneLayout.closePane();*/
         InstructionUtil.hideInstruction(this, R.string.info_message_sync);
         InstructionUtil.hideInstruction(this, R.string.instruction_open_conversation_thread);
+        UIService.getInstance().addFragment(conversationFragment);
         conversationFragment.loadConversation(contact);
     }
 
     public void openConversationFragment(Group group) {
-        slidingPaneLayout.closePane();
+        /*slidingPaneLayout.closePane();*/
         conversationFragment.loadConversation(group);
     }
 
@@ -183,8 +197,8 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
             InstructionUtil.hideInstruction(this, R.string.instruction_go_back_to_recent_conversation_list);
         }
         Utils.toggleSoftKeyBoard(MobiComActivity.this, true);
-        conversationFragment.setHasOptionsMenu(!slidingPaneLayout.isSlideable());
-        quickConversationFragment.setHasOptionsMenu(slidingPaneLayout.isSlideable());
+       /* conversationFragment.setHasOptionsMenu(!slidingPaneLayout.isSlideable());
+        quickConversationFragment.setHasOptionsMenu(slidingPaneLayout.isSlideable()); */
         mActionBar.setHomeButtonEnabled(false);
         mActionBar.setDisplayHomeAsUpEnabled(HOME_BUTTON_ENABLED);
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -393,10 +407,10 @@ abstract public class MobiComActivity extends ActionBarActivity implements Actio
             conversationFragment.emoticonsFrameLayout.setVisibility(View.GONE);
             return;
         }
-        if (!slidingPaneLayout.isOpen()) {
+        /*if (!slidingPaneLayout.isOpen()) {
             slidingPaneLayout.openPane();
             return;
-        }
+        }*/
         super.onBackPressed();
         this.finish();
     }
