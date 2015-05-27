@@ -25,6 +25,7 @@ import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.uiwidgets.conversation.ConversationListView;
 import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
+import com.mobicomkit.uiwidgets.conversation.activity.MobiComKitActivityInterface;
 import com.mobicomkit.uiwidgets.conversation.adapter.ConversationAdapter;
 import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 import com.shamanland.fab.FloatingActionButton;
@@ -105,7 +106,7 @@ public class MobiComQuickConversationFragment extends BaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MobiComActivity) getActivity()).startContactActivityForResult();
+                ((MobiComKitActivityInterface) getActivity()).startContactActivityForResult();
             }
         };
     }
@@ -260,8 +261,6 @@ public class MobiComQuickConversationFragment extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        //FlurryAgent.logEvent(QUICK_CONVERSATION_EVENT);
         listView.setAdapter(conversationAdapter);
         startNewButton.setOnClickListener(startNewConversation());
         fabButton.setOnClickListener(startNewConversation());

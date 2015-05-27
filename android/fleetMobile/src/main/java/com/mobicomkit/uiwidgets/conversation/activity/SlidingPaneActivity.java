@@ -156,7 +156,6 @@ public class SlidingPaneActivity extends MobiComActivity {
     public void startContactActivityForResult(Message message, String messageContent) {
         Intent intent = new Intent(this, MobiComKitPeopleActivity.class);
         super.startContactActivityForResult(intent, message, messageContent);
-
     }
 
     @Override

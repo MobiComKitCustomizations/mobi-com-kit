@@ -137,8 +137,6 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        System.out.println("####requestCode: " + requestCode);
-        System.out.println("####resultCode: " + resultCode);
         if ((requestCode == MultimediaOptionFragment.REQUEST_CODE_ATTACH_PHOTO ||
                 requestCode == MultimediaOptionFragment.REQUEST_CODE_TAKE_PHOTO)
                 && resultCode == RESULT_OK) {
@@ -155,6 +153,12 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
             conversationFragment.loadFile(selectedFileUri);
 
             Log.i(TAG, "File uri: " + selectedFileUri);
+        }
+
+        if (requestCode == REQUEST_CODE_CONTACT_GROUP_SELECTION) {
+            if (resultCode == RESULT_OK) {
+                checkForStartNewConversation(intent);
+            }
         }
     }
 
@@ -188,7 +192,7 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     }
 
     public void openConversationFragment(Group group) {
-        /*slidingPaneLayout.closePane();*/
+        UIService.getInstance().addFragment(conversationFragment);
         conversationFragment.loadConversation(group);
     }
 
