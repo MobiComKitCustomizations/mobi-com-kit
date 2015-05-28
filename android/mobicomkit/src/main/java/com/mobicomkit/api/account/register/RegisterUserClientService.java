@@ -33,6 +33,8 @@ public class RegisterUserClientService extends MobiComKitClientService {
         user.setAppVersionCode(MobiComKitServer.MOBICOMKIT_VERSION_CODE);
         user.setApplicationId(MobiComKitServer.APPLICATION_KEY_HEADER_VALUE);
         user.setRegistrationId(mobiComUserPreference.getDeviceRegistrationId());
+
+        Log.i(TAG, "Sending push notification id: " + mobiComUserPreference.getDeviceRegistrationId());
         String response = HttpRequestUtils.postJsonToServer(MobiComKitServer.CREATE_ACCOUNT_URL, gson.toJson(user));
 
         Log.i(TAG, "Registration response is: " + response);
@@ -71,9 +73,12 @@ public class RegisterUserClientService extends MobiComKitClientService {
     public void updatePushNotificationId(final String pushNotificationId) throws Exception {
         MobiComUserPreference pref = MobiComUserPreference.getInstance(context);
         //Note: In case if gcm registration is done before login then only updating in pref
-        if (TextUtils.isEmpty(pref.getEmailIdValue()) && TextUtils.isEmpty(pref.getUserId())) {
+
+        if (!TextUtils.isEmpty(pushNotificationId)) {
             pref.setDeviceRegistrationId(pushNotificationId);
-        } else {
+        }
+
+        if (pref.isRegistered()) {
             createAccount(pref.getEmailIdValue(), pref.getUserId(), pref.getContactNumber(), pushNotificationId);
         }
     }

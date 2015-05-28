@@ -277,6 +277,7 @@ public class ConversationAdapter extends ArrayAdapter<Message> {
                 deliveryStatus.setText("");
             } else if (message.getType().equals(Message.MessageType.MT_OUTBOX.getValue()) || message.getType().equals(Message.MessageType.MT_INBOX.getValue())) {
                 //deliveryStatus.setText("via MT");
+                deliveryStatus.setText("");
             } else {
                 deliveryStatus.setText("via Carrier");
             }
