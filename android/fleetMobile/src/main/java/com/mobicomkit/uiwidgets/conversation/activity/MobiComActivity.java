@@ -1,16 +1,12 @@
 package com.mobicomkit.uiwidgets.conversation.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
-import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.ActionBar;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
@@ -37,7 +33,6 @@ import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
 import net.mobitexter.mobiframework.commons.core.utils.Support;
-import net.mobitexter.mobiframework.commons.core.utils.Utils;
 import net.mobitexter.mobiframework.commons.image.ImageUtils;
 import net.mobitexter.mobiframework.file.FilePathFinder;
 import net.mobitexter.mobiframework.json.GsonUtils;
@@ -47,7 +42,6 @@ import net.mobitexter.mobiframework.people.contact.ContactUtils;
 import net.mobitexter.mobiframework.people.group.Group;
 import net.mobitexter.mobiframework.people.group.GroupUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 
@@ -86,7 +80,6 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     public ConversationFragment getConversationFragment() {
         return (ConversationFragment) UIService.getInstance().getActiveFragment();
     }
-
 
     @Override
     protected void onResume() {
@@ -195,20 +188,7 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     }
 
     protected void registerMobiTexterBroadcastReceiver() {
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BroadcastService.INTENT_ACTIONS.FIRST_TIME_SYNC_COMPLETE.toString());
-        intentFilter.addAction(BroadcastService.INTENT_ACTIONS.LOAD_MORE.toString());
-        intentFilter.addAction(BroadcastService.INTENT_ACTIONS.MESSAGE_SYNC_ACK_FROM_SERVER.toString());
-        intentFilter.addAction(BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString());
-        intentFilter.addAction(BroadcastService.INTENT_ACTIONS.DELETE_MESSAGE.toString());
-        intentFilter.addAction(BroadcastService.INTENT_ACTIONS.DELETE_CONVERSATION.toString());
-        intentFilter.addAction(BroadcastService.INTENT_ACTIONS.MESSAGE_DELIVERY.toString());
-        intentFilter.addAction(BroadcastService.INTENT_ACTIONS.UPLOAD_ATTACHMENT_FAILED.toString());
-        intentFilter.addAction(BroadcastService.INTENT_ACTIONS.MESSAGE_ATTACHMENT_DOWNLOAD_DONE.toString());
-        intentFilter.addAction(BroadcastService.INTENT_ACTIONS.INSTRUCTION.toString());
-
-        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
-        registerReceiver(mobiComKitBroadcastReceiver, intentFilter);
+        registerReceiver(mobiComKitBroadcastReceiver, BroadcastService.getIntentFilter());
     }
 
     //Note: Workaround for LGE device bug: https://github.com/adarshmishra/MobiTexter/issues/374
