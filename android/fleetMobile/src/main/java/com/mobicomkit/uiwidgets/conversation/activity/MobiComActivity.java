@@ -145,7 +145,7 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
 
             if (selectedFileUri == null) {
                 Bitmap photo = (Bitmap) intent.getExtras().get("data");
-                selectedFileUri = getImageUri(getApplicationContext(), photo);
+                selectedFileUri = ImageUtils.getImageUri(getApplicationContext(), photo);
             }
             getConversationFragment().loadFile(selectedFileUri);
 
@@ -367,13 +367,6 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
 
         super.onBackPressed();
         this.finish();
-    }
-
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
     }
 
     public void addMessage(Message message) {
