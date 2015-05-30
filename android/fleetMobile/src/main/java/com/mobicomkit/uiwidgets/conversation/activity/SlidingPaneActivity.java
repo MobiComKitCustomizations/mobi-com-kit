@@ -47,6 +47,8 @@ public class SlidingPaneActivity extends MobiComActivity {
     protected GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
     private ProgressDialog resProgressBar;
+    private MobiComQuickConversationFragment quickConversationFragment;
+    private ConversationFragment conversationFragment;
 
     @Override
     protected void onStop() {

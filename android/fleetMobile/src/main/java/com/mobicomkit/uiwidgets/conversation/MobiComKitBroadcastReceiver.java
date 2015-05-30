@@ -3,7 +3,6 @@ package com.mobicomkit.uiwidgets.conversation;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -29,12 +28,14 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
 
     private static final String TAG = "MTBroadcastReceiver";
 
-    private MobiComQuickConversationFragment quickConversationFragment;
-    private MobiComConversationFragment conversationFragment;
+    private MobiComActivity activity;
+
+    public MobiComKitBroadcastReceiver(MobiComActivity activity) {
+        this.activity = activity;
+    }
 
     public MobiComKitBroadcastReceiver(MobiComQuickConversationFragment quickConversationFragment, MobiComConversationFragment conversationFragment) {
-        this.quickConversationFragment = quickConversationFragment;
-        this.conversationFragment = conversationFragment;
+
     }
 
     @Override
@@ -49,11 +50,10 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
 
         MobiComUserPreference userPreferences = MobiComUserPreference.getInstance(context);
         String formattedContactNumber = "";
-        if (message != null && !conversationFragment.isBroadcastedToGroup(message.getBroadcastGroupId()) && !message.isSentToMany()) {
+        if (message != null && !message.isSentToMany()) {
             /*Todo: update the quick conversation fragment on resume, commented because now it is not a sliding pane activity and
             quickconversationfragment is not activity.*/
-            quickConversationFragment.addMessage(message);
-            //QuickConversationFragment.getInstance().addMessage(message);
+            activity.addMessage(message);
             formattedContactNumber = ContactNumberUtils.getPhoneNumber(message.getTo(), userPreferences.getCountryCode());
         } else if (message != null && message.isSentToMany() && BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString().equals(intent.getAction())) {
             for (String toField : message.getTo().split(",")) {
@@ -62,7 +62,7 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
                 singleMessage.setKeyString(message.getKeyString());
                 singleMessage.setTo(toField);
                 singleMessage.processContactIds(context);
-                quickConversationFragment.addMessage(singleMessage);
+                activity.addMessage(message);
             }
         }
 
@@ -71,44 +71,26 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
         if (BroadcastService.INTENT_ACTIONS.INSTRUCTION.toString().equals(action)) {
             InstructionUtil.showInstruction(context, intent.getIntExtra("resId", -1), intent.getBooleanExtra("actionable", false), R.color.instruction_color);
         } else if (BroadcastService.INTENT_ACTIONS.FIRST_TIME_SYNC_COMPLETE.toString().equals(action)) {
-            quickConversationFragment.downloadConversations(true);
+            activity.downloadConversations(true);
         } else if (BroadcastService.INTENT_ACTIONS.LOAD_MORE.toString().equals(action)) {
-            quickConversationFragment.setLoadMore(intent.getBooleanExtra("loadMore", true));
+            activity.setLoadMore(intent.getBooleanExtra("loadMore", true));
         } else if (BroadcastService.INTENT_ACTIONS.MESSAGE_SYNC_ACK_FROM_SERVER.toString().equals(action)) {
-            if (formattedContactNumber.equals(conversationFragment.getFormattedContactNumber()) ||
-                    conversationFragment.isBroadcastedToGroup(message.getBroadcastGroupId())) {
-                conversationFragment.updateMessageKeyString(message);
-            }
+            activity.updateMessageKeyString(message);
         } else if (BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString().equals(intent.getAction())) {
-            if (formattedContactNumber.equals(conversationFragment.getFormattedContactNumber()) ||
-                    conversationFragment.isBroadcastedToGroup(message.getBroadcastGroupId())) {
-                conversationFragment.addMessage(message);
-            }
-            if (message.getBroadcastGroupId() == null) {
-                quickConversationFragment.updateLastMessage(keyString, formattedContactNumber);
-            }
+            activity.syncMessages(message, keyString);
         } else if (BroadcastService.INTENT_ACTIONS.DELETE_MESSAGE.toString().equals(intent.getAction())) {
             formattedContactNumber = intent.getStringExtra("contactNumbers");
-            if (PhoneNumberUtils.compare(formattedContactNumber, MobiComActivity.currentOpenedContactNumber)) {
-                conversationFragment.deleteMessageFromDeviceList(keyString);
-            } else {
-                //Todo: if it is sent to many and remove from all.
-                quickConversationFragment.updateLastMessage(keyString, formattedContactNumber);
-            }
+           activity.deleteMessage(message, keyString, formattedContactNumber);
         } else if (BroadcastService.INTENT_ACTIONS.MESSAGE_DELIVERY.toString().equals(action)) {
-            if (formattedContactNumber.equals(conversationFragment.getContactIds())) {
-                conversationFragment.updateDeliveryStatus(message);
-            }
+            activity.updateDeliveryStatus(message, formattedContactNumber);
         } else if (BroadcastService.INTENT_ACTIONS.DELETE_CONVERSATION.toString().equals(action)) {
-            //Todo: If conversation fragment is visible then hide it.
             String contactNumber = intent.getStringExtra("contactNumber");
             Contact contact = ContactUtils.getContact(context, contactNumber);
-            conversationFragment.clearList();
-            quickConversationFragment.removeConversation(contact);
+            activity.deleteConversation(contact);
         } else if (BroadcastService.INTENT_ACTIONS.UPLOAD_ATTACHMENT_FAILED.toString().equals(action) && message != null) {
-            conversationFragment.updateUploadFailedStatus(message);
+            activity.updateUploadFailedStatus(message);
         } else if (BroadcastService.INTENT_ACTIONS.MESSAGE_ATTACHMENT_DOWNLOAD_DONE.toString().equals(action) && message != null) {
-            conversationFragment.updateDownloadStatus(message);
+            activity.updateDownloadStatus(message);
         }
     }
 }

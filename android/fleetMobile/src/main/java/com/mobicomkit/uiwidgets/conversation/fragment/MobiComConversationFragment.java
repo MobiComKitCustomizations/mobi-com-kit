@@ -164,8 +164,7 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
         sentIcon = getResources().getDrawable(R.drawable.ic_action_message_sent);
         deliveredIcon = getResources().getDrawable(R.drawable.ic_action_message_delivered);
 
-        if (contact != null && !TextUtils.isEmpty(contact.getContactNumber())) {
-            BroadcastService.currentUserId = contact.getUserId();
+        if (contact != null) {
             loadConversation(contact);
         }
 
@@ -463,6 +462,8 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
         if (downloadConversation != null) {
             downloadConversation.cancel(true);
         }
+
+        BroadcastService.currentUserId = contact.getContactIds();
         /*
         filePath = null;*/
         if (TextUtils.isEmpty(filePath)) {

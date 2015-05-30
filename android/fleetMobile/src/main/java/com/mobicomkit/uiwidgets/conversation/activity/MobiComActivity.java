@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.ActionBar;
+import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -31,7 +32,6 @@ import com.mobicomkit.uiwidgets.conversation.MessageCommunicator;
 import com.mobicomkit.uiwidgets.conversation.MobiComKitBroadcastReceiver;
 import com.mobicomkit.uiwidgets.conversation.adapter.TitleNavigationAdapter;
 import com.mobicomkit.uiwidgets.conversation.fragment.ConversationFragment;
-import com.mobicomkit.uiwidgets.conversation.fragment.MobiComConversationFragment;
 import com.mobicomkit.uiwidgets.conversation.fragment.MobiComQuickConversationFragment;
 import com.mobicomkit.uiwidgets.conversation.fragment.MultimediaOptionFragment;
 import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
@@ -71,8 +71,6 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     protected ActionBar mActionBar;
     protected SlidingPaneLayout slidingPaneLayout;
     protected MobiComKitBroadcastReceiver mobiComKitBroadcastReceiver;
-    protected MobiComQuickConversationFragment quickConversationFragment;
-    protected MobiComConversationFragment conversationFragment;
     // Title navigation Spinner data
     protected ArrayList<SpinnerNavItem> navSpinner;
     // Navigation adapter
@@ -81,9 +79,16 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        quickConversationFragment = new MobiComQuickConversationFragment();
-        conversationFragment = new ConversationFragment();
     }
+
+    public MobiComQuickConversationFragment getQuickConversationFragment() {
+        return (MobiComQuickConversationFragment) UIService.getInstance().getActiveFragment();
+    }
+
+    public ConversationFragment getConversationFragment() {
+        return (ConversationFragment) UIService.getInstance().getActiveFragment();
+    }
+
 
     @Override
     protected void onResume() {
@@ -139,7 +144,7 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
                 && resultCode == RESULT_OK) {
             Uri selectedFileUri = (intent == null ? null : intent.getData());
             if (selectedFileUri == null) {
-                selectedFileUri = conversationFragment.getMultimediaOptionFragment().getCapturedImageUri();
+                selectedFileUri = getConversationFragment().getMultimediaOptionFragment().getCapturedImageUri();
                 ImageUtils.addImageToGallery(FilePathFinder.getPath(this, selectedFileUri), this);
             }
 
@@ -147,7 +152,7 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
                 Bitmap photo = (Bitmap) intent.getExtras().get("data");
                 selectedFileUri = getImageUri(getApplicationContext(), photo);
             }
-            conversationFragment.loadFile(selectedFileUri);
+            getConversationFragment().loadFile(selectedFileUri);
 
             Log.i(TAG, "File uri: " + selectedFileUri);
         }
@@ -184,11 +189,13 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
         /*slidingPaneLayout.closePane();*/
         InstructionUtil.hideInstruction(this, R.string.info_message_sync);
         InstructionUtil.hideInstruction(this, R.string.instruction_open_conversation_thread);
+        ConversationFragment conversationFragment = new ConversationFragment();
         UIService.getInstance().addFragment(conversationFragment);
         conversationFragment.loadConversation(contact);
     }
 
     public void openConversationFragment(Group group) {
+        ConversationFragment conversationFragment = new ConversationFragment();
         UIService.getInstance().addFragment(conversationFragment);
         conversationFragment.loadConversation(group);
     }
@@ -209,12 +216,13 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     }
 
     private void panelClosed() {
+        ConversationFragment conversationFragment = getConversationFragment();
         loadLatestInConversationFragment();
 
-        conversationFragment.setHasOptionsMenu(true);
+        getConversationFragment().setHasOptionsMenu(true);
         mActionBar.setHomeButtonEnabled(true);
         mActionBar.setDisplayHomeAsUpEnabled(true);
-        quickConversationFragment.setHasOptionsMenu(false);
+        getQuickConversationFragment().setHasOptionsMenu(false);
         // assigning the spinner navigation
         if (conversationFragment.hasMultiplePhoneNumbers()) {
             mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
@@ -228,10 +236,11 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     }
 
     public void loadLatestInConversationFragment() {
+        ConversationFragment conversationFragment = getConversationFragment();
         if (conversationFragment.getContact() != null || conversationFragment.getGroup() != null) {
             return;
         }
-        String latestContact = quickConversationFragment.getLatestContact();
+        String latestContact = getQuickConversationFragment().getLatestContact();
         if (latestContact != null) {
             Contact contact = ContactUtils.getContact(this, latestContact);
             conversationFragment.loadConversation(contact);
@@ -293,12 +302,12 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
 
     @Override
     public void updateLatestMessage(Message message, String formattedContactNumber) {
-        quickConversationFragment.updateLatestMessage(message, formattedContactNumber);
+        getQuickConversationFragment().updateLatestMessage(message, formattedContactNumber);
     }
 
     @Override
     public void removeConversation(Message message, String formattedContactNumber) {
-        quickConversationFragment.removeConversation(message, formattedContactNumber);
+        getQuickConversationFragment().removeConversation(message, formattedContactNumber);
     }
 
     public void checkForStartNewConversation(Intent intent) {
@@ -336,7 +345,7 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
         boolean firstTimeMTexterFriend = intent.getBooleanExtra("firstTimeMTexterFriend", false);
         if (!TextUtils.isEmpty(contactNumber)) {
             contact = ContactUtils.getContact(this, contactNumber);
-            conversationFragment.setFirstTimeMTexterFriend(firstTimeMTexterFriend);
+            getConversationFragment().setFirstTimeMTexterFriend(firstTimeMTexterFriend);
         }
 
         String userId = intent.getStringExtra("userId");
@@ -368,12 +377,12 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
         String forwardMessage = intent.getStringExtra(MobiComKitPeopleActivity.FORWARD_MESSAGE);
         if (!TextUtils.isEmpty(forwardMessage)) {
             Message messageToForward = (Message) GsonUtils.getObjectFromJson(forwardMessage, Message.class);
-            conversationFragment.forwardMessage(messageToForward);
+            getConversationFragment().forwardMessage(messageToForward);
         }
 
         String sharedText = intent.getStringExtra(MobiComKitPeopleActivity.SHARED_TEXT);
         if (!TextUtils.isEmpty(sharedText)) {
-            conversationFragment.sendMessage(sharedText);
+            getConversationFragment().sendMessage(sharedText);
         }
     }
 
@@ -386,7 +395,7 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
         Contact contact = spinnerNavItem.getContact();
         contact.setContactNumber(spinnerNavItem.getContactNumber());
         contact.setFormattedContactNumber(ContactNumberUtils.getPhoneNumber(spinnerNavItem.getContactNumber(), MobiComUserPreference.getInstance(this).getCountryCode()));
-        conversationFragment.loadConversation(contact);
+        getConversationFragment().loadConversation(contact);
         return false;
     }
 
@@ -404,6 +413,7 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     //TODO: need to figure it out if this Can be improve by listeners in individual fragments
     @Override
     public void onBackPressed() {
+        ConversationFragment conversationFragment = getConversationFragment();
         if (conversationFragment != null && conversationFragment.emoticonsFrameLayout.getVisibility() == View.VISIBLE) {
             conversationFragment.emoticonsFrameLayout.setVisibility(View.GONE);
             return;
@@ -425,6 +435,113 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
 
     public SlidingPaneLayout getSlidingPaneLayout() {
         return slidingPaneLayout;
+    }
+
+    public void addMessage(Message message) {
+        if (!BroadcastService.isQuick()) {
+            return;
+        }
+
+        MobiComQuickConversationFragment fragment = (MobiComQuickConversationFragment) UIService.getInstance().getActiveFragment();
+        fragment.addMessage(message);
+    }
+
+    public void updateLastMessage(String keyString, String formattedContactNumber) {
+        if (!BroadcastService.isQuick()) {
+            return;
+        }
+        getQuickConversationFragment().updateLastMessage(keyString, formattedContactNumber);
+    }
+
+    public boolean isBroadcastedToGroup(Long broadcastGroupId) {
+        if (!BroadcastService.isIndividual()) {
+            return false;
+        }
+        return getConversationFragment().isBroadcastedToGroup(broadcastGroupId);
+    }
+
+    public void syncMessages(Message message, String keyString) {
+        String formattedContactNumber = ContactNumberUtils.getPhoneNumber(message.getTo(), MobiComUserPreference.getInstance(this).getCountryCode());
+
+        if (BroadcastService.isIndividual()) {
+            ConversationFragment conversationFragment = getConversationFragment();
+            if (formattedContactNumber.equals(conversationFragment.getFormattedContactNumber()) ||
+                    conversationFragment.isBroadcastedToGroup(message.getBroadcastGroupId())) {
+                conversationFragment.addMessage(message);
+            }
+        }
+
+        if (message.getBroadcastGroupId() == null) {
+            updateLastMessage(keyString, formattedContactNumber);
+        }
+    }
+
+    public void downloadConversations(boolean showInstruction) {
+        if (!BroadcastService.isQuick()) {
+            return;
+        }
+        getQuickConversationFragment().downloadConversations(showInstruction);
+    }
+
+    public void setLoadMore(boolean loadMore) {
+        if (!BroadcastService.isQuick()) {
+            return;
+        }
+        getQuickConversationFragment().setLoadMore(loadMore);
+    }
+
+    public void updateMessageKeyString(Message message) {
+        if (!BroadcastService.isIndividual()) {
+            return;
+        }
+        String formattedContactNumber = ContactNumberUtils.getPhoneNumber(message.getTo(), MobiComUserPreference.getInstance(this).getCountryCode());
+        ConversationFragment conversationFragment = getConversationFragment();
+        if (formattedContactNumber.equals(conversationFragment.getFormattedContactNumber()) ||
+                conversationFragment.isBroadcastedToGroup(message.getBroadcastGroupId())) {
+            conversationFragment.updateMessageKeyString(message);
+        }
+    }
+
+    public void deleteMessage(Message message, String keyString, String formattedContactNumber) {
+        //Todo: replace currentOpenedContactNumber with MobiComKitBroadcastReceiver.currentUserId
+        if (PhoneNumberUtils.compare(formattedContactNumber, MobiComActivity.currentOpenedContactNumber)) {
+            getConversationFragment().deleteMessageFromDeviceList(keyString);
+        } else {
+            updateLastMessage(keyString, formattedContactNumber);
+        }
+    }
+
+    public void updateDeliveryStatus(Message message, String formattedContactNumber) {
+        if (!BroadcastService.isIndividual()) {
+            return;
+        }
+        ConversationFragment conversationFragment = new ConversationFragment();
+        if (formattedContactNumber.equals(conversationFragment.getContactIds())) {
+            conversationFragment.updateDeliveryStatus(message);
+        }
+    }
+
+    public void deleteConversation(Contact contact) {
+        if (BroadcastService.isIndividual()) {
+            getConversationFragment().clearList();
+        }
+        if (BroadcastService.isQuick()) {
+            getQuickConversationFragment().removeConversation(contact);
+        }
+    }
+
+    public void updateUploadFailedStatus(Message message) {
+        if (!BroadcastService.isIndividual()) {
+            return;
+        }
+        getConversationFragment().updateUploadFailedStatus(message);
+    }
+
+    public void updateDownloadStatus(Message message) {
+        if (!BroadcastService.isIndividual()) {
+            return;
+        }
+        getConversationFragment().updateDownloadStatus(message);
     }
 
     /**

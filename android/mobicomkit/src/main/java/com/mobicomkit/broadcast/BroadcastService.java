@@ -18,6 +18,14 @@ public class BroadcastService {
 
     public static String currentUserId = null;
 
+    public static boolean isQuick() {
+        return currentUserId != null && currentUserId.equals("MOBICOMKIT_ALL");
+    }
+
+    public static boolean isIndividual() {
+        return currentUserId != null && !isQuick();
+    }
+
     public static void sendFirstTimeSyncCompletedBroadcast(Context context) {
         Log.i(TAG, "Sending " + INTENT_ACTIONS.FIRST_TIME_SYNC_COMPLETE.toString() + " broadcast");
         Intent intent = new Intent();
