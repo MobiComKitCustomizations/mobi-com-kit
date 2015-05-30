@@ -46,11 +46,10 @@ public class NotificationService {
     }
 
     public void notifyUser(Contact contact, Message sms) {
-
         Intent intent = new Intent();
         intent.putExtra(MobiComKitConstants.MESSAGE_JSON_INTENT, GsonUtils.getJsonFromObject(sms, Message.class));
         intent.setAction(NotificationBroadcastReceiver.LAUNCH_APP);
-        intent.putExtra(MobiComKitConstants.ACTIVITY_TO_OPEN, "com.mobicomkit.uiwidgets.conversation.activity.SlidingPaneActivity");
+        intent.putExtra(MobiComKitConstants.ACTIVITY_TO_OPEN, "com.azuga.smartfleet.BaseActivity");
         intent.setClass(context,NotificationBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) (System.currentTimeMillis() & 0xfffffff), intent, 0);
         NotificationCompat.Builder mBuilder =

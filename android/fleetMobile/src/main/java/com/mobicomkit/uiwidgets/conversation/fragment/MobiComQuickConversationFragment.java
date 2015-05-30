@@ -238,6 +238,7 @@ public class MobiComQuickConversationFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         listIndex = listView.getFirstVisiblePosition();
+        BroadcastService.currentUserId = null;
     }
 
     @Override

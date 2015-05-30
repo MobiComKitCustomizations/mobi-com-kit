@@ -113,13 +113,15 @@
             </intent-filter>
         </receiver>
 
+        <!--
         <receiver
-            android:name="com.mobicomkit.uiwidgets.notification.MTNotificationBroadcastReceiver"
+            android:name="com.mobicomkit.broadcast.NotificationBroadcastReceiver"
             >
             <intent-filter>
                 <action  android:name="com.mobicomkit.notification" />
             </intent-filter>
         </receiver>
+        -->
 
         <receiver android:name="com.mobicomkit.broadcast.NotificationBroadcastReceiver">
             <intent-filter>
