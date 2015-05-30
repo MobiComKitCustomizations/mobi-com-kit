@@ -51,8 +51,9 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
         String formattedContactNumber = "";
         if (message != null && !conversationFragment.isBroadcastedToGroup(message.getBroadcastGroupId()) && !message.isSentToMany()) {
             /*Todo: update the quick conversation fragment on resume, commented because now it is not a sliding pane activity and
-            quickconversationfragment is not activity.
-            quickConversationFragment.addMessage(message);*/
+            quickconversationfragment is not activity.*/
+            quickConversationFragment.addMessage(message);
+            //QuickConversationFragment.getInstance().addMessage(message);
             formattedContactNumber = ContactNumberUtils.getPhoneNumber(message.getTo(), userPreferences.getCountryCode());
         } else if (message != null && message.isSentToMany() && BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString().equals(intent.getAction())) {
             for (String toField : message.getTo().split(",")) {
@@ -95,7 +96,7 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
                 quickConversationFragment.updateLastMessage(keyString, formattedContactNumber);
             }
         } else if (BroadcastService.INTENT_ACTIONS.MESSAGE_DELIVERY.toString().equals(action)) {
-            if (formattedContactNumber.equals(conversationFragment.getFormattedContactNumber())) {
+            if (formattedContactNumber.equals(conversationFragment.getContactIds())) {
                 conversationFragment.updateDeliveryStatus(message);
             }
         } else if (BroadcastService.INTENT_ACTIONS.DELETE_CONVERSATION.toString().equals(action)) {

@@ -322,7 +322,8 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
                 conversationAdapter.notifyDataSetChanged();
                 if (messageList.isEmpty()) {
                     emptyTextView.setVisibility(View.VISIBLE);
-                    ((MobiComActivity) getActivity()).removeConversation(message, contact.getFormattedContactNumber());
+                    //Todo: commenting out, on resume of quick conversation fragment, refresh the conversation.
+                    //((MobiComActivity) getActivity()).removeConversation(message, contact.getFormattedContactNumber());
                 }
                 break;
             }
@@ -343,6 +344,10 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
 
     public String getFormattedContactNumber() {
         return contact != null ? contact.getFormattedContactNumber() : null;
+    }
+
+    public String getContactIds() {
+        return contact != null ? contact.getContactIds() : null;
     }
 
     public boolean hasMultiplePhoneNumbers() {
@@ -398,7 +403,11 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
     }
 
     public void addMessage(final Message message) {
-        this.getActivity().runOnUiThread(new Runnable() {
+        //Todo: remove this if, code shouldn't even reach here if conversation fragment is not visible
+        /*if (conversationAdapter == null) {
+            return;
+        }*/
+        UIService.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 //Todo: Handle disappearing messages.

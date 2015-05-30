@@ -3,10 +3,7 @@ package com.mobicomkit.uiwidgets.conversation.fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.azuga.framework.ui.UIService;
 import com.azuga.smartfleet.BaseFragment;
 import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.api.conversation.MessageIntentService;
@@ -61,6 +59,16 @@ public class MobiComQuickConversationFragment extends BaseFragment {
     protected boolean loadMore = true;
     private Long minCreatedAtTime;
 
+    public MobiComQuickConversationFragment() {
+
+    }
+
+    /*@Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("curChoice", mCurCheckPosition);
+    }*/
+
     public ConversationListView getListView() {
         return listView;
     }
@@ -68,9 +76,7 @@ public class MobiComQuickConversationFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        conversationService = new MobiComConversationService(getActivity());
-        conversationAdapter = new ConversationAdapter(getActivity(),
-                R.layout.mobicom_message_row_view, messageList, null, true, MessageIntentService.class, null);
+        // savedInstanceState will have whatever you left in the outState bundle above
     }
 
     @Override
@@ -99,6 +105,10 @@ public class MobiComQuickConversationFragment extends BaseFragment {
         swipeLayout = (SwipeRefreshLayout) list.findViewById(R.id.swipe_container);
         swipeLayout.setEnabled(false);
 
+        conversationService = new MobiComConversationService(getActivity());
+        conversationAdapter = new ConversationAdapter(getActivity(),
+                R.layout.mobicom_message_row_view, messageList, null, true, MessageIntentService.class, null);
+
         return list;
     }
 
@@ -113,7 +123,11 @@ public class MobiComQuickConversationFragment extends BaseFragment {
 
     public void addMessage(final Message message) {
         final Context context = getActivity();
-        this.getActivity().runOnUiThread(new Runnable() {
+        //Todo: remove this if condition, if quickconversationfragment is not visible then it should even reach this point.
+        /*if (conversationAdapter == null) {
+            return;
+        }*/
+        UIService.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 message.processContactIds(context);
@@ -159,7 +173,7 @@ public class MobiComQuickConversationFragment extends BaseFragment {
     }
 
     public void deleteMessage(final Message message, final String formattedContactNumber) {
-        this.getActivity().runOnUiThread(new Runnable() {
+        UIService.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Message recentMessage = latestSmsForEachContact.get(formattedContactNumber);
@@ -182,7 +196,7 @@ public class MobiComQuickConversationFragment extends BaseFragment {
     }
 
     public void removeConversation(final Message message, final String formattedContactNumber) {
-        this.getActivity().runOnUiThread(new Runnable() {
+        UIService.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 latestSmsForEachContact.remove(formattedContactNumber);
@@ -194,7 +208,7 @@ public class MobiComQuickConversationFragment extends BaseFragment {
     }
 
     public void removeConversation(final Contact contact) {
-        this.getActivity().runOnUiThread(new Runnable() {
+        UIService.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Message message = latestSmsForEachContact.get(contact.getFormattedContactNumber());

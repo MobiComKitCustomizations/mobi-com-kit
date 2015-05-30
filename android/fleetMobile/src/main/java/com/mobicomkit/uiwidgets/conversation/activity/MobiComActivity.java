@@ -29,14 +29,11 @@ import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.uiwidgets.conversation.MessageCommunicator;
 import com.mobicomkit.uiwidgets.conversation.MobiComKitBroadcastReceiver;
-import com.mobicomkit.uiwidgets.conversation.activity.MobiComKitActivityInterface;
-import com.mobicomkit.uiwidgets.conversation.activity.SpinnerNavItem;
 import com.mobicomkit.uiwidgets.conversation.adapter.TitleNavigationAdapter;
 import com.mobicomkit.uiwidgets.conversation.fragment.ConversationFragment;
 import com.mobicomkit.uiwidgets.conversation.fragment.MobiComConversationFragment;
 import com.mobicomkit.uiwidgets.conversation.fragment.MobiComQuickConversationFragment;
 import com.mobicomkit.uiwidgets.conversation.fragment.MultimediaOptionFragment;
-import com.mobicomkit.uiwidgets.conversation.fragment.QuickConversationFragment;
 import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
@@ -84,7 +81,7 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        quickConversationFragment = new QuickConversationFragment();
+        quickConversationFragment = new MobiComQuickConversationFragment();
         conversationFragment = new ConversationFragment();
     }
 
@@ -227,7 +224,7 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
             mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
             mActionBar.setDisplayShowTitleEnabled(true);
         }
-        currentOpenedContactNumber = conversationFragment.getFormattedContactNumber();
+        currentOpenedContactNumber = (conversationFragment.getFormattedContactNumber() == null ? conversationFragment.getContactIds() : conversationFragment.getFormattedContactNumber());
     }
 
     public void loadLatestInConversationFragment() {
