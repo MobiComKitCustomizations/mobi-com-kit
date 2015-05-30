@@ -19,7 +19,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.azuga.framework.ui.UIService;
@@ -69,7 +68,6 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     public static String title = "Conversations";
     protected static boolean HOME_BUTTON_ENABLED = false;
     protected ActionBar mActionBar;
-    protected SlidingPaneLayout slidingPaneLayout;
     protected MobiComKitBroadcastReceiver mobiComKitBroadcastReceiver;
     // Title navigation Spinner data
     protected ArrayList<SpinnerNavItem> navSpinner;
@@ -95,9 +93,6 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
         super.onResume();
         InstructionUtil.enabled = true;
         mobiTexterBroadcastReceiverActivated = Boolean.TRUE;
-        /*if (slidingPaneLayout.isOpen()) {
-            mActionBar.setTitle(title);
-        }*/
         registerMobiTexterBroadcastReceiver();
     }
 
@@ -139,7 +134,7 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if ((requestCode == MultimediaOptionFragment.REQUEST_CODE_ATTACH_PHOTO ||
+        if (BroadcastService.isIndividual() && (requestCode == MultimediaOptionFragment.REQUEST_CODE_ATTACH_PHOTO ||
                 requestCode == MultimediaOptionFragment.REQUEST_CODE_TAKE_PHOTO)
                 && resultCode == RESULT_OK) {
             Uri selectedFileUri = (intent == null ? null : intent.getData());
@@ -186,7 +181,6 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     }
 
     public void openConversationFragment(Contact contact) {
-        /*slidingPaneLayout.closePane();*/
         InstructionUtil.hideInstruction(this, R.string.info_message_sync);
         InstructionUtil.hideInstruction(this, R.string.instruction_open_conversation_thread);
         ConversationFragment conversationFragment = new ConversationFragment();
@@ -198,53 +192,6 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
         ConversationFragment conversationFragment = new ConversationFragment();
         UIService.getInstance().addFragment(conversationFragment);
         conversationFragment.loadConversation(group);
-    }
-
-    private void panelOpened() {
-        if (currentOpenedContactNumber != null) {
-            InstructionUtil.hideInstruction(this, R.string.instruction_go_back_to_recent_conversation_list);
-        }
-        Utils.toggleSoftKeyBoard(MobiComActivity.this, true);
-       /* conversationFragment.setHasOptionsMenu(!slidingPaneLayout.isSlideable());
-        quickConversationFragment.setHasOptionsMenu(slidingPaneLayout.isSlideable()); */
-        mActionBar.setHomeButtonEnabled(false);
-        mActionBar.setDisplayHomeAsUpEnabled(HOME_BUTTON_ENABLED);
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        mActionBar.setDisplayShowTitleEnabled(true);
-        mActionBar.setTitle(title);
-        currentOpenedContactNumber = null;
-    }
-
-    private void panelClosed() {
-        ConversationFragment conversationFragment = getConversationFragment();
-        loadLatestInConversationFragment();
-
-        getConversationFragment().setHasOptionsMenu(true);
-        mActionBar.setHomeButtonEnabled(true);
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-        getQuickConversationFragment().setHasOptionsMenu(false);
-        // assigning the spinner navigation
-        if (conversationFragment.hasMultiplePhoneNumbers()) {
-            mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-            mActionBar.setDisplayShowTitleEnabled(false);
-        } else {
-            conversationFragment.updateTitle();
-            mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-            mActionBar.setDisplayShowTitleEnabled(true);
-        }
-        currentOpenedContactNumber = (conversationFragment.getFormattedContactNumber() == null ? conversationFragment.getContactIds() : conversationFragment.getFormattedContactNumber());
-    }
-
-    public void loadLatestInConversationFragment() {
-        ConversationFragment conversationFragment = getConversationFragment();
-        if (conversationFragment.getContact() != null || conversationFragment.getGroup() != null) {
-            return;
-        }
-        String latestContact = getQuickConversationFragment().getLatestContact();
-        if (latestContact != null) {
-            Contact contact = ContactUtils.getContact(this, latestContact);
-            conversationFragment.loadConversation(contact);
-        }
     }
 
     protected void registerMobiTexterBroadcastReceiver() {
@@ -272,16 +219,6 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
         }
         return super.onKeyDown(keyCode, event);
     }
-//
-//    @Override
-//    public void onEmojiconBackspaceClicked(View view) {
-//        conversationFragment.onEmojiconBackspace();
-//    }
-//
-//    @Override
-//    public void onEmojiconClicked(Emojicon emojicon) {
-//        conversationFragment.onEmojiconClicked(emojicon);
-//    }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
@@ -302,11 +239,17 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
 
     @Override
     public void updateLatestMessage(Message message, String formattedContactNumber) {
+        if (!BroadcastService.isQuick()) {
+            return;
+        }
         getQuickConversationFragment().updateLatestMessage(message, formattedContactNumber);
     }
 
     @Override
     public void removeConversation(Message message, String formattedContactNumber) {
+        if (!BroadcastService.isQuick()) {
+            return;
+        }
         getQuickConversationFragment().removeConversation(message, formattedContactNumber);
     }
 
@@ -413,15 +356,15 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     //TODO: need to figure it out if this Can be improve by listeners in individual fragments
     @Override
     public void onBackPressed() {
+        if (!BroadcastService.isIndividual()) {
+            return;
+        }
         ConversationFragment conversationFragment = getConversationFragment();
         if (conversationFragment != null && conversationFragment.emoticonsFrameLayout.getVisibility() == View.VISIBLE) {
             conversationFragment.emoticonsFrameLayout.setVisibility(View.GONE);
             return;
         }
-        /*if (!slidingPaneLayout.isOpen()) {
-            slidingPaneLayout.openPane();
-            return;
-        }*/
+
         super.onBackPressed();
         this.finish();
     }
@@ -431,10 +374,6 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
-    }
-
-    public SlidingPaneLayout getSlidingPaneLayout() {
-        return slidingPaneLayout;
     }
 
     public void addMessage(Message message) {
@@ -544,44 +483,4 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
         getConversationFragment().updateDownloadStatus(message);
     }
 
-    /**
-     * This global layout listener is used to fire an event after first layout
-     * occurs and then it is removed. This gives us a chance to configure parts
-     * of the UI that adapt based on available space after they have had the
-     * opportunity to measure and layout.
-     */
-    public class FirstLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener {
-        @Override
-        public void onGlobalLayout() {
-
-            if (slidingPaneLayout.isSlideable() && !slidingPaneLayout.isOpen()) {
-                panelClosed();
-            } else {
-                panelOpened();
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                slidingPaneLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            } else {
-                slidingPaneLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            }
-        }
-    }
-
-    public class SliderListener extends SlidingPaneLayout.SimplePanelSlideListener {
-
-        @Override
-        public void onPanelOpened(View panel) {
-            panelOpened();
-        }
-
-        @Override
-        public void onPanelClosed(View panel) {
-            panelClosed();
-        }
-
-        @Override
-        public void onPanelSlide(View view, float v) {
-        }
-
-    }
 }
