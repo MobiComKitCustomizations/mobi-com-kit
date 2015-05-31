@@ -1076,5 +1076,10 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        BroadcastService.currentUserId = null;
+    }
 
 }
