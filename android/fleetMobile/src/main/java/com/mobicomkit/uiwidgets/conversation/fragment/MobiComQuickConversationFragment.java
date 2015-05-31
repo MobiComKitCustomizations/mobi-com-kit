@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.azuga.framework.ui.UIService;
 import com.azuga.smartfleet.BaseFragment;
+import com.azuga.smartfleet.ui.fragments.DriverListFragment;
 import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.api.conversation.MessageIntentService;
 import com.mobicomkit.api.conversation.MobiComConversationService;
@@ -117,6 +118,7 @@ public class MobiComQuickConversationFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 ((MobiComKitActivityInterface) getActivity()).startContactActivityForResult();
+                //UIService.getInstance().addFragment(new DriverListFragment());
             }
         };
     }

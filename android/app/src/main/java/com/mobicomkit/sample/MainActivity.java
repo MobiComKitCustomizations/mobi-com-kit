@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mobicomkit.uiwidgets.conversation.activity.SlidingPaneActivity;
 import com.mobicomkit.database.MobiComDatabaseHelper;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 
@@ -63,11 +62,11 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
 
-        if (position == 2) {
+       /* if (position == 2) {
             Intent intent = new Intent(this, SlidingPaneActivity.class);
             startActivity(intent);
             return;
-        }
+        }*/
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
