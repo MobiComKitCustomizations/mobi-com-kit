@@ -123,10 +123,6 @@ public class MobiComQuickConversationFragment extends BaseFragment {
 
     public void addMessage(final Message message) {
         final Context context = getActivity();
-        //Todo: remove this if condition, if quickconversationfragment is not visible then it should even reach this point.
-        /*if (conversationAdapter == null) {
-            return;
-        }*/
         UIService.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -267,7 +263,8 @@ public class MobiComQuickConversationFragment extends BaseFragment {
 
     @Override
     protected String getFragmentDisplayName() {
-        return null;
+        //Todo: move to strings.
+        return "Messages";
     }
 
     @Override

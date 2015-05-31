@@ -15,11 +15,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -64,7 +60,6 @@ import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
 import com.mobicomkit.uiwidgets.conversation.activity.SpinnerNavItem;
 import com.mobicomkit.uiwidgets.conversation.adapter.ConversationAdapter;
 import com.mobicomkit.uiwidgets.conversation.adapter.TitleNavigationAdapter;
-import com.mobicomkit.uiwidgets.conversation.fragment.MultimediaOptionFragment;
 import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 import com.mobicomkit.uiwidgets.schedule.ConversationScheduler;
 import com.mobicomkit.uiwidgets.schedule.ScheduledTimeHolder;
@@ -807,15 +802,13 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
 
     public void updateTitle() {
         String title = null;
-       /*if (!((MobiComActivity) getActivity()).getSlidingPaneLayout().isOpen()) {
-            if (contact != null) {
-                title = TextUtils.isEmpty(contact.getFullName()) ? contact.getContactNumber() : contact.getFullName();
-            } else if (group != null) {
-                title = group.getName();
-            }
-        }*/
+        if (contact != null) {
+            title = TextUtils.isEmpty(contact.getFullName()) ? contact.getContactIds() : contact.getFullName();
+        } else if (group != null) {
+            title = group.getName();
+        }
+
         if (title != null) {
-            //((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(title);
             UIService.getInstance().setTitle(title);
         }
     }
@@ -937,7 +930,7 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
 
     @Override
     protected String getFragmentDisplayName() {
-        return null;
+        return contact != null ? contact.getFullName() : "";
     }
 
     @Override
