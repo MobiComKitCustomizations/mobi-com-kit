@@ -378,7 +378,7 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
 //    }
 
     public void clearList() {
-        this.getActivity().runOnUiThread(new Runnable() {
+        UIService.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (conversationAdapter != null) {
@@ -390,7 +390,7 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
     }
 
     public void updateMessage(final Message message) {
-        this.getActivity().runOnUiThread(new Runnable() {
+        UIService.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 //Note: Removing and adding the same message again as the new sms object will contain the keyString.
@@ -402,14 +402,9 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
     }
 
     public void addMessage(final Message message) {
-        //Todo: remove this if, code shouldn't even reach here if conversation fragment is not visible
-        /*if (conversationAdapter == null) {
-            return;
-        }*/
         UIService.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                //Todo: Handle disappearing messages.
                 boolean added = updateMessageList(message, false);
                 if (added) {
                     conversationAdapter.notifyDataSetChanged();
@@ -558,7 +553,7 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
     }
 
     public void updateDeliveryStatus(final Message message) {
-        this.getActivity().runOnUiThread(new Runnable() {
+        UIService.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 int index = messageList.indexOf(message);
@@ -741,7 +736,7 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
     }
 
     public void updateMessageKeyString(final Message message) {
-        this.getActivity().runOnUiThread(new Runnable() {
+        UIService.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 int index = messageList.indexOf(message);
@@ -764,7 +759,7 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
     }
 
     public void updateDownloadStatus(final Message message) {
-        this.getActivity().runOnUiThread(new Runnable() {
+        UIService.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 int index = messageList.indexOf(message);
