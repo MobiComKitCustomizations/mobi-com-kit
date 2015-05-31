@@ -268,7 +268,9 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
         boolean firstTimeMTexterFriend = intent.getBooleanExtra("firstTimeMTexterFriend", false);
         if (!TextUtils.isEmpty(contactNumber)) {
             contact = ContactUtils.getContact(this, contactNumber);
-            getConversationFragment().setFirstTimeMTexterFriend(firstTimeMTexterFriend);
+            if (BroadcastService.isIndividual()) {
+                getConversationFragment().setFirstTimeMTexterFriend(firstTimeMTexterFriend);
+            }
         }
 
         String userId = intent.getStringExtra("userId");
