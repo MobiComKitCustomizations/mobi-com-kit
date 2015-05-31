@@ -49,12 +49,12 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
         Log.i(TAG, "Received broadcast, action: " + action + ", sms: " + message);
 
         MobiComUserPreference userPreferences = MobiComUserPreference.getInstance(context);
-        String formattedContactNumber = "";
+        String formattedContactNumber = ContactNumberUtils.getPhoneNumber(message.getTo(), userPreferences.getCountryCode());
+
         if (message != null && !message.isSentToMany()) {
             /*Todo: update the quick conversation fragment on resume, commented because now it is not a sliding pane activity and
             quickconversationfragment is not activity.*/
             activity.addMessage(message);
-            formattedContactNumber = ContactNumberUtils.getPhoneNumber(message.getTo(), userPreferences.getCountryCode());
         } else if (message != null && message.isSentToMany() && BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString().equals(intent.getAction())) {
             for (String toField : message.getTo().split(",")) {
                 Message singleMessage = new Message(message);
