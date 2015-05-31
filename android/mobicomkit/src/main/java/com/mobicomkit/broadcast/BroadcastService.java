@@ -18,6 +18,7 @@ public class BroadcastService {
     private static final String TAG = "BroadcastService";
 
     public static String currentUserId = null;
+    public static boolean mobiTexterBroadcastReceiverActivated;
 
     public static boolean isQuick() {
         return currentUserId != null && currentUserId.equals("MOBICOMKIT_ALL");

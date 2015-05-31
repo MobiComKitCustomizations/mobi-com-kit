@@ -34,10 +34,6 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
         this.activity = activity;
     }
 
-    public MobiComKitBroadcastReceiver(MobiComQuickConversationFragment quickConversationFragment, MobiComConversationFragment conversationFragment) {
-
-    }
-
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -46,10 +42,13 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
         if (!TextUtils.isEmpty(messageJson)) {
             message = (Message) GsonUtils.getObjectFromJson(messageJson, Message.class);
         }
-        Log.i(TAG, "Received broadcast, action: " + action + ", sms: " + message);
+        Log.i(TAG, "Received broadcast, action: " + action + ", message: " + message);
 
         MobiComUserPreference userPreferences = MobiComUserPreference.getInstance(context);
-        String formattedContactNumber = ContactNumberUtils.getPhoneNumber(message.getTo(), userPreferences.getCountryCode());
+        String formattedContactNumber = "";
+        if (message != null) {
+            formattedContactNumber = ContactNumberUtils.getPhoneNumber(message.getTo(), userPreferences.getCountryCode());
+        }
 
         if (message != null && !message.isSentToMany()) {
             /*Todo: update the quick conversation fragment on resume, commented because now it is not a sliding pane activity and

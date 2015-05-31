@@ -57,7 +57,6 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     protected static final long UPDATE_INTERVAL = 5;
     protected static final long FASTEST_INTERVAL = 1;
     private static final String TAG = "MobiComActivity";
-    public static boolean mobiTexterBroadcastReceiverActivated;
     public static String title = "Conversations";
     protected static boolean HOME_BUTTON_ENABLED = false;
     protected ActionBar mActionBar;
@@ -84,7 +83,7 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     protected void onResume() {
         super.onResume();
         InstructionUtil.enabled = true;
-        mobiTexterBroadcastReceiverActivated = Boolean.TRUE;
+        BroadcastService.mobiTexterBroadcastReceiverActivated = Boolean.TRUE;
         registerMobiTexterBroadcastReceiver();
     }
 
@@ -92,7 +91,7 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     protected void onPause() {
         super.onPause();
         InstructionUtil.enabled = false;
-        mobiTexterBroadcastReceiverActivated = Boolean.FALSE;
+        BroadcastService.mobiTexterBroadcastReceiverActivated = Boolean.FALSE;
         unregisterReceiver(mobiComKitBroadcastReceiver);
     }
 

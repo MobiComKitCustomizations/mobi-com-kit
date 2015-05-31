@@ -99,6 +99,7 @@ public class MobiComMessageService {
         BroadcastService.sendMessageUpdateBroadcast(context, BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString(), message);
 
         //Check if we are........container is already opened...don't send broadcast
+        //if (!BroadcastService.mobiTexterBroadcastReceiverActivated) {
         if (BroadcastService.currentUserId == null) {
             BroadcastService.sendNotificationBroadcast(context, message);
         }

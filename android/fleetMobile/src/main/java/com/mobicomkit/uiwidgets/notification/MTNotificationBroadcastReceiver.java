@@ -20,12 +20,10 @@ import net.mobitexter.mobiframework.people.contact.ContactUtils;
  */
 public class MTNotificationBroadcastReceiver extends BroadcastReceiver {
 
-
     private static final String TAG = "MTBroadcastReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         String action = intent.getAction();
         String messageJson = intent.getStringExtra(MobiComKitConstants.MESSAGE_JSON_INTENT);
         Log.i(TAG, "Received broadcast, action: " + action + ", message: " + messageJson);
