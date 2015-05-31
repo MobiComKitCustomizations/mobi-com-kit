@@ -244,7 +244,7 @@ public class MobiComQuickConversationFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        BroadcastService.currentUserId = "MOBICOMKIT_ALL";
+        BroadcastService.selectMobiComKitAll();
 
         if (listView != null) {
             if (listView.getCount() > listIndex) {

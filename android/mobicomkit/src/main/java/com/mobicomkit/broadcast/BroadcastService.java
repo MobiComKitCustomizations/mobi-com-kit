@@ -16,12 +16,17 @@ import net.mobitexter.mobiframework.json.GsonUtils;
 public class BroadcastService {
 
     private static final String TAG = "BroadcastService";
+    private static final String MOBICOMKIT_ALL = "MOBICOMKIT_ALL";
 
     public static String currentUserId = null;
     public static boolean mobiTexterBroadcastReceiverActivated;
 
+    public static void selectMobiComKitAll() {
+        currentUserId = MOBICOMKIT_ALL;
+    }
+
     public static boolean isQuick() {
-        return currentUserId != null && currentUserId.equals("MOBICOMKIT_ALL");
+        return currentUserId != null && currentUserId.equals(MOBICOMKIT_ALL);
     }
 
     public static boolean isIndividual() {
