@@ -125,7 +125,8 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if (BroadcastService.isIndividual() && (requestCode == MultimediaOptionFragment.REQUEST_CODE_ATTACH_PHOTO ||
+        //if (BroadcastService.isIndividual() && (requestCode == MultimediaOptionFragment.REQUEST_CODE_ATTACH_PHOTO ||
+        if ((requestCode == MultimediaOptionFragment.REQUEST_CODE_ATTACH_PHOTO ||
                 requestCode == MultimediaOptionFragment.REQUEST_CODE_TAKE_PHOTO)
                 && resultCode == RESULT_OK) {
             Uri selectedFileUri = (intent == null ? null : intent.getData());
