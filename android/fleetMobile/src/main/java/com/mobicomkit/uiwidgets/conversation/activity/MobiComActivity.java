@@ -48,18 +48,13 @@ import java.util.ArrayList;
 abstract public class MobiComActivity extends FragmentActivity implements ActionBar.OnNavigationListener,
         MessageCommunicator, MobiComKitActivityInterface {
 
-    public static final int REQUEST_CODE_FULL_SCREEN_ACTION = 301;
-    public static final int REQUEST_CODE_CONTACT_GROUP_SELECTION = 101;
-    public static final int LOCATION_SERVICE_ENABLE = 1001;
-    public static final int REQUEST_CODE_ATTACHMENT_ACTION = 201;
-    public static final int ACCOUNT_REGISTERED = 121;
-    public static final int INSTRUCTION_DELAY = 5000;
-    protected static final long UPDATE_INTERVAL = 5;
-    protected static final long FASTEST_INTERVAL = 1;
     private static final String TAG = "MobiComActivity";
     public static String title = "Conversations";
-    protected static boolean HOME_BUTTON_ENABLED = false;
-    protected ActionBar mActionBar;
+
+    public static final int REQUEST_CODE_FULL_SCREEN_ACTION = 301;
+    public static final int REQUEST_CODE_CONTACT_GROUP_SELECTION = 101;
+    public static final int INSTRUCTION_DELAY = 5000;
+
     protected MobiComKitBroadcastReceiver mobiComKitBroadcastReceiver;
     // Title navigation Spinner data
     protected ArrayList<SpinnerNavItem> navSpinner;
@@ -69,6 +64,7 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mobiComKitBroadcastReceiver = new MobiComKitBroadcastReceiver(this);
     }
 
     public MobiComQuickConversationFragment getQuickConversationFragment() {
@@ -84,7 +80,8 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
         super.onResume();
         InstructionUtil.enabled = true;
         BroadcastService.mobiTexterBroadcastReceiverActivated = Boolean.TRUE;
-        registerMobiTexterBroadcastReceiver();
+        registerReceiver(mobiComKitBroadcastReceiver, BroadcastService.getIntentFilter());
+        checkForStartNewConversation(getIntent());
     }
 
     @Override
@@ -184,10 +181,6 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
         ConversationFragment conversationFragment = new ConversationFragment();
         UIService.getInstance().addFragment(conversationFragment);
         conversationFragment.loadConversation(group);
-    }
-
-    protected void registerMobiTexterBroadcastReceiver() {
-        registerReceiver(mobiComKitBroadcastReceiver, BroadcastService.getIntentFilter());
     }
 
     //Note: Workaround for LGE device bug: https://github.com/adarshmishra/MobiTexter/issues/374
@@ -350,90 +343,6 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
         this.finish();
     }
 
-    public void addMessage(Message message) {
-        if (!BroadcastService.isQuick()) {
-            return;
-        }
-
-        MobiComQuickConversationFragment fragment = (MobiComQuickConversationFragment) UIService.getInstance().getActiveFragment();
-        fragment.addMessage(message);
-    }
-
-    public void updateLastMessage(String keyString, String formattedContactNumber) {
-        if (!BroadcastService.isQuick()) {
-            return;
-        }
-        getQuickConversationFragment().updateLastMessage(keyString, formattedContactNumber);
-    }
-
-    public boolean isBroadcastedToGroup(Long broadcastGroupId) {
-        if (!BroadcastService.isIndividual()) {
-            return false;
-        }
-        return getConversationFragment().isBroadcastedToGroup(broadcastGroupId);
-    }
-
-    public void syncMessages(Message message, String keyString) {
-        String formattedContactNumber = ContactNumberUtils.getPhoneNumber(message.getTo(), MobiComUserPreference.getInstance(this).getCountryCode());
-
-        if (BroadcastService.isIndividual()) {
-            ConversationFragment conversationFragment = getConversationFragment();
-            if (formattedContactNumber.equals(conversationFragment.getFormattedContactNumber()) ||
-                    conversationFragment.isBroadcastedToGroup(message.getBroadcastGroupId())) {
-                conversationFragment.addMessage(message);
-            }
-        }
-
-        if (message.getBroadcastGroupId() == null) {
-            updateLastMessage(keyString, formattedContactNumber);
-        }
-    }
-
-    public void downloadConversations(boolean showInstruction) {
-        if (!BroadcastService.isQuick()) {
-            return;
-        }
-        getQuickConversationFragment().downloadConversations(showInstruction);
-    }
-
-    public void setLoadMore(boolean loadMore) {
-        if (!BroadcastService.isQuick()) {
-            return;
-        }
-        getQuickConversationFragment().setLoadMore(loadMore);
-    }
-
-    public void updateMessageKeyString(Message message) {
-        if (!BroadcastService.isIndividual()) {
-            return;
-        }
-        String formattedContactNumber = ContactNumberUtils.getPhoneNumber(message.getTo(), MobiComUserPreference.getInstance(this).getCountryCode());
-        ConversationFragment conversationFragment = getConversationFragment();
-        if (formattedContactNumber.equals(conversationFragment.getFormattedContactNumber()) ||
-                conversationFragment.isBroadcastedToGroup(message.getBroadcastGroupId())) {
-            conversationFragment.updateMessageKeyString(message);
-        }
-    }
-
-    public void deleteMessage(Message message, String keyString, String formattedContactNumber) {
-        //Todo: replace currentOpenedContactNumber with MobiComKitBroadcastReceiver.currentUserId
-        if (PhoneNumberUtils.compare(formattedContactNumber, BroadcastService.currentUserId)) {
-            getConversationFragment().deleteMessageFromDeviceList(keyString);
-        } else {
-            updateLastMessage(keyString, formattedContactNumber);
-        }
-    }
-
-    public void updateDeliveryStatus(Message message, String formattedContactNumber) {
-        if (!BroadcastService.isIndividual()) {
-            return;
-        }
-        ConversationFragment conversationFragment = new ConversationFragment();
-        if (formattedContactNumber.equals(conversationFragment.getContactIds())) {
-            conversationFragment.updateDeliveryStatus(message);
-        }
-    }
-
     public void deleteConversation(Contact contact) {
         if (BroadcastService.isIndividual()) {
             getConversationFragment().clearList();
@@ -443,18 +352,5 @@ abstract public class MobiComActivity extends FragmentActivity implements Action
         }
     }
 
-    public void updateUploadFailedStatus(Message message) {
-        if (!BroadcastService.isIndividual()) {
-            return;
-        }
-        getConversationFragment().updateUploadFailedStatus(message);
-    }
-
-    public void updateDownloadStatus(Message message) {
-        if (!BroadcastService.isIndividual()) {
-            return;
-        }
-        getConversationFragment().updateDownloadStatus(message);
-    }
 
 }

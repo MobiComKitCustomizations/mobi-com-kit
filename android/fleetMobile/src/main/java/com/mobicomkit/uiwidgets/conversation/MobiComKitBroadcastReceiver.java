@@ -28,10 +28,10 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
 
     private static final String TAG = "MTBroadcastReceiver";
 
-    private MobiComActivity activity;
+    private ConversationUIService conversationUIService;
 
     public MobiComKitBroadcastReceiver(MobiComActivity activity) {
-        this.activity = activity;
+        this.conversationUIService = new ConversationUIService(activity);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
         if (message != null && !message.isSentToMany()) {
             /*Todo: update the quick conversation fragment on resume, commented because now it is not a sliding pane activity and
             quickconversationfragment is not activity.*/
-            activity.addMessage(message);
+            conversationUIService.addMessage(message);
         } else if (message != null && message.isSentToMany() && BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString().equals(intent.getAction())) {
             for (String toField : message.getTo().split(",")) {
                 Message singleMessage = new Message(message);
@@ -61,7 +61,7 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
                 singleMessage.setKeyString(message.getKeyString());
                 singleMessage.setTo(toField);
                 singleMessage.processContactIds(context);
-                activity.addMessage(message);
+                conversationUIService.addMessage(message);
             }
         }
 
@@ -70,26 +70,26 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
         if (BroadcastService.INTENT_ACTIONS.INSTRUCTION.toString().equals(action)) {
             InstructionUtil.showInstruction(context, intent.getIntExtra("resId", -1), intent.getBooleanExtra("actionable", false), R.color.instruction_color);
         } else if (BroadcastService.INTENT_ACTIONS.FIRST_TIME_SYNC_COMPLETE.toString().equals(action)) {
-            activity.downloadConversations(true);
+            conversationUIService.downloadConversations(true);
         } else if (BroadcastService.INTENT_ACTIONS.LOAD_MORE.toString().equals(action)) {
-            activity.setLoadMore(intent.getBooleanExtra("loadMore", true));
+            conversationUIService.setLoadMore(intent.getBooleanExtra("loadMore", true));
         } else if (BroadcastService.INTENT_ACTIONS.MESSAGE_SYNC_ACK_FROM_SERVER.toString().equals(action)) {
-            activity.updateMessageKeyString(message);
+            conversationUIService.updateMessageKeyString(message);
         } else if (BroadcastService.INTENT_ACTIONS.SYNC_MESSAGE.toString().equals(intent.getAction())) {
-            activity.syncMessages(message, keyString);
+            conversationUIService.syncMessages(message, keyString);
         } else if (BroadcastService.INTENT_ACTIONS.DELETE_MESSAGE.toString().equals(intent.getAction())) {
             formattedContactNumber = intent.getStringExtra("contactNumbers");
-           activity.deleteMessage(message, keyString, formattedContactNumber);
+            conversationUIService.deleteMessage(message, keyString, formattedContactNumber);
         } else if (BroadcastService.INTENT_ACTIONS.MESSAGE_DELIVERY.toString().equals(action)) {
-            activity.updateDeliveryStatus(message, formattedContactNumber);
+            conversationUIService.updateDeliveryStatus(message, formattedContactNumber);
         } else if (BroadcastService.INTENT_ACTIONS.DELETE_CONVERSATION.toString().equals(action)) {
             String contactNumber = intent.getStringExtra("contactNumber");
             Contact contact = ContactUtils.getContact(context, contactNumber);
-            activity.deleteConversation(contact);
+            conversationUIService.deleteConversation(contact);
         } else if (BroadcastService.INTENT_ACTIONS.UPLOAD_ATTACHMENT_FAILED.toString().equals(action) && message != null) {
-            activity.updateUploadFailedStatus(message);
+            conversationUIService.updateUploadFailedStatus(message);
         } else if (BroadcastService.INTENT_ACTIONS.MESSAGE_ATTACHMENT_DOWNLOAD_DONE.toString().equals(action) && message != null) {
-            activity.updateDownloadStatus(message);
+            conversationUIService.updateDownloadStatus(message);
         }
     }
 }
