@@ -2,7 +2,6 @@ package com.azuga.smartfleet.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.azuga.framework.ui.UIService;
 import com.azuga.smartfleet.BaseFragment;
 import com.azuga.smartfleet.R;
-
 import com.azuga.smartfleet.ui.fragments.dummy.DummyContent;
-import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
-import com.mobicomkit.uiwidgets.conversation.fragment.ConversationFragment;
 
 import net.mobitexter.mobiframework.people.contact.Contact;
 
@@ -142,7 +137,7 @@ public class DriverListFragment extends BaseFragment implements AbsListView.OnIt
             //mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
             Contact contact = new Contact();
             contact.setUserId(DummyContent.ITEMS.get(position).id);
-            ((MobiComActivity) getActivity()).openConversationFragment(contact);
+           // ((MobiComActivity) getActivity()).openConversationFragment(contact);
         //}
     }
 

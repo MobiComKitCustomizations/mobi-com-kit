@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.azuga.framework.ui.UIService;
 import com.azuga.smartfleet.BaseFragment;
-import com.azuga.smartfleet.ui.fragments.DriverListFragment;
 import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.api.conversation.MessageIntentService;
 import com.mobicomkit.api.conversation.MobiComConversationService;
@@ -23,8 +22,7 @@ import com.mobicomkit.api.conversation.database.MessageDatabaseService;
 import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.uiwidgets.conversation.ConversationListView;
-import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
-import com.mobicomkit.uiwidgets.conversation.activity.MobiComKitActivityInterface;
+import com.mobicomkit.uiwidgets.conversation.ConversationUIService;
 import com.mobicomkit.uiwidgets.conversation.adapter.ConversationAdapter;
 import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 import com.shamanland.fab.FloatingActionButton;
@@ -117,7 +115,8 @@ public class MobiComQuickConversationFragment extends BaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MobiComKitActivityInterface) getActivity()).startContactActivityForResult();
+                new ConversationUIService(getActivity()).startContactActivityForResult();
+                //((MobiComKitActivityInterface) getActivity()).startContactActivityForResult();
                 //UIService.getInstance().addFragment(new DriverListFragment());
             }
         };
@@ -396,7 +395,7 @@ public class MobiComQuickConversationFragment extends BaseFragment {
             loadMore = !nextMessageList.isEmpty();
 
             if (context != null && showInstruction) {
-                InstructionUtil.showInstruction(context, R.string.instruction_open_conversation_thread, MobiComActivity.INSTRUCTION_DELAY, BroadcastService.INTENT_ACTIONS.INSTRUCTION.toString());
+                InstructionUtil.showInstruction(context, R.string.instruction_open_conversation_thread, ConversationUIService.INSTRUCTION_DELAY, BroadcastService.INTENT_ACTIONS.INSTRUCTION.toString());
             }
         }
     }

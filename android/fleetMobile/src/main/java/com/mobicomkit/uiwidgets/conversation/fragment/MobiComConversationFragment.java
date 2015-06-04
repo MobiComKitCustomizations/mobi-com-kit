@@ -1,7 +1,6 @@
 package com.mobicomkit.uiwidgets.conversation.fragment;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -54,12 +53,11 @@ import com.mobicomkit.api.conversation.selfdestruct.DisappearingMessageTask;
 import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.uiwidgets.conversation.ConversationListView;
+import com.mobicomkit.uiwidgets.conversation.ConversationUIService;
 import com.mobicomkit.uiwidgets.conversation.DeleteConversationAsyncTask;
 import com.mobicomkit.uiwidgets.conversation.MessageCommunicator;
-import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
 import com.mobicomkit.uiwidgets.conversation.activity.SpinnerNavItem;
 import com.mobicomkit.uiwidgets.conversation.adapter.ConversationAdapter;
-import com.mobicomkit.uiwidgets.conversation.adapter.TitleNavigationAdapter;
 import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 import com.mobicomkit.uiwidgets.schedule.ConversationScheduler;
 import com.mobicomkit.uiwidgets.schedule.ScheduledTimeHolder;
@@ -323,9 +321,10 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
             }
         }
         int messageListSize = messageList.size();
-        if (messageListSize > 0 && updateQuickConversation) {
+        //Note: This update is required in case both fragments are visible using sliding pane layout.
+        /*if (messageListSize > 0 && updateQuickConversation) {
             ((MobiComActivity) getActivity()).updateLatestMessage(messageList.get(messageListSize - 1), contact.getFormattedContactNumber());
-        }
+        }*/
     }
 
     public Contact getContact() {
@@ -515,7 +514,7 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
         }
         emoticonsFrameLayout.setVisibility(View.GONE);
 
-        InstructionUtil.showInstruction(getActivity(), R.string.instruction_go_back_to_recent_conversation_list, MobiComActivity.INSTRUCTION_DELAY, BroadcastService.INTENT_ACTIONS.INSTRUCTION.toString());
+        InstructionUtil.showInstruction(getActivity(), R.string.instruction_go_back_to_recent_conversation_list, ConversationUIService.INSTRUCTION_DELAY, BroadcastService.INTENT_ACTIONS.INSTRUCTION.toString());
     }
 
     public boolean isBroadcastedToGroup(Long groupId) {
@@ -620,16 +619,6 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
         return toAdd;
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            messageCommunicator = (MessageCommunicator) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement interfaceDataCommunicator");
-        }
-    }
 
     protected AlertDialog showInviteDialog(int titleId, int messageId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -850,19 +839,6 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
                     navSpinner.add(new SpinnerNavItem(contact, phoneNumber, contact.getPhoneNumbers().get(phoneNumber), R.drawable.ic_action_email));
                 }
             }
-            // title drop down adapter
-            MobiComActivity activity = ((MobiComActivity) getActivity());
-            TitleNavigationAdapter adapter = new TitleNavigationAdapter(getActivity().getApplicationContext(), navSpinner);
-            activity.setNavSpinner(navSpinner);
-            activity.setAdapter(adapter);
-
-            // assigning the spinner navigation
-           /* ((ActionBarActivity) getActivity()).getSupportActionBar().setListNavigationCallbacks(adapter, activity);
-            ((ActionBarActivity) getActivity()).getSupportActionBar().setNavigationMode(!activity.getSlidingPaneLayout().isOpen() ? ActionBar.NAVIGATION_MODE_LIST : ActionBar.NAVIGATION_MODE_STANDARD);
-            ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(activity.getSlidingPaneLayout().isOpen());*/
-        } else {
-           /* ((ActionBarActivity) getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-            ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true); */
         }
     }
 
@@ -887,7 +863,7 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
                 }
                 break;
             case 1:
-                ((MobiComActivity) getActivity()).startContactActivityForResult(message, null);
+                new ConversationUIService(getActivity()).startContactActivityForResult(message, null);
                 break;
             case 2:
                 Message messageToResend = new Message(message);

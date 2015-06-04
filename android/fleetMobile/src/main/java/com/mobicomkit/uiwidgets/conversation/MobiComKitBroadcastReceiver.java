@@ -11,9 +11,6 @@ import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.conversation.Message;
 import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.uiwidgets.R;
-import com.mobicomkit.uiwidgets.conversation.activity.MobiComActivity;
-import com.mobicomkit.uiwidgets.conversation.fragment.MobiComConversationFragment;
-import com.mobicomkit.uiwidgets.conversation.fragment.MobiComQuickConversationFragment;
 import com.mobicomkit.uiwidgets.instruction.InstructionUtil;
 
 import net.mobitexter.mobiframework.commons.core.utils.ContactNumberUtils;
@@ -30,8 +27,8 @@ public class MobiComKitBroadcastReceiver extends BroadcastReceiver {
 
     private ConversationUIService conversationUIService;
 
-    public MobiComKitBroadcastReceiver(MobiComActivity activity) {
-        this.conversationUIService = new ConversationUIService(activity);
+    public MobiComKitBroadcastReceiver(Context context) {
+        this.conversationUIService = new ConversationUIService(context);
     }
 
     @Override
