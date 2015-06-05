@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Handler;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
@@ -61,10 +62,15 @@ public class ConversationUIService {
         openConversationFragment(contact);
     }
 
-    public static void openConversationFragment(Contact contact) {
-        ConversationFragment conversationFragment = new ConversationFragment();
-        UIService.getInstance().addFragment(conversationFragment);
-        conversationFragment.loadConversation(contact);
+    public static void openConversationFragment(final Contact contact) {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                ConversationFragment conversationFragment = new ConversationFragment();
+                UIService.getInstance().addFragment(conversationFragment);
+                conversationFragment.loadConversation(contact);
+            }
+        });
     }
 
     public static void openConversationFragment(Group group) {

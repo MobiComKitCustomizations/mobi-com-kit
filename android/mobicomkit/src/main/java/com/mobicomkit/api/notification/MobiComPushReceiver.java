@@ -48,7 +48,7 @@ public class MobiComPushReceiver {
         String payLoad = intent.getStringExtra("collapse_key");
         Log.i(TAG, "Received collapse_key: " + payLoad);
 
-        if (payLoad.contains(MTCOM_PREFIX) || notificationKeyList.contains(payLoad)) {
+        if (payLoad != null && payLoad.contains(MTCOM_PREFIX) || notificationKeyList.contains(payLoad)) {
             return true;
         } else {
             for (String key : notificationKeyList) {
