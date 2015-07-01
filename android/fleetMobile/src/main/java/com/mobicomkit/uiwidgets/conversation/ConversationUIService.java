@@ -1,7 +1,9 @@
 package com.mobicomkit.uiwidgets.conversation;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -16,6 +18,7 @@ import com.azuga.framework.ui.UIService;
 import com.mobicomkit.api.MobiComKitConstants;
 import com.mobicomkit.api.account.user.MobiComUserPreference;
 import com.mobicomkit.api.conversation.Message;
+import com.mobicomkit.api.conversation.MobiComConversationService;
 import com.mobicomkit.broadcast.BroadcastService;
 import com.mobicomkit.uiwidgets.R;
 import com.mobicomkit.uiwidgets.conversation.fragment.ConversationFragment;
@@ -62,7 +65,30 @@ public class ConversationUIService {
         openConversationFragment(contact);
     }
 
-    public static void openConversationFragment(final Contact contact) {
+    public void deleteConversationThread(final Contact contact, String name) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context).
+                setPositiveButton(R.string.delete_conversation, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        new MobiComConversationService(context).deleteAndBroadCast(contact, true);
+                    }
+                });
+        alertDialog.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        alertDialog.setTitle(context.getString(R.string.dialog_delete_conversation_title).replace("[name]", name));
+        alertDialog.setMessage(context.getString(R.string.dialog_delete_conversation_confir).replace("[name]", name));
+        alertDialog.setCancelable(true);
+        alertDialog.create().show();
+    }
+
+    public static void openConversationFragment(String userId) {
+
+    }
+
+        public static void openConversationFragment(final Contact contact) {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
@@ -290,6 +316,7 @@ public class ConversationUIService {
         if (!TextUtils.isEmpty(userId)) {
             contact = new Contact();
             contact.setUserId(userId);
+            contact.setContactNumber(userId);
             //Todo: Load contact details from server.
         }
 

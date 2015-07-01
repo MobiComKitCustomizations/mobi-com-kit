@@ -122,7 +122,6 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
 
     protected boolean hideExtendedSendingOptionLayout;
 
-
     private EmojiconHandler emojiIconHandler;
 
     public void setEmojiIconHandler(EmojiconHandler emojiIconHandler) {
@@ -810,24 +809,6 @@ public class MobiComConversationFragment extends BaseFragment implements View.On
         loadConversation(contact, null);
     }
 
-    public void deleteConversationThread() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity()).
-                setPositiveButton(R.string.delete_conversation, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        conversationService.deleteAndBroadCast(contact, true);
-                    }
-                });
-        alertDialog.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
-        alertDialog.setTitle(getActivity().getString(R.string.dialog_delete_conversation_title).replace("[name]", getNameForInviteDialog()));
-        alertDialog.setMessage(getActivity().getString(R.string.dialog_delete_conversation_confir).replace("[name]", getNameForInviteDialog()));
-        alertDialog.setCancelable(true);
-        alertDialog.create().show();
-    }
 
     protected void processPhoneNumbers() {
         if (contact.hasMultiplePhoneNumbers()) {
