@@ -314,9 +314,7 @@ public class ConversationUIService {
 
         String userId = intent.getStringExtra("userId");
         if (!TextUtils.isEmpty(userId)) {
-            contact = new Contact();
-            contact.setUserId(userId);
-            contact.setContactNumber(userId);
+            contact = new Contact(context, userId);
             //Todo: Load contact details from server.
         }
 
